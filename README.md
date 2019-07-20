@@ -9,3 +9,5 @@ thousand years gone, we may revive with memory, to mark !
 5. dbSvr/redis/mysql
 6. consul
 
+# what should i do for my mind
+an open world for our memory to be continued
