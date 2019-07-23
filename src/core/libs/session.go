@@ -1,5 +1,9 @@
 package lib
 
+import (
+	"core/codec"
+)
+
 // 长连接
 type Session interface {
 
