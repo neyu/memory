@@ -23,7 +23,7 @@ type Session interface {
 	ID() int64
 }
 
-// 直接发送数据时，将*RawPacket作为Send参数
+// 直接发送数据时，将*RawPacket作为Send参数++
 type RawPacket struct {
 	MsgData []byte
 	MsgID   int
