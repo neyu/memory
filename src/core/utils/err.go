@@ -1,6 +1,10 @@
-package utils
+package util
 
-import "fmt"
+import (
+	"fmt"
+	"io"
+	"net"
+)
 
 type Error struct {
 	s       string
