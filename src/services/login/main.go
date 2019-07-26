@@ -25,7 +25,12 @@ func main() {
 
 	gPeer := createAcceptor(queue)
 
-	proc.BindProcessorHandler(gPeer, "NetProcName", messageHandler)
+	// proc.BindProcessorHandler(gPeer, "NetProcName", messageHandler)
+	// proc(bundle, userCallback, args...)
+	// bundle := peer.(ProcessorBundle)
+	gPeer.SetTransmitter(new(TCPMessageTransmitter))
+	gPeer.SetHooker(new(MsgHooker))
+	gPeer.SetCallback(proc.NewQueuedEventCallback(messageHandler))
 
 	waitExitSignal()
 	logs.Info("main exit!")

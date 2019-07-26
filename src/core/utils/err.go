@@ -21,3 +21,12 @@ func NewError(s string) error {
 func NewErrCxt(s string, context interface{}) error {
 	return &Error{s: s, context: context}
 }
+
+// 判断网络错误
+func IsEOFOrNetReadError(err error) bool {
+	if err == io.EOF {
+		return true
+	}
+	ne, ok := err.(*net.OpError)
+	return ok && ne.Op == "read"
+}

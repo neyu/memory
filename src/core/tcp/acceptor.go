@@ -1,24 +1,23 @@
 package tcp
 
 import (
+	"core/libs"
+
 	"net"
 	"strings"
 	"time"
-
-	"github.com/davyxu/cellnet"
-	"github.com/davyxu/cellnet/peer"
-	"github.com/davyxu/cellnet/util"
 )
 
 // 接受器
 type tcpAcceptor struct {
-	peer.SessionManager
-	peer.CorePeerProperty
-	peer.CoreContextSet
-	peer.CoreRunningTag
-	peer.CoreProcBundle
-	peer.CoreTCPSocketOption
-	peer.CoreCaptureIOPanic
+	// peer.SessionManager
+	// peer.CorePeerProperty
+	// peer.CoreContextSet
+	// peer.CoreRunningTag
+	// peer.CoreProcBundle
+	// peer.CoreTCPSocketOption
+	// peer.CoreCaptureIOPanic
+	lib.PeerProperty
 
 	// 保存侦听器
 	listener net.Listener
@@ -38,7 +37,7 @@ func (self *tcpAcceptor) IsReady() bool {
 }
 
 // 异步开始侦听
-func (self *tcpAcceptor) Start() cellnet.Peer {
+func (self *tcpAcceptor) Start() { // cellnet.Peer
 
 	self.WaitStopFinished()
 
@@ -154,13 +153,13 @@ func (self *tcpAcceptor) TypeName() string {
 
 func init() {
 
-	peer.RegisterPeerCreator(func() cellnet.Peer {
-		p := &tcpAcceptor{
-			SessionManager: new(peer.CoreSessionManager),
-		}
+	// peer.RegisterPeerCreator(func() cellnet.Peer {
+	// 	p := &tcpAcceptor{
+	// 		SessionManager: new(peer.CoreSessionManager),
+	// 	}
 
-		p.CoreTCPSocketOption.Init()
+	// 	p.CoreTCPSocketOption.Init()
 
-		return p
-	})
+	// 	return p
+	// })
 }

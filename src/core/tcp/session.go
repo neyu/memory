@@ -1,14 +1,13 @@
 package tcp
 
 import (
+	"core/libs"
+	"core/utils"
+
 	"net"
 	"sync"
 	"sync/atomic"
 	"time"
-
-	"github.com/davyxu/cellnet"
-	"github.com/davyxu/cellnet/peer"
-	"github.com/davyxu/cellnet/util"
 )
 
 // Socket会话
@@ -27,7 +26,7 @@ type tcpSession struct {
 	exitSync sync.WaitGroup
 
 	// 发送队列
-	sendQueue *cellnet.Pipe
+	sendQueue *lib.Pipe
 
 	cleanupGuard sync.Mutex
 
@@ -117,9 +116,9 @@ func (self *tcpSession) recvLoop() {
 
 	var capturePanic bool
 
-	if i, ok := self.Peer().(cellnet.PeerCaptureIOPanic); ok {
-		capturePanic = i.CaptureIOPanic()
-	}
+	// if i, ok := self.Peer().(cellnet.PeerCaptureIOPanic); ok {
+	// 	capturePanic = i.CaptureIOPanic()
+	// }
 
 	for self.Conn() != nil {
 
@@ -140,16 +139,16 @@ func (self *tcpSession) recvLoop() {
 			self.sendQueue.Add(nil)
 
 			// 标记为手动关闭原因
-			closedMsg := &cellnet.SessionClosed{}
+			closedMsg := &lib.SessionClosed{}
 			if self.IsManualClosed() {
-				closedMsg.Reason = cellnet.CloseReason_Manual
+				closedMsg.Reason = lib.CloseReason_Manual
 			}
 
-			self.ProcEvent(&cellnet.RecvMsgEvent{Ses: self, Msg: closedMsg})
+			self.ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: closedMsg})
 			break
 		}
 
-		self.ProcEvent(&cellnet.RecvMsgEvent{Ses: self, Msg: msg})
+		self.ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: msg})
 	}
 
 	// 通知完成
