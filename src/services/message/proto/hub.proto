@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package gameProto;
+
+message SubscribeChannelREQ
+{
+	string Channel = 1;
+}
+
+message SubscribeChannelACK
+{
+	string Channel = 1;
+}
+
+message SvcStatusACK
+{
+    string SvcID = 1;
+	int32 UserCount = 2;
+}
+
+message ServiceIdentifyACK 
+{
+	string SvcName = 1;
+	string SvcID = 2;
+}

@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package gameProto;
+
+message ChatREQ 
+{
+	string Content = 1;
+}
+
+message ChatACK
+{
+	string Content = 1;
+}
+
+message TestACK
+{
+	string Dummy = 1;
+}

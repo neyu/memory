@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package gameProto;
+
+enum ResultCode
+{
+	NoError = 0;
+	AgentNotFound = 1;
+	AgentAddressError = 2;
+	GameNotFound = 3;
+}

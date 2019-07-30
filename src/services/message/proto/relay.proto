@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package gameProto;
+
+message RelayACK
+{
+    bytes Msg = 1;                  // 数据消息转换后传输bytes
+    uint32 MsgID = 2;               // 消息ID
+    bytes Bytes = 3;                // 数据bytes
+
+    int64 Int64 = 4;                // 透传int64
+    repeated int64 Int64Slice = 5;       // 透传int64切片
+    string Str  = 6;       
+}

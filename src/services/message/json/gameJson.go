@@ -1,10 +1,12 @@
-package msgJson
+package msg
 
-// "core/codec"
-// _ "core/codec/json"
-// "core/libs"
-// "fmt"
-// "reflect"
+import (
+	"core/codec"
+	_ "core/codec/json"
+	"core/libs"
+	"fmt"
+	"reflect"
+)
 
 type ChatAck struct {
 	Msg   string
@@ -25,20 +27,20 @@ func (this *ChatReq) String() string {
 }
 
 func init() {
-	// ackMsg := lib.MessageMeta{
-	// 	Codec: codec.MustGetCodec("json"),
-	// 	Type:  reflect.TypeOf((*ChatAck)(nil)).Elem(),
-	// 	ID:    1234,
-	// }
-	// fmt.Println("json.regMsg:", ackMsg.FullName())
-	// lib.RegisterMessageMeta(&ackMsg)
+	ackMsg := lib.MessageMeta{
+		Codec: codec.MustGetCodec("json"),
+		Type:  reflect.TypeOf((*ChatAck)(nil)).Elem(),
+		ID:    1234,
+	}
+	fmt.Println("json.regMsg:", ackMsg.FullName())
+	lib.RegisterMessageMeta(&ackMsg)
 
-	// reqMsg := lib.MessageMeta{
-	// 	Codec: codec.MustGetCodec("json"),
-	// 	Type:  reflect.TypeOf((*ChatReq)(nil)).Elem(),
-	// 	ID:    1235,
-	// }
-	// fmt.Println("json.regMsg:", reqMsg.FullName())
-	// lib.RegisterMessageMeta(&reqMsg)
+	reqMsg := lib.MessageMeta{
+		Codec: codec.MustGetCodec("json"),
+		Type:  reflect.TypeOf((*ChatReq)(nil)).Elem(),
+		ID:    1235,
+	}
+	fmt.Println("json.regMsg:", reqMsg.FullName())
+	lib.RegisterMessageMeta(&reqMsg)
 
 }

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package gameProto;
+
+// chat service
+//-----------------------------------------------------------------------------
+message ContentReq
+{
+    string Msg = 1;
+    int32 Value = 2;
+}
+
+message ContentAck
+{
+	string Msg = 1;
+	int32 Value = 2;
+}
+
+//-----------------------------------------------------------------------------
+
