@@ -31,7 +31,7 @@
 //	log.Critical("critical")
 //
 //  more docs http://beego.me/docs/module/logs.md
-package logs
+package log
 
 import (
 	"fmt"

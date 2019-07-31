@@ -14,7 +14,7 @@
 
 // +build windows
 
-package logs
+package log
 
 import (
 	"bytes"
