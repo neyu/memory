@@ -1,24 +1,24 @@
 syntax = "proto3";
 
-package gameProto;
+package msgProto;
 
-message SubscribeChannelREQ
+message SubscribeChannelReq
 {
 	string Channel = 1;
 }
 
-message SubscribeChannelACK
+message SubscribeChannelAck
 {
 	string Channel = 1;
 }
 
-message SvcStatusACK
+message SvcStatusAck
 {
     string SvcID = 1;
 	int32 UserCount = 2;
 }
 
-message ServiceIdentifyACK 
+message ServiceIdentifyAck 
 {
 	string SvcName = 1;
 	string SvcID = 2;

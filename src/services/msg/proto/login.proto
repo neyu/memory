@@ -2,7 +2,7 @@ syntax = "proto3";
 
 import "result.proto";
 
-package gameProto;
+package msgProto;
 
 message ServerInfo
 {
@@ -10,33 +10,33 @@ message ServerInfo
     int32 Port = 2;
 }
 
-message PingACK 
+message PingAck 
 {
 	//
 }
 
-message LoginREQ 
+message LoginReq 
 {
     string Version = 1;
 	string Platform = 2;
-	string UID = 3;
+	string Uid = 3;
 }
 
-message LoginACK 
+message LoginAck 
 {
 	ResultCode Result = 1;
 	ServerInfo Server = 2;
 	string GameToken = 3;
-	string GameSvcID = 4; // 选中的一台game服务器ID
+	string GameSvcId = 4; // 选中的一台game服务器ID
 }
 
-message VerifyREQ 
+message VerifyReq 
 {
 	string GameToken = 1;
 	string GameSvcID = 2;
 }
 
-message VerifyACK 
+message VerifyAck 
 {
 	ResultCode Result = 1;
 }

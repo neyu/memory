@@ -1,8 +1,5 @@
 @echo off
 
-start bin/discover
-call:sleep 2000 discover
-
 start bin/login
 call:sleep 2000 login
 
@@ -14,6 +11,9 @@ call:sleep 2000 game
 
 start bin/hub
 call:sleep 2000 hub
+
+//start bin/web
+//call:sleep 2000 web
 
 echo wait for client
 //start bin/client

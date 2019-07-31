@@ -151,8 +151,15 @@ func (self *tcpAcceptor) TypeName() string {
 	return "tcp.Acceptor"
 }
 
-func init() {
+func CreateAcceptor() lib.Peer {
+	this := &tcpAcceptor{
+		SessionManager: new(peer.CoreSessionManager),
+	}
+	this.CoreTCPSocketOption.Init()
+	return this
+}
 
+func init() {
 	// peer.RegisterPeerCreator(func() cellnet.Peer {
 	// 	p := &tcpAcceptor{
 	// 		SessionManager: new(peer.CoreSessionManager),

@@ -1,18 +1,18 @@
 syntax = "proto3";
 
-package gameProto;
+package msgProto;
 
-message ChatREQ 
+message ChatReq 
 {
 	string Content = 1;
 }
 
-message ChatACK
+message ChatAck
 {
 	string Content = 1;
 }
 
-message TestACK
+message TestAck
 {
 	string Dummy = 1;
 }

@@ -1,96 +1,64 @@
 package main
 
 import (
+	"core/lib"
 	"core/log"
 )
-
-func createAcceptor(q lib.EventQueue) *lib.GenericPeer {
-	p := &tcpAcceptor{
-		SessionManager: new(peer.CoreSessionManager),
-	}
-	p.CoreTCPSocketOption.Init()
-
-	gp := p.(lib.GenericPeer)
-	gp.SetName("name")
-	gp.SetAddress("addr")
-	gp.SetQueue(q)
-	return gp
-}
-
-func messageHandler(ev lib.Event) {
-	fmt.Printf("client recv msg:%+v\n", ev.Message())
-	switch msgObj := ev.Message().(type) {
-	case *lib.SessionConnected:
-		fmt.Println("client connected")
-	case lib.SessionClosed:
-		fmt.Println("client error")
-	case *gameProto.ContentAck:
-		fmt.Printf("sid:%d say:%s\n", msgObj.Value, msgObj.Msg)
-	default:
-		fmt.Printf("msg:%+v\n", msgObj)
-	}
-}
 
 // 消息处理
 var Handle_Game_Default func(ev lib.Event)
 
 func messageHandler(ev lib.Event) {
 	switch ev.Message().(type) {
-	case *ChatREQ:
-		Handle_Game_ChatREQ(ev)
-	case *VerifyREQ:
-		Handle_Game_VerifyREQ(ev)
+	case *LoginREQ:
+		Handle_Login_LoginREQ(ev)
 	default:
-		if Handle_Game_Default != nil {
-			Handle_Game_Default(ev)
+		if Handle_Login_Default != nil {
+			Handle_Login_Default(ev)
 		}
 	}
 }
 
-func Handle_Game_ChatREQ(incomingEv lib.Event) {
-	switch ev := incomingEv.(type) {
-	case *backend.RecvMsgEvent:
+func Handle_Login_LoginREQ(ev lib.Event) {
+	//msg := ev.Message().(*gameProto.LoginREQ)
+	// TODO 第三方请求验证及信息拉取
 
-		var cid proto.ClientID
-		cid.ID = ev.ClientID
+	var ack gameProto.LoginACK
 
-		if agentCtx := service.SessionToContext(ev.Session()); agentCtx != nil {
-			cid.SvcID = agentCtx.SvcID
-		}
+	agentSvcID := hubstatus.SelectServiceByLowUserCount("agent", "", false)
+	if agentSvcID == "" {
+		ack.Result = gameProto.ResultCode_AgentNotFound
 
-		// userHandler(incomingEv, cid)
-		msg := incomingEv.Message().(*proto.ChatREQ)
-
-		fmt.Printf("chat: %+v \n", msg.Content)
-
-		// 消息广播到网关并发给客户端
-		agentapi.BroadcastAll(&proto.ChatACK{
-			Content: msg.Content,
-		})
-
-		// 消息单发给客户端
-		agentapi.Send(&cid, &proto.TestACK{
-			Dummy: "single send",
-		})
+		service.Reply(ev, &ack)
+		return
 	}
-}
 
-func Handle_Game_VerifyREQ(incomingEv lib.Event) {
-	switch ev := incomingEv.(type) {
-	case *backend.RecvMsgEvent:
+	agentWAN := basefx.GetRemoteServiceWANAddress("agent", agentSvcID)
 
-		var cid proto.ClientID
-		cid.ID = ev.ClientID
+	host, port, err := util.SpliteAddress(agentWAN)
+	if err != nil {
+		//log.Errorf("invalid address: '%s' %s", agentWAN, err.Error())
+		fmt.Printf("invalid address: '%s' %s\n", agentWAN, err.Error())
 
-		if agentCtx := service.SessionToContext(ev.Session()); agentCtx != nil {
-			cid.SvcID = agentCtx.SvcID
-		}
+		ack.Result = gameProto.ResultCode_AgentAddressError
 
-		// userHandler(incomingEv, cid)
-		msg := incomingEv.Message().(*proto.VerifyREQ)
-
-		fmt.Printf("verfiy: %+v \n", msg.GameToken)
-
-		service.Reply(incomingEv, &proto.VerifyACK{})
+		service.Reply(ev, &ack)
+		return
 	}
+
+	ack.Server = &gameProto.ServerInfo{
+		IP:   host,
+		Port: int32(port),
+	}
+
+	ack.GameSvcID = hubstatus.SelectServiceByLowUserCount("game", "", false)
+
+	if ack.GameSvcID == "" {
+		ack.Result = gameProto.ResultCode_GameNotFound
+
+		service.Reply(ev, &ack)
+		return
+	}
+
+	service.Reply(ev, &ack)
 }

@@ -1,7 +1,7 @@
 package codec
 
 import (
-	"core/libs"
+	"core/lib"
 )
 
 // 编码包

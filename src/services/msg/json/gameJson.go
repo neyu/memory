@@ -1,4 +1,4 @@
-package msg
+package json
 
 import (
 	"core/codec"

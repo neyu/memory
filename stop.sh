@@ -12,9 +12,11 @@ function func(){
 
 if [ $# -eq 0 ]
 	then
-		func conn_t
+		func login_t
+		func gate_t
 		func game_t
-        #func api_t
+        #func hub_t
+        #func web_t
     else
 		func $1
 fi

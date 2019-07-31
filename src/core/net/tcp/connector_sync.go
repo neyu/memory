@@ -91,11 +91,8 @@ func CreateSyncConnector() lib.Peer {
 	this := &tcpSyncConnector{
 		SessionManager: new(peer.CoreSessionManager),
 	}
-
 	this.defaultSes = newSession(nil, this, nil)
-
 	this.CoreTCPSocketOption.Init()
-
 	return this
 }
 

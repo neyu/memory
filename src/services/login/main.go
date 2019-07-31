@@ -23,14 +23,17 @@ func main() {
 
 	// queue.Wait()
 
-	gPeer := createAcceptor(queue)
+	pr := tcp.CreateAcceptor()
 
-	// proc.BindProcessorHandler(gPeer, "NetProcName", messageHandler)
-	// proc(bundle, userCallback, args...)
-	// bundle := peer.(ProcessorBundle)
-	gPeer.SetTransmitter(new(TCPMessageTransmitter))
-	gPeer.SetHooker(new(MsgHooker))
-	gPeer.SetCallback(proc.NewQueuedEventCallback(messageHandler))
+	gp := pr.(lib.GenericPeer)
+	gp.SetName("name")
+	gp.SetAddress("addr")
+	gp.SetQueue(queue)
+
+	bundle := pr.(ProcessorBundle)
+	bundle.SetTransmitter(new(TCPMessageTransmitter))
+	bundle.SetHooker(new(MsgHooker))
+	bundle.SetCallback(proc.NewQueuedEventCallback(messageHandler))
 
 	waitExitSignal()
 	logs.Info("main exit!")
