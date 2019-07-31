@@ -1,8 +1,8 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
-create database if not exists `longmen` character set utf8mb4 collate utf8mb4_unicode_ci;
-use `longmen`;
+create database if not exists `memory` character set utf8mb4 collate utf8mb4_unicode_ci;
+use `memory`;
 
 -- ----------------------------
 -- Table structure for customer_chat_logs
