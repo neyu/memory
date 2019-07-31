@@ -73,7 +73,7 @@ func RegMsg(msgId int, msg interface{}) {
 	metaMsg := lib.MessageMeta{
 		Codec: codec.MustGetCodec("proto"),
 		Type:  reflect.TypeOf(msg),
-		ID:    msgId,
+		Id:    msgId,
 	}
 	log.Debug("gameProto.regMsg:%d %s\n", metaMsg.ID, metaMsg.FullName())
 	lib.RegisterMessageMeta(&metaMsg)
