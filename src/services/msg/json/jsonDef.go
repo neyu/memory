@@ -2,8 +2,7 @@ package json
 
 import (
 	"core/codec"
-	_ "core/codec/json"
-	"core/libs"
+	"core/lib"
 	"fmt"
 	"reflect"
 )
