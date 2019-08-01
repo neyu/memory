@@ -1,7 +1,7 @@
 package main
 
 import (
-	"core/libs"
+	"core/lib"
 	"core/log"
 
 	"os"

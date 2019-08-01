@@ -1,7 +1,7 @@
 package tcp
 
 import (
-	"core/libs"
+	"core/lib"
 	"core/peer"
 	"fmt"
 	"net"

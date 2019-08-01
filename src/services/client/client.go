@@ -2,15 +2,15 @@ package main
 
 import (
 	"core/log"
-	"core/net_proc"
-	"core/net_tcp"
+	"core/net/proc"
+	"core/net/tcp"
 	"errors"
 	"reflect"
 	"sync"
 	"time"
 )
 
-func connectToLogin() {
+func connectToLogin() lib.Session {
 	done := make(chan struct{})
 
 	go func() {
