@@ -26,7 +26,8 @@ func main() {
 	// }
 	var p tcpAcceptor
 	// a := new(golang.SessionManager) //接口可以初化变量
-	var b interface{} = new(golang.CoreSessionManager)
+	// var b interface{} = new(golang.CoreSessionManager)
+	var b interface{} = golang.CreateSessionMgr()
 	a1, ok := b.(golang.SessionManager) //接口互转的前提是b是接口interface{}
 	if !ok {
 		fmt.Println("type conversion fail")

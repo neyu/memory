@@ -1,7 +1,9 @@
 package tcp
 
 import (
-	"core/libs"
+	"core/lib"
+	"core/log"
+	"core/util"
 
 	"net"
 	"strings"
@@ -10,14 +12,16 @@ import (
 
 // 接受器
 type tcpAcceptor struct {
-	// peer.SessionManager
-	// peer.CorePeerProperty
-	// peer.CoreContextSet
-	// peer.CoreRunningTag
-	// peer.CoreProcBundle
-	// peer.CoreTCPSocketOption
-	// peer.CoreCaptureIOPanic
-	lib.PeerProperty
+	lib.SessionManager
+
+	lib.PeerProp
+
+	// lib.CorePeerProperty
+	// lib.CoreContextSet
+	// lib.CoreRunningTag
+	// lib.CoreProcBundle
+	// lib.CoreTCPSocketOption
+	// lib.CoreCaptureIOPanic
 
 	// 保存侦听器
 	listener net.Listener
@@ -37,7 +41,7 @@ func (self *tcpAcceptor) IsReady() bool {
 }
 
 // 异步开始侦听
-func (self *tcpAcceptor) Start() { // cellnet.Peer
+func (self *tcpAcceptor) Start() {
 
 	self.WaitStopFinished()
 
@@ -51,7 +55,7 @@ func (self *tcpAcceptor) Start() { // cellnet.Peer
 
 	if err != nil {
 
-		log.Errorf("#tcp.listen failed(%s) %v", self.Name(), err.Error())
+		log.Error("#tcp.listen failed(%s) %v", self.Name(), err.Error())
 
 		self.SetRunning(false)
 
@@ -64,7 +68,7 @@ func (self *tcpAcceptor) Start() { // cellnet.Peer
 
 	go self.accept()
 
-	return self
+	return
 }
 
 func (self *tcpAcceptor) ListenAddress() string {
@@ -120,9 +124,9 @@ func (self *tcpAcceptor) onNewSession(conn net.Conn) {
 
 	ses.Start()
 
-	self.ProcEvent(&cellnet.RecvMsgEvent{
+	self.ProcEvent(&lib.RecvMsgEvent{
 		Ses: ses,
-		Msg: &cellnet.SessionAccepted{},
+		Msg: &lib.SessionAccepted{},
 	})
 }
 
@@ -151,16 +155,18 @@ func (self *tcpAcceptor) TypeName() string {
 	return "tcp.Acceptor"
 }
 
-func CreateAcceptor() lib.Peer {
+func CreateAcceptor() *tcpAcceptor {
 	this := &tcpAcceptor{
-		SessionManager: new(peer.CoreSessionManager),
+		// SessionManager: new(peer.CoreSessionManager),
+		SessionManager: lib.NewSessionManager(),
 	}
-	this.CoreTCPSocketOption.Init()
+	// this.CoreTCPSocketOption.Init()
+	this.Init()
 	return this
 }
 
 func init() {
-	// peer.RegisterPeerCreator(func() cellnet.Peer {
+	// peer.RegisterPeerCreator(func() lib.Peer {
 	// 	p := &tcpAcceptor{
 	// 		SessionManager: new(peer.CoreSessionManager),
 	// 	}

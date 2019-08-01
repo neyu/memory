@@ -1,8 +1,7 @@
 package tcp
 
 import (
-	"core/libs"
-	"core/peer"
+	"core/lib"
 	"fmt"
 
 	"net"
@@ -10,12 +9,13 @@ import (
 )
 
 type tcpSyncConnector struct {
-	peer.SessionManager
+	lib.SessionManager
 
-	peer.CorePeerProperty
-	peer.CoreContextSet
-	peer.CoreProcBundle
-	peer.CoreTCPSocketOption
+	lib.PeerProp
+
+	// lib.CoreContextSet
+	// lib.CoreProcBundle
+	// lib.CoreTCPSocketOption
 
 	defaultSes *tcpSession
 }
@@ -87,12 +87,13 @@ func (this *tcpSyncConnector) TypeName() string {
 	return "tcp.SyncConnector"
 }
 
-func CreateSyncConnector() lib.Peer {
+func CreateSyncConnector() *tcpSyncConnector {
 	this := &tcpSyncConnector{
-		SessionManager: new(peer.CoreSessionManager),
+		SessionManager: lib.NewSessionManager(),
 	}
 	this.defaultSes = newSession(nil, this, nil)
-	this.CoreTCPSocketOption.Init()
+	// this.CoreTCPSocketOption.Init()
+	this.Init()
 	return this
 }
 

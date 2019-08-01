@@ -1,9 +1,12 @@
 package main
 
 import (
+	"services/msg/proto"
+
+	"core/lib"
 	"core/log"
-	"core/net/proc"
 	"core/net/tcp"
+
 	"errors"
 	"reflect"
 	"sync"
@@ -14,27 +17,21 @@ func connectToLogin() lib.Session {
 	done := make(chan struct{})
 
 	go func() {
-		pr := tcp.CreateSyncConnector()
+		syncConn := tcp.CreateSyncConnector()
+		syncConn.SetName("login")
+		syncConn.SetAddress(":7300")
 
-		gp := p.(lib.GenericPeer)
-		gp.SetName("login")
-		gp.SetAddress(":7300")
-		gp.SetQueue(nil)
+		syncConn.SetTransmitter(new(tcp.TCPMessageTransmitter))
+		syncConn.SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
 
-		bundle := pr.(ProcessorBundle)
-		bundle.SetTransmitter(new(tcp.TCPMessageTransmitter))
-		bundle.SetHooker(proc.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
-		bundle.SetCallback(proc.NewQueuedEventCallback(nil))
+		syncConn.Start()
 
-		pr.Start()
-
-		conn := pr.(connector)
-		if conn.IsReady() {
-			ret = conn.Session()
+		if syncConn.IsReady() {
+			ret = syncConn.Session()
 			break
 		}
 
-		pr.Stop()
+		syncConn.Stop()
 
 		done <- struct{}{}
 	}()
@@ -46,30 +43,26 @@ func connectToLogin() lib.Session {
 func connectToGate(addr string, onReady func(lib.Session), onClose func()) {
 	var stop sync.WaitGroup
 
-	pr := tcp.CreateSyncConnector()
-
-	gp := pr.(lib.GenericPeer)
-	gp.SetName("gate")
-	gp.SetAddress(addr)
-	gp.SetQueue(nil)
+	syncConn := tcp.CreateSyncConnector()
+	syncConn.SetName("gate")
+	syncConn.SetAddress(addr)
 
 	bundle := pr.(ProcessorBundle)
-	bundle.SetTransmitter(new(tcp.TCPMessageTransmitter))
-	bundle.SetHooker(proc.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
-	bundle.SetCallback(proc.NewQueuedEventCallback(gateMsgHandler))
+	syncConn.SetTransmitter(new(tcp.TCPMessageTransmitter))
+	syncConn.SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
+	syncConn.SetCallback(lib.NewQueuedEventCallback(gateMsgHandler))
 
 	stop.Add(1)
 
-	pr.Start()
+	syncConn.Start()
 
-	conn := pr.(connector)
-	if conn.IsReady() {
-		onReady(conn.Session())
+	if syncConn.IsReady() {
+		onReady(syncConn.Session())
 
 		stop.Wait()
 	}
 
-	pr.Stop()
+	syncConn.Stop()
 
 	if onClose != nil {
 		onClose()
@@ -80,7 +73,7 @@ func gateMsgHandler(ev lib.Event) {
 	switch msg := ev.Message().(type) {
 	case *lib.SessionClosed:
 		stop.Done()
-	case *gameProto.ChatACK:
+	case *msgProto.ChatACK:
 		fmt.Println(msg.Content)
 	}
 }

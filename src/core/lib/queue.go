@@ -7,21 +7,11 @@ import (
 	"sync"
 )
 
-// 事件队列
 type EventQueue interface {
-	// 事件队列开始工作
 	StartLoop() EventQueue
-
-	// 停止事件队列
 	StopLoop() EventQueue
-
-	// 等待退出
 	Wait()
-
-	// 投递事件, 通过队列到达消费者端
 	Post(callback func())
-
-	// 是否捕获异常
 	EnableCapturePanic(v bool)
 }
 

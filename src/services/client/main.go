@@ -1,9 +1,12 @@
 package main
 
 import (
-	"bufio"
-	"core/libs"
+	"services/msg/proto"
+
+	"core/lib"
 	"core/log"
+
+	"bufio"
 	"fmt"
 	"os"
 	"time"
@@ -31,12 +34,12 @@ func login() (gateAddr, svcId string) {
 
 	loginSes := connectToLogin()
 
-	remoteCall(loginSes, &gameProto.LoginReq{
+	remoteCall(loginSes, &msgProto.LoginReq{
 		Version:  "1.0",
 		Platform: "demo",
 		Uid:      "1234",
-	}, func(ack *gameProto.LoginAck) {
-		if ack.Result == gameProto.ResultCode_NoError {
+	}, func(ack *msgProto.LoginAck) {
+		if ack.Result == msgProto.ResultCode_NoError {
 			gateAddr = fmt.Sprintf("%s:%d", ack.Server.IP, ack.Server.Port)
 			svcId = ack.SvcId
 		} else {
@@ -64,17 +67,17 @@ func getGateSession(addr string) (ret lib.Session) {
 }
 
 func verifyGameToken(svcId string) {
-	remoteCall(agentSes, &gameProto.VerifyReq{
+	remoteCall(agentSes, &msgProto.VerifyReq{
 		GameToken: "token_xxx",
 		GameSvcId: svcId,
-	}, func(ack *gameProto.VerifyAck) {
+	}, func(ack *msgProto.VerifyAck) {
 		logs.Info("verify ack:", ack)
 	})
 }
 
 func startPing() {
 	timer.NewLoop(nil, time.Second*5, func(loop *timer.Loop) {
-		gateSes.Send(&gameProto.PingAck{})
+		gateSes.Send(&msgProto.PingAck{})
 	}, nil).Start()
 }
 
@@ -83,14 +86,14 @@ func startChat() {
 
 	readConsole(func(word string) {
 		// 1.测试远程过程调用
-		// RemoteCall(gateSes, &gameProto.ChatREQ{
+		// RemoteCall(gateSes, &msgProto.ChatReq{
 		// 	Content: word,
-		// }, func(ack *gameProto.ChatACK) {
+		// }, func(ack *msgProto.ChatAck) {
 		// 	fmt.Println(ack.Content)
 		// })
 
 		// 2.直接消息发送
-		gateSes.Send(&gameProto.ChatREQ{
+		gateSes.Send(&msgProto.ChatReq{
 			Content: word,
 		})
 	})

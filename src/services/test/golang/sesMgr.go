@@ -9,9 +9,14 @@ type SessionManager interface {
 	Dump()
 }
 
-type CoreSessionManager struct {
+type coreSessionManager struct {
 }
 
-func (this CoreSessionManager) Dump() {
+func (this coreSessionManager) Dump() {
 	fmt.Println("i am core session manager")
+}
+
+func CreateSessionMgr() *coreSessionManager {
+	this := &coreSessionManager{}
+	return this
 }

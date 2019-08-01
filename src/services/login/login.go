@@ -1,33 +1,35 @@
 package main
 
 import (
+	"services/msg/proto"
+
 	"core/lib"
 	"core/log"
 )
 
 // 消息处理
-var Handle_Game_Default func(ev lib.Event)
+var handleLoginDefault func(ev lib.Event)
 
 func messageHandler(ev lib.Event) {
 	switch ev.Message().(type) {
-	case *LoginREQ:
-		Handle_Login_LoginREQ(ev)
+	case *msgProto.LoginReq:
+		handleLoginReq(ev)
 	default:
-		if Handle_Login_Default != nil {
-			Handle_Login_Default(ev)
+		if handleLoginDefault != nil {
+			handleLoginDefault(ev)
 		}
 	}
 }
 
-func Handle_Login_LoginREQ(ev lib.Event) {
+func handleLoginReq(ev lib.Event) {
 	//msg := ev.Message().(*gameProto.LoginREQ)
 	// TODO 第三方请求验证及信息拉取
 
-	var ack gameProto.LoginACK
+	var ack msgProto.LoginAck
 
 	agentSvcID := hubstatus.SelectServiceByLowUserCount("agent", "", false)
 	if agentSvcID == "" {
-		ack.Result = gameProto.ResultCode_AgentNotFound
+		ack.Result = msgProto.ResultCode_AgentNotFound
 
 		service.Reply(ev, &ack)
 		return
@@ -38,23 +40,24 @@ func Handle_Login_LoginREQ(ev lib.Event) {
 	host, port, err := util.SpliteAddress(agentWAN)
 	if err != nil {
 		//log.Errorf("invalid address: '%s' %s", agentWAN, err.Error())
-		fmt.Printf("invalid address: '%s' %s\n", agentWAN, err.Error())
+		log.Error("invalid address: '%s' %s\n", agentWAN, err.Error())
 
-		ack.Result = gameProto.ResultCode_AgentAddressError
+		ack.Result = msgProto.ResultCode_AgentAddressError
 
 		service.Reply(ev, &ack)
 		return
 	}
 
-	ack.Server = &gameProto.ServerInfo{
+	ack.Server = &msgProto.ServerInfo{
 		IP:   host,
 		Port: int32(port),
 	}
 
+	// for test no hub...
 	ack.GameSvcID = hubstatus.SelectServiceByLowUserCount("game", "", false)
 
 	if ack.GameSvcID == "" {
-		ack.Result = gameProto.ResultCode_GameNotFound
+		ack.Result = msgProto.ResultCode_GameNotFound
 
 		service.Reply(ev, &ack)
 		return

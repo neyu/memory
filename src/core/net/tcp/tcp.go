@@ -21,7 +21,7 @@ type TcpConnector interface {
 	ReconnectDuration() time.Duration
 
 	Session() lib.Session
-	SetSessionManager(raw interface{})
+	// SetSessionManager(raw interface{})
 
 	Port() int
 }

@@ -10,13 +10,13 @@ import (
 )
 
 type tcpConnector struct {
-	peer.SessionManager
+	lib.SessionManager
 
-	peer.CorePeerProperty
-	peer.CoreContextSet
-	peer.CoreRunningTag
-	peer.CoreProcBundle
-	peer.CoreTCPSocketOption
+	lib.PeerProp
+	// lib.CoreContextSet
+	// lib.CoreRunningTag
+	// lib.CoreProcBundle
+	// lib.CoreTCPSocketOption
 
 	defaultSes *tcpSession
 
@@ -27,14 +27,14 @@ type tcpConnector struct {
 	reconDur time.Duration
 }
 
-func (this *tcpConnector) Start() lib.Peer {
+func (this *tcpConnector) Start() {
 	this.WaitStopFinished()
 	if this.IsRunning() {
 		return this
 	}
 
 	go this.connect(this.Address())
-	return this
+	return
 }
 
 func (this *tcpConnector) Session() lib.Session {
@@ -133,14 +133,16 @@ func (this *tcpConnector) TypeName() string {
 	return "tcp.Connector"
 }
 
-func CreateConnector() lib.Peer {
+func CreateConnector() *tcpConnector {
 	this := &tcpConnector{
-		SessionManager: new(peer.CoreSessionManager),
+		// SessionManager: new(lib.CoreSessionManager),
+		SessionManager: lib.NewSessionManager(),
 	}
 	this.defaultSes = newSession(nil, this, func() {
 		this.sesEndSignal.Done()
 	})
-	this.CoreTCPSocketOption.Init()
+	// this.CoreTCPSocketOption.Init()
+	this.Init()
 	return this
 }
 

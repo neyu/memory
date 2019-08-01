@@ -1,6 +1,8 @@
 package main
 
 import (
+	"services/msg/proto"
+
 	"core/lib"
 	"core/log"
 )
@@ -20,7 +22,7 @@ func gameMsgHandler(ev lib.Event) {
 
 func Handle_Agent_CloseClientACK(ev lib.Event) {
 
-	msg := ev.Message().(*gameProto.CloseClientACK)
+	msg := ev.Message().(*msgProto.CloseClientAck)
 
 	// 不给ID,掐线这个网关的所有客户端
 	if len(msg.ID) == 0 {

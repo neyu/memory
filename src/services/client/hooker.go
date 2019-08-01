@@ -1,5 +1,9 @@
 package main
 
+import (
+	"core/lib"
+)
+
 type TypeRPCHooker struct {
 }
 

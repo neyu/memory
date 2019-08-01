@@ -202,7 +202,7 @@ func (self *tcpSession) Start() {
 	go func() {
 
 		// 等待2个任务结束
-		self.exitSync.Wait()
+		self.exitSync.Wait()0
 
 		// 将会话从管理器移除
 		self.Peer().(peer.SessionManager).Remove(self)
@@ -220,7 +220,7 @@ func (self *tcpSession) Start() {
 	go self.sendLoop()
 }
 
-func newSession(conn net.Conn, p cellnet.Peer, endNotify func()) *tcpSession {
+func newSession(conn net.Conn, p lib.Peer, endNotify func()) *tcpSession {
 	self := &tcpSession{
 		conn:       conn,
 		endNotify:  endNotify,

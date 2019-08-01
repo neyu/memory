@@ -8,20 +8,15 @@ import (
 // 完整功能的会话管理
 type SessionManager interface {
 	// cellnet.SessionAccessor
-	// 获取一个连接
 	GetSession(int64) Session
-	// 遍历连接
 	VisitSession(func(Session) bool)
-	// 连接数量
 	SessionCount() int
-	// 关闭所有连接
 	CloseAllSession()
 
 	Add(Session)
 	Remove(Session)
 	Count() int
 
-	// 设置ID开始的号
 	SetIDBase(base int64)
 }
 
@@ -96,4 +91,11 @@ func (self *sessionManager) SessionCount() int {
 	v := atomic.LoadInt64(&self.count)
 
 	return int(v)
+}
+
+func NewSessionManager() *sessionManager {
+	this := &sessionManager{
+		//
+	}
+	return this
 }

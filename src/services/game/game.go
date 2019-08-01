@@ -1,6 +1,8 @@
 package main
 
 import (
+	"services/msg/proto"
+	
 	"core/lib"
 	"core/log"
 )
@@ -25,7 +27,7 @@ func Handle_Game_ChatREQ(incomingEv lib.Event) {
 	switch ev := incomingEv.(type) {
 	case *backend.RecvMsgEvent:
 
-		var cid gameProto.ClientID
+		var cid msgProto.ClientID
 		cid.ID = ev.ClientID
 
 		if agentCtx := service.SessionToContext(ev.Session()); agentCtx != nil {
@@ -33,14 +35,14 @@ func Handle_Game_ChatREQ(incomingEv lib.Event) {
 		}
 
 		// userHandler(incomingEv, cid)
-		msg := ev.Message().(*gameProto.ChatREQ)
+		msg := ev.Message().(*msgProto.ChatReq)
 		fmt.Printf("chat: %+v \n", msg.Content)
 		// 消息广播到网关并发给客户端
-		agentapi.BroadcastAll(&gameProto.ChatACK{
+		agentapi.BroadcastAll(&msgProto.ChatAck{
 			Content: msg.Content,
 		})
 		// 消息单发给客户端
-		agentapi.Send(&cid, &gameProto.TestACK{
+		agentapi.Send(&cid, &msgProto.TestAck{
 			Dummy: "single send",
 		})
 	}
@@ -51,7 +53,7 @@ func Handle_Game_VerifyREQ(incomingEv lib.Event) {
 	switch ev := incomingEv.(type) {
 	case *backend.RecvMsgEvent:
 
-		var cid gameProto.ClientID
+		var cid msgProto.ClientID
 		cid.ID = ev.ClientID
 
 		if agentCtx := service.SessionToContext(ev.Session()); agentCtx != nil {
@@ -59,8 +61,8 @@ func Handle_Game_VerifyREQ(incomingEv lib.Event) {
 		}
 
 		// userHandler(incomingEv, cid)
-		msg := ev.Message().(*gameProto.VerifyREQ)
+		msg := ev.Message().(*msgProto.VerifyReq)
 		fmt.Printf("verfiy: %+v \n", msg.GameToken)
-		service.Reply(ev, &gameProto.VerifyACK{})
+		service.Reply(ev, &msgProto.VerifyAck{})
 	}
 })

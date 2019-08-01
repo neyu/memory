@@ -1,20 +1,30 @@
-package proc
+package lib
 
 import (
-	"core/libs"
+	"fmt"
 )
 
-// 处理器设置接口，由各Peer实现
+type Event interface {
+	Session() Session
+	Message() interface{}
+}
+
+type MessageTransmitter interface {
+	OnRecvMessage(ses Session) (msg interface{}, err error)
+	OnSendMessage(ses Session, msg interface{}) error
+}
+
+type EventHooker interface {
+	OnInboundEvent(input Event) (output Event)
+	OnOutboundEvent(input Event) (output Event)
+}
+
+type EventCallback func(ev Event)
+
 type ProcessorBundle interface {
-
-	// 设置 传输器，负责收发消息
-	SetTransmitter(v lib.MessageTransmitter)
-
-	// 设置 接收后，发送前的事件处理流程
-	SetHooker(v lib.EventHooker)
-
-	// 设置 接收后最终处理回调
-	SetCallback(v lib.EventCallback)
+	SetTransmitter(v MessageTransmitter)
+	SetHooker(v EventHooker)
+	SetCallback(v EventCallback)
 }
 
 // 让EventCallback保证放在ses的队列里，而不是并发的

@@ -29,55 +29,42 @@ func connectToGame() {
 	queue := lib.NewEventQueue()
 	queue.StartLoop()
 
-	pr := tcp.CreateConnector()
+	connector := tcp.CreateConnector()
+	connector.SetName("game")
+	connector.SetAddress(":8302")
+	connector.SetQueue(queue)
 
-	gp := pr.(lib.GenericPeer)
-	gp.SetName("game")
-	gp.SetAddress(":8302")
-	gp.SetQueue(queue)
-
-	bundle := pr.(ProcessorBundle)
-	bundle.SetTransmitter(new(tcp.TCPMessageTransmitter))
-	bundle.SetHooker(proc.NewMultiHooker(
+	connector.SetTransmitter(new(tcp.TCPMessageTransmitter))
+	connector.SetHooker(lib.NewMultiHooker(
 		new(service.SvcEventHooker), // 服务互联处理
 		new(broadcasterHooker),      // 网关消息处理
 		new(tcp.MsgHooker)))         // tcp基础消息处理
-	bundle.SetCallback(proc.NewQueuedEventCallback(gameMsgHandler))
+	connector.SetCallback(lib.NewQueuedEventCallback(gameMsgHandler))
 
-	if opt, ok := pr.(peer.TCPSocketOption); ok {
-		opt.SetSocketBuffer(2048, 2048, true)
-	}
-	pr.(peer.TCPConnector).SetReconnectDuration(time.Second * 3)
-	pr.Start()
+	connector.SetSocketBuffer(2048, 2048, true)
+	connector.SetReconnectDuration(time.Second * 3)
+
+	connector.Start()
 }
 
 func createAcceptor() {
-	pr := tcp.CreateAcceptor()
+	acceptor := tcp.CreateAcceptor()
+	acceptor.SetName("gate")
+	acceptor.SetAddress(":8303")
 
-	gp := pr.(lib.GenericPeer)
-	gp.SetName("gate")
-	gp.SetAddress(":8303")
-	gp.SetQueue(nil)
-
-	bundle := pr.(ProcessorBundle)
-	bundle.SetTransmitter(new(directTCPTransmitter))
-	bundle.SetHooker(proc.NewMultiHooker(
+	acceptor.SetTransmitter(new(directTCPTransmitter))
+	acceptor.SetHooker(lib.NewMultiHooker(
 		new(tcp.MsgHooker),       //  TCP基础消息及日志
 		new(FrontendEventHooker), // 内部消息处理
 	))
-	bundle.SetCallback(proc.NewQueuedEventCallback(nil))
+	acceptor.SetCallback(proc.NewQueuedEventCallback(nil))
 
-	if socketOpt, ok := pr.(peer.TCPSocketOption); ok {
-		// 无延迟设置缓冲
-		socketOpt.SetSocketBuffer(2048, 2048, true)
+	acceptor.SetSocketBuffer(2048, 2048, true)
+	acceptor.SetSocketDeadline(time.Second*40, time.Second*20)
 
-		// 40秒无读，20秒无写断开
-		socketOpt.SetSocketDeadline(time.Second*40, time.Second*20)
-	}
+	acceptor.Start()
 
-	pr.Start()
-
-	model.FrontendSessionManager = pr.(peer.SessionManager)
+	model.FrontendSessionManager = acceptor
 }
 
 func stop() {
