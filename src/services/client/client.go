@@ -3,9 +3,9 @@ package main
 import (
 	"services/msg/proto"
 
-	"core/lib"
 	"core/log"
-	"core/net/tcp"
+	"core/xlib"
+	"core/xnet/tcp"
 
 	"errors"
 	"reflect"

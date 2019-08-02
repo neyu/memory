@@ -1,7 +1,7 @@
 package main
 
 import (
-	"core/lib"
+	"core/xlib"
 )
 
 type TypeRPCHooker struct {

@@ -2,9 +2,9 @@ package msgProto
 
 import (
 	"core/codec"
-	"core/lib"
 	"core/log"
-	"core/net/rpc"
+	"core/xlib"
+	"core/xnet/rpc"
 
 	"reflect"
 )

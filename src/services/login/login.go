@@ -3,8 +3,8 @@ package main
 import (
 	"services/msg/proto"
 
-	"core/lib"
 	"core/log"
+	"core/xlib"
 )
 
 // 消息处理

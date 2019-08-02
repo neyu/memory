@@ -2,7 +2,7 @@ package codec
 
 import (
 	"core/codec"
-	"core/lib"
+	"core/xlib"
 	"encoding/json"
 )
 

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"core/lib"
 	"core/log"
+	"core/xlib"
 	"fmt"
 )
 
@@ -39,7 +39,7 @@ func connectToGame() {
 		new(service.SvcEventHooker), // 服务互联处理
 		new(broadcasterHooker),      // 网关消息处理
 		new(tcp.MsgHooker)))         // tcp基础消息处理
-	connector.SetCallback(lib.NewQueuedEventCallback(gameMsgHandler))
+	connector.SetCallback(lib.NewQueuedEventCallback(messageHandler))
 
 	connector.SetSocketBuffer(2048, 2048, true)
 	connector.SetReconnectDuration(time.Second * 3)
@@ -57,7 +57,7 @@ func createAcceptor() {
 		new(tcp.MsgHooker),       //  TCP基础消息及日志
 		new(FrontendEventHooker), // 内部消息处理
 	))
-	acceptor.SetCallback(proc.NewQueuedEventCallback(nil))
+	acceptor.SetCallback(lib.NewQueuedEventCallback(nil))
 
 	acceptor.SetSocketBuffer(2048, 2048, true)
 	acceptor.SetSocketDeadline(time.Second*40, time.Second*20)

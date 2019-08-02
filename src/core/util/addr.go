@@ -1,7 +1,7 @@
 package util
 
 import (
-	"core/lib"
+	"core/xlib"
 
 	"errors"
 	"fmt"

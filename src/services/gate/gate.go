@@ -3,24 +3,24 @@ package main
 import (
 	"services/msg/proto"
 
-	"core/lib"
 	"core/log"
+	"core/xlib"
 )
 
-var Handle_Agent_Default func(ev lib.Event)
+var handleDefault func(ev lib.Event)
 
-func gameMsgHandler(ev lib.Event) {
+func messageHandler(ev lib.Event) {
 	switch ev.Message().(type) {
 	case *CloseClientACK:
-		Handle_Agent_CloseClientACK(ev)
+		handleCloseClientAck(ev)
 	default:
-		if Handle_Agent_Default != nil {
-			Handle_Agent_Default(ev)
+		if handleDefault != nil {
+			handleDefault(ev)
 		}
 	}
 }
 
-func Handle_Agent_CloseClientACK(ev lib.Event) {
+func handleCloseClientAck(ev lib.Event) {
 
 	msg := ev.Message().(*msgProto.CloseClientAck)
 

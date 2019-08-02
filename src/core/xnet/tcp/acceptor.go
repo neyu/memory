@@ -1,9 +1,9 @@
 package tcp
 
 import (
-	"core/lib"
 	"core/log"
 	"core/util"
+	"core/xlib"
 
 	"net"
 	"strings"

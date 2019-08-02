@@ -2,7 +2,7 @@ package codec
 
 import (
 	"core/codec"
-	"core/lib"
+	"core/xlib"
 
 	"github.com/golang/protobuf/proto"
 )
