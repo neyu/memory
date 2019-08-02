@@ -4,6 +4,7 @@ import (
 	"services/msg/proto"
 
 	"core/log"
+	"core/util"
 	"core/xlib"
 )
 
@@ -27,24 +28,26 @@ func handleLoginReq(ev lib.Event) {
 
 	var ack msgProto.LoginAck
 
-	agentSvcID := hubstatus.SelectServiceByLowUserCount("agent", "", false)
-	if agentSvcID == "" {
-		ack.Result = msgProto.ResultCode_AgentNotFound
+	// gateSvcID := hubstatus.SelectServiceByLowUserCount("gate", "", false)
+	// if agentSvcID == "" {
+	// 	ack.Result = msgProto.ResultCode_GateNotFound
 
-		service.Reply(ev, &ack)
-		return
-	}
+	// 	service.Reply(ev, &ack)
+	// 	return
+	// }
 
-	agentWAN := basefx.GetRemoteServiceWANAddress("agent", agentSvcID)
+	// gateWAN := basefx.GetRemoteServiceWANAddress("gate", gateSvcID)
+	gateWAN := ":8301"
 
-	host, port, err := util.SpliteAddress(agentWAN)
+	host, port, err := util.SpliteAddress(gateWAN)
 	if err != nil {
 		//log.Errorf("invalid address: '%s' %s", agentWAN, err.Error())
-		log.Error("invalid address: '%s' %s\n", agentWAN, err.Error())
+		log.Error("invalid address: '%s' %s\n", gateWAN, err.Error())
 
 		ack.Result = msgProto.ResultCode_AgentAddressError
 
-		service.Reply(ev, &ack)
+		// service.Reply(ev, &ack)
+		ev.Session().Send(&ack)
 		return
 	}
 
@@ -53,15 +56,17 @@ func handleLoginReq(ev lib.Event) {
 		Port: int32(port),
 	}
 
-	// for test no hub...
-	ack.GameSvcID = hubstatus.SelectServiceByLowUserCount("game", "", false)
+	// ack.GameSvcID = hubstatus.SelectServiceByLowUserCount("game", "", false)
+	ack.GameSvcID = "game_1"
 
 	if ack.GameSvcID == "" {
 		ack.Result = msgProto.ResultCode_GameNotFound
 
-		service.Reply(ev, &ack)
+		// service.Reply(ev, &ack)
+		ev.Session().Send(&ack)
 		return
 	}
 
-	service.Reply(ev, &ack)
+	// service.Reply(ev, &ack)
+	ev.Session().Send(&ack)
 }

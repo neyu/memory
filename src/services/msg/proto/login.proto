@@ -6,7 +6,7 @@ package msgProto;
 
 message ServerInfo
 {
-    string IP = 1;
+    string Ip = 1;
     int32 Port = 2;
 }
 
@@ -27,13 +27,13 @@ message LoginAck
 	ResultCode Result = 1;
 	ServerInfo Server = 2;
 	string GameToken = 3;
-	string GameSvcId = 4; // 选中的一台game服务器ID
+	string GameSvcId = 4; // 选中的一台game服务器Id
 }
 
 message VerifyReq 
 {
 	string GameToken = 1;
-	string GameSvcID = 2;
+	string GameSvcId = 2;
 }
 
 message VerifyAck 

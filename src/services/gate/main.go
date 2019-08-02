@@ -1,8 +1,15 @@
 package main
 
 import (
+	"services/fx/service"
+	"services/gate/backend"
+	"services/gate/frontend"
+	"services/gate/model"
+
 	"core/log"
 	"core/xlib"
+	"core/xnet/tcp"
+
 	"fmt"
 )
 
@@ -36,9 +43,9 @@ func connectToGame() {
 
 	connector.SetTransmitter(new(tcp.TCPMessageTransmitter))
 	connector.SetHooker(lib.NewMultiHooker(
-		new(service.SvcEventHooker), // 服务互联处理
-		new(broadcasterHooker),      // 网关消息处理
-		new(tcp.MsgHooker)))         // tcp基础消息处理
+		new(service.SvcEventHooker),    // 服务互联处理
+		new(backend.broadcasterHooker), // 网关消息处理
+		new(tcp.MsgHooker)))            // tcp基础消息处理
 	connector.SetCallback(lib.NewQueuedEventCallback(messageHandler))
 
 	connector.SetSocketBuffer(2048, 2048, true)
@@ -50,14 +57,13 @@ func connectToGame() {
 func createAcceptor() {
 	acceptor := tcp.CreateAcceptor()
 	acceptor.SetName("gate")
-	acceptor.SetAddress(":8303")
+	acceptor.SetAddress(":8301")
 
-	acceptor.SetTransmitter(new(directTCPTransmitter))
+	acceptor.SetTransmitter(new(frontend.directTCPTransmitter))
 	acceptor.SetHooker(lib.NewMultiHooker(
-		new(tcp.MsgHooker),       //  TCP基础消息及日志
-		new(FrontendEventHooker), // 内部消息处理
+		new(tcp.MsgHooker),                //  TCP基础消息及日志
+		new(frontend.FrontendEventHooker), // 内部消息处理
 	))
-	acceptor.SetCallback(lib.NewQueuedEventCallback(nil))
 
 	acceptor.SetSocketBuffer(2048, 2048, true)
 	acceptor.SetSocketDeadline(time.Second*40, time.Second*20)

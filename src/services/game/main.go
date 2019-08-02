@@ -1,8 +1,16 @@
 package main
 
 import (
+	"services/fx/service"
+	"services/gate/backend"
+
 	"core/log"
 	"core/xlib"
+	"core/xnet/tcp"
+
+	"os"
+	"os/signal"
+	"syscall"
 )
 
 func main() {
@@ -26,14 +34,14 @@ func createAcceptor() {
 
 	acceptor := tcp.CreateAcceptor()
 	acceptor.SetName("name")
-	acceptor.SetAddress(":8082")
+	acceptor.SetAddress(":8302")
 	acceptor.SetQueue(queue)
 
 	acceptor.SetTransmitter(new(tcp.TCPMessageTransmitter))
 	acceptor.SetHooker(lib.NewMultiHooker(
-		new(service.SvcEventHooker), // 服务互联处理
-		new(BackendMsgHooker),       // 网关消息处理
-		new(tcp.MsgHooker)))         // tcp基础消息处理
+		new(service.SvcEventHooker),   // 服务互联处理
+		new(backend.BackendMsgHooker), // 网关消息处理
+		new(tcp.MsgHooker)))           // tcp基础消息处理
 	acceptor.SetCallback(lib.NewQueuedEventCallback(messageHandler))
 
 	acceptor.SetSocketBuffer(2048, 2048, true)

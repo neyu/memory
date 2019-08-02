@@ -3,6 +3,7 @@ package main
 import (
 	"core/log"
 	"core/xlib"
+	"core/xnet/tcp"
 
 	"fmt"
 	"os"
@@ -24,7 +25,7 @@ func main() {
 
 	acceptor := tcp.CreateAcceptor()
 	acceptor.SetName("name")
-	acceptor.SetAddress("addr")
+	acceptor.SetAddress(":8300")
 	acceptor.SetQueue(queue)
 
 	acceptor.SetTransmitter(new(TCPMessageTransmitter))

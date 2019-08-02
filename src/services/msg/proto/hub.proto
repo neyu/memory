@@ -14,12 +14,12 @@ message SubscribeChannelAck
 
 message SvcStatusAck
 {
-    string SvcID = 1;
+    string SvcId = 1;
 	int32 UserCount = 2;
 }
 
 message ServiceIdentifyAck 
 {
 	string SvcName = 1;
-	string SvcID = 2;
+	string SvcId = 2;
 }

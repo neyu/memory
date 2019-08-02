@@ -1,11 +1,11 @@
 package tcp
 
 import (
-	"core/libs"
 	"core/relay"
 	"core/rpc"
+	"core/xlib"
+
 	"fmt"
-	//"net/rpc"
 )
 
 type MsgHooker struct {

@@ -5,7 +5,7 @@ package msgProto;
 enum ResultCode
 {
 	NoError = 0;
-	AgentNotFound = 1;
-	AgentAddressError = 2;
+	GateNotFound = 1;
+	GateAddressError = 2;
 	GameNotFound = 3;
 }

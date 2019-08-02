@@ -20,95 +20,95 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type ClientID struct {
-	ID                   int64    `protobuf:"varint,1,opt,name=ID,proto3" json:"ID,omitempty"`
-	SvcID                string   `protobuf:"bytes,2,opt,name=SvcID,proto3" json:"SvcID,omitempty"`
+type ClientId struct {
+	Id                   int64    `protobuf:"varint,1,opt,name=Id,proto3" json:"Id,omitempty"`
+	SvcId                string   `protobuf:"bytes,2,opt,name=SvcId,proto3" json:"SvcId,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *ClientID) Reset()         { *m = ClientID{} }
-func (m *ClientID) String() string { return proto.CompactTextString(m) }
-func (*ClientID) ProtoMessage()    {}
-func (*ClientID) Descriptor() ([]byte, []int) {
+func (m *ClientId) Reset()         { *m = ClientId{} }
+func (m *ClientId) String() string { return proto.CompactTextString(m) }
+func (*ClientId) ProtoMessage()    {}
+func (*ClientId) Descriptor() ([]byte, []int) {
 	return fileDescriptor_367072455c71aedc, []int{0}
 }
 
-func (m *ClientID) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ClientID.Unmarshal(m, b)
+func (m *ClientId) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ClientId.Unmarshal(m, b)
 }
-func (m *ClientID) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ClientID.Marshal(b, m, deterministic)
+func (m *ClientId) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ClientId.Marshal(b, m, deterministic)
 }
-func (m *ClientID) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ClientID.Merge(m, src)
+func (m *ClientId) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ClientId.Merge(m, src)
 }
-func (m *ClientID) XXX_Size() int {
-	return xxx_messageInfo_ClientID.Size(m)
+func (m *ClientId) XXX_Size() int {
+	return xxx_messageInfo_ClientId.Size(m)
 }
-func (m *ClientID) XXX_DiscardUnknown() {
-	xxx_messageInfo_ClientID.DiscardUnknown(m)
+func (m *ClientId) XXX_DiscardUnknown() {
+	xxx_messageInfo_ClientId.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ClientID proto.InternalMessageInfo
+var xxx_messageInfo_ClientId proto.InternalMessageInfo
 
-func (m *ClientID) GetID() int64 {
+func (m *ClientId) GetId() int64 {
 	if m != nil {
-		return m.ID
+		return m.Id
 	}
 	return 0
 }
 
-func (m *ClientID) GetSvcID() string {
+func (m *ClientId) GetSvcId() string {
 	if m != nil {
-		return m.SvcID
+		return m.SvcId
 	}
 	return ""
 }
 
 // backend ->agent 切断用户连接
-type CloseClientACK struct {
-	ID                   []int64  `protobuf:"varint,1,rep,packed,name=ID,proto3" json:"ID,omitempty"`
+type CloseClientAck struct {
+	Id                   []int64  `protobuf:"varint,1,rep,packed,name=Id,proto3" json:"Id,omitempty"`
 	All                  bool     `protobuf:"varint,2,opt,name=All,proto3" json:"All,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *CloseClientACK) Reset()         { *m = CloseClientACK{} }
-func (m *CloseClientACK) String() string { return proto.CompactTextString(m) }
-func (*CloseClientACK) ProtoMessage()    {}
-func (*CloseClientACK) Descriptor() ([]byte, []int) {
+func (m *CloseClientAck) Reset()         { *m = CloseClientAck{} }
+func (m *CloseClientAck) String() string { return proto.CompactTextString(m) }
+func (*CloseClientAck) ProtoMessage()    {}
+func (*CloseClientAck) Descriptor() ([]byte, []int) {
 	return fileDescriptor_367072455c71aedc, []int{1}
 }
 
-func (m *CloseClientACK) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_CloseClientACK.Unmarshal(m, b)
+func (m *CloseClientAck) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_CloseClientAck.Unmarshal(m, b)
 }
-func (m *CloseClientACK) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_CloseClientACK.Marshal(b, m, deterministic)
+func (m *CloseClientAck) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_CloseClientAck.Marshal(b, m, deterministic)
 }
-func (m *CloseClientACK) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_CloseClientACK.Merge(m, src)
+func (m *CloseClientAck) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_CloseClientAck.Merge(m, src)
 }
-func (m *CloseClientACK) XXX_Size() int {
-	return xxx_messageInfo_CloseClientACK.Size(m)
+func (m *CloseClientAck) XXX_Size() int {
+	return xxx_messageInfo_CloseClientAck.Size(m)
 }
-func (m *CloseClientACK) XXX_DiscardUnknown() {
-	xxx_messageInfo_CloseClientACK.DiscardUnknown(m)
+func (m *CloseClientAck) XXX_DiscardUnknown() {
+	xxx_messageInfo_CloseClientAck.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_CloseClientACK proto.InternalMessageInfo
+var xxx_messageInfo_CloseClientAck proto.InternalMessageInfo
 
-func (m *CloseClientACK) GetID() []int64 {
+func (m *CloseClientAck) GetId() []int64 {
 	if m != nil {
-		return m.ID
+		return m.Id
 	}
 	return nil
 }
 
-func (m *CloseClientACK) GetAll() bool {
+func (m *CloseClientAck) GetAll() bool {
 	if m != nil {
 		return m.All
 	}
@@ -116,50 +116,50 @@ func (m *CloseClientACK) GetAll() bool {
 }
 
 // agent -> backend 客户端断开
-type ClientClosedACK struct {
-	ID                   *ClientID `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+type ClientClosedAck struct {
+	Id                   *ClientId `protobuf:"bytes,1,opt,name=Id,proto3" json:"Id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
 	XXX_unrecognized     []byte    `json:"-"`
 	XXX_sizecache        int32     `json:"-"`
 }
 
-func (m *ClientClosedACK) Reset()         { *m = ClientClosedACK{} }
-func (m *ClientClosedACK) String() string { return proto.CompactTextString(m) }
-func (*ClientClosedACK) ProtoMessage()    {}
-func (*ClientClosedACK) Descriptor() ([]byte, []int) {
+func (m *ClientClosedAck) Reset()         { *m = ClientClosedAck{} }
+func (m *ClientClosedAck) String() string { return proto.CompactTextString(m) }
+func (*ClientClosedAck) ProtoMessage()    {}
+func (*ClientClosedAck) Descriptor() ([]byte, []int) {
 	return fileDescriptor_367072455c71aedc, []int{2}
 }
 
-func (m *ClientClosedACK) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_ClientClosedACK.Unmarshal(m, b)
+func (m *ClientClosedAck) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_ClientClosedAck.Unmarshal(m, b)
 }
-func (m *ClientClosedACK) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_ClientClosedACK.Marshal(b, m, deterministic)
+func (m *ClientClosedAck) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_ClientClosedAck.Marshal(b, m, deterministic)
 }
-func (m *ClientClosedACK) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_ClientClosedACK.Merge(m, src)
+func (m *ClientClosedAck) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ClientClosedAck.Merge(m, src)
 }
-func (m *ClientClosedACK) XXX_Size() int {
-	return xxx_messageInfo_ClientClosedACK.Size(m)
+func (m *ClientClosedAck) XXX_Size() int {
+	return xxx_messageInfo_ClientClosedAck.Size(m)
 }
-func (m *ClientClosedACK) XXX_DiscardUnknown() {
-	xxx_messageInfo_ClientClosedACK.DiscardUnknown(m)
+func (m *ClientClosedAck) XXX_DiscardUnknown() {
+	xxx_messageInfo_ClientClosedAck.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_ClientClosedACK proto.InternalMessageInfo
+var xxx_messageInfo_ClientClosedAck proto.InternalMessageInfo
 
-func (m *ClientClosedACK) GetID() *ClientID {
+func (m *ClientClosedAck) GetId() *ClientId {
 	if m != nil {
-		return m.ID
+		return m.Id
 	}
 	return nil
 }
 
 // agent <-> backend 在网关和后端服务器之间传输协议
-type TransmitACK struct {
-	MsgID                uint32   `protobuf:"varint,1,opt,name=MsgID,proto3" json:"MsgID,omitempty"`
+type TransmitAck struct {
+	MsgId                uint32   `protobuf:"varint,1,opt,name=MsgId,proto3" json:"MsgId,omitempty"`
 	MsgData              []byte   `protobuf:"bytes,2,opt,name=MsgData,proto3" json:"MsgData,omitempty"`
-	ClientID             int64    `protobuf:"varint,3,opt,name=ClientID,proto3" json:"ClientID,omitempty"`
+	ClientId             int64    `protobuf:"varint,3,opt,name=ClientId,proto3" json:"ClientId,omitempty"`
 	ClientIDList         []int64  `protobuf:"varint,4,rep,packed,name=ClientIDList,proto3" json:"ClientIDList,omitempty"`
 	All                  bool     `protobuf:"varint,5,opt,name=All,proto3" json:"All,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -167,60 +167,60 @@ type TransmitACK struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *TransmitACK) Reset()         { *m = TransmitACK{} }
-func (m *TransmitACK) String() string { return proto.CompactTextString(m) }
-func (*TransmitACK) ProtoMessage()    {}
-func (*TransmitACK) Descriptor() ([]byte, []int) {
+func (m *TransmitAck) Reset()         { *m = TransmitAck{} }
+func (m *TransmitAck) String() string { return proto.CompactTextString(m) }
+func (*TransmitAck) ProtoMessage()    {}
+func (*TransmitAck) Descriptor() ([]byte, []int) {
 	return fileDescriptor_367072455c71aedc, []int{3}
 }
 
-func (m *TransmitACK) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_TransmitACK.Unmarshal(m, b)
+func (m *TransmitAck) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_TransmitAck.Unmarshal(m, b)
 }
-func (m *TransmitACK) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_TransmitACK.Marshal(b, m, deterministic)
+func (m *TransmitAck) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_TransmitAck.Marshal(b, m, deterministic)
 }
-func (m *TransmitACK) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_TransmitACK.Merge(m, src)
+func (m *TransmitAck) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_TransmitAck.Merge(m, src)
 }
-func (m *TransmitACK) XXX_Size() int {
-	return xxx_messageInfo_TransmitACK.Size(m)
+func (m *TransmitAck) XXX_Size() int {
+	return xxx_messageInfo_TransmitAck.Size(m)
 }
-func (m *TransmitACK) XXX_DiscardUnknown() {
-	xxx_messageInfo_TransmitACK.DiscardUnknown(m)
+func (m *TransmitAck) XXX_DiscardUnknown() {
+	xxx_messageInfo_TransmitAck.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_TransmitACK proto.InternalMessageInfo
+var xxx_messageInfo_TransmitAck proto.InternalMessageInfo
 
-func (m *TransmitACK) GetMsgID() uint32 {
+func (m *TransmitAck) GetMsgId() uint32 {
 	if m != nil {
-		return m.MsgID
+		return m.MsgId
 	}
 	return 0
 }
 
-func (m *TransmitACK) GetMsgData() []byte {
+func (m *TransmitAck) GetMsgData() []byte {
 	if m != nil {
 		return m.MsgData
 	}
 	return nil
 }
 
-func (m *TransmitACK) GetClientID() int64 {
+func (m *TransmitAck) GetClientId() int64 {
 	if m != nil {
-		return m.ClientID
+		return m.ClientId
 	}
 	return 0
 }
 
-func (m *TransmitACK) GetClientIDList() []int64 {
+func (m *TransmitAck) GetClientIDList() []int64 {
 	if m != nil {
 		return m.ClientIDList
 	}
 	return nil
 }
 
-func (m *TransmitACK) GetAll() bool {
+func (m *TransmitAck) GetAll() bool {
 	if m != nil {
 		return m.All
 	}
@@ -228,29 +228,29 @@ func (m *TransmitACK) GetAll() bool {
 }
 
 func init() {
-	proto.RegisterType((*ClientID)(nil), "msgProto.ClientID")
-	proto.RegisterType((*CloseClientACK)(nil), "msgProto.CloseClientACK")
-	proto.RegisterType((*ClientClosedACK)(nil), "msgProto.ClientClosedACK")
-	proto.RegisterType((*TransmitACK)(nil), "msgProto.TransmitACK")
+	proto.RegisterType((*ClientId)(nil), "msgProto.ClientId")
+	proto.RegisterType((*CloseClientAck)(nil), "msgProto.CloseClientAck")
+	proto.RegisterType((*ClientClosedAck)(nil), "msgProto.ClientClosedAck")
+	proto.RegisterType((*TransmitAck)(nil), "msgProto.TransmitAck")
 }
 
 func init() { proto.RegisterFile("router.proto", fileDescriptor_367072455c71aedc) }
 
 var fileDescriptor_367072455c71aedc = []byte{
-	// 227 bytes of a gzipped FileDescriptorProto
+	// 228 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x29, 0xca, 0x2f, 0x2d,
 	0x49, 0x2d, 0xd2, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0xc8, 0x2d, 0x4e, 0x0f, 0x00, 0xb1,
-	0x94, 0x0c, 0xb8, 0x38, 0x9c, 0x73, 0x32, 0x53, 0xf3, 0x4a, 0x3c, 0x5d, 0x84, 0xf8, 0xb8, 0x98,
-	0x3c, 0x5d, 0x24, 0x18, 0x15, 0x18, 0x35, 0x98, 0x83, 0x98, 0x3c, 0x5d, 0x84, 0x44, 0xb8, 0x58,
-	0x83, 0xcb, 0x92, 0x3d, 0x5d, 0x24, 0x98, 0x14, 0x18, 0x35, 0x38, 0x83, 0x20, 0x1c, 0x25, 0x23,
-	0x2e, 0x3e, 0xe7, 0x9c, 0xfc, 0xe2, 0x54, 0x88, 0x36, 0x47, 0x67, 0x6f, 0xb8, 0x3e, 0x66, 0xa8,
+	0x94, 0x0c, 0xb8, 0x38, 0x9c, 0x73, 0x32, 0x53, 0xf3, 0x4a, 0x3c, 0x53, 0x84, 0xf8, 0xb8, 0x98,
+	0x3c, 0x53, 0x24, 0x18, 0x15, 0x18, 0x35, 0x98, 0x83, 0x98, 0x3c, 0x53, 0x84, 0x44, 0xb8, 0x58,
+	0x83, 0xcb, 0x92, 0x3d, 0x53, 0x24, 0x98, 0x14, 0x18, 0x35, 0x38, 0x83, 0x20, 0x1c, 0x25, 0x23,
+	0x2e, 0x3e, 0xe7, 0x9c, 0xfc, 0xe2, 0x54, 0x88, 0x36, 0xc7, 0xe4, 0x6c, 0xb8, 0x3e, 0x66, 0xa8,
 	0x3e, 0x01, 0x2e, 0x66, 0xc7, 0x9c, 0x1c, 0xb0, 0x2e, 0x8e, 0x20, 0x10, 0x53, 0xc9, 0x94, 0x8b,
 	0x1f, 0xa2, 0x1c, 0xac, 0x33, 0x05, 0xa4, 0x49, 0x09, 0x6e, 0x19, 0xb7, 0x91, 0x90, 0x1e, 0xcc,
 	0x3d, 0x7a, 0x30, 0xc7, 0x80, 0x0c, 0x52, 0xea, 0x67, 0xe4, 0xe2, 0x0e, 0x29, 0x4a, 0xcc, 0x2b,
 	0xce, 0xcd, 0x04, 0x5b, 0x24, 0xc2, 0xc5, 0xea, 0x5b, 0x9c, 0x0e, 0xd5, 0xc6, 0x1b, 0x04, 0xe1,
 	0x08, 0x49, 0x70, 0xb1, 0xfb, 0x16, 0xa7, 0xbb, 0x24, 0x96, 0x24, 0x82, 0xad, 0xe4, 0x09, 0x82,
-	0x71, 0x85, 0xa4, 0x10, 0x9e, 0x93, 0x60, 0x06, 0x7b, 0x0b, 0xe1, 0x59, 0x25, 0x2e, 0x1e, 0x18,
-	0xdb, 0x27, 0xb3, 0xb8, 0x44, 0x82, 0x05, 0xec, 0x7c, 0x14, 0x31, 0x98, 0x47, 0x58, 0xe1, 0x1e,
-	0x49, 0x62, 0x03, 0x87, 0x9f, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0x67, 0x8e, 0x22, 0xfc, 0x4f,
-	0x01, 0x00, 0x00,
+	0x71, 0x85, 0xa4, 0x10, 0x9e, 0x93, 0x60, 0x06, 0x7b, 0x0b, 0xe1, 0x59, 0x25, 0x2e, 0x1e, 0x28,
+	0xdb, 0xc5, 0x27, 0xb3, 0xb8, 0x44, 0x82, 0x05, 0xec, 0x7c, 0x14, 0x31, 0x98, 0x47, 0x58, 0xe1,
+	0x1e, 0x49, 0x62, 0x03, 0x87, 0x9f, 0x31, 0x20, 0x00, 0x00, 0xff, 0xff, 0xc2, 0xa0, 0xab, 0x09,
+	0x4f, 0x01, 0x00, 0x00,
 }

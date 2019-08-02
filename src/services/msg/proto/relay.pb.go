@@ -20,9 +20,9 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
-type RelayACK struct {
+type RelayAck struct {
 	Msg                  []byte   `protobuf:"bytes,1,opt,name=Msg,proto3" json:"Msg,omitempty"`
-	MsgID                uint32   `protobuf:"varint,2,opt,name=MsgID,proto3" json:"MsgID,omitempty"`
+	MsgId                uint32   `protobuf:"varint,2,opt,name=MsgId,proto3" json:"MsgId,omitempty"`
 	Bytes                []byte   `protobuf:"bytes,3,opt,name=Bytes,proto3" json:"Bytes,omitempty"`
 	Int64                int64    `protobuf:"varint,4,opt,name=Int64,proto3" json:"Int64,omitempty"`
 	Int64Slice           []int64  `protobuf:"varint,5,rep,packed,name=Int64Slice,proto3" json:"Int64Slice,omitempty"`
@@ -32,67 +32,67 @@ type RelayACK struct {
 	XXX_sizecache        int32    `json:"-"`
 }
 
-func (m *RelayACK) Reset()         { *m = RelayACK{} }
-func (m *RelayACK) String() string { return proto.CompactTextString(m) }
-func (*RelayACK) ProtoMessage()    {}
-func (*RelayACK) Descriptor() ([]byte, []int) {
+func (m *RelayAck) Reset()         { *m = RelayAck{} }
+func (m *RelayAck) String() string { return proto.CompactTextString(m) }
+func (*RelayAck) ProtoMessage()    {}
+func (*RelayAck) Descriptor() ([]byte, []int) {
 	return fileDescriptor_9f69a7d5a802d584, []int{0}
 }
 
-func (m *RelayACK) XXX_Unmarshal(b []byte) error {
-	return xxx_messageInfo_RelayACK.Unmarshal(m, b)
+func (m *RelayAck) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_RelayAck.Unmarshal(m, b)
 }
-func (m *RelayACK) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
-	return xxx_messageInfo_RelayACK.Marshal(b, m, deterministic)
+func (m *RelayAck) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_RelayAck.Marshal(b, m, deterministic)
 }
-func (m *RelayACK) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_RelayACK.Merge(m, src)
+func (m *RelayAck) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_RelayAck.Merge(m, src)
 }
-func (m *RelayACK) XXX_Size() int {
-	return xxx_messageInfo_RelayACK.Size(m)
+func (m *RelayAck) XXX_Size() int {
+	return xxx_messageInfo_RelayAck.Size(m)
 }
-func (m *RelayACK) XXX_DiscardUnknown() {
-	xxx_messageInfo_RelayACK.DiscardUnknown(m)
+func (m *RelayAck) XXX_DiscardUnknown() {
+	xxx_messageInfo_RelayAck.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_RelayACK proto.InternalMessageInfo
+var xxx_messageInfo_RelayAck proto.InternalMessageInfo
 
-func (m *RelayACK) GetMsg() []byte {
+func (m *RelayAck) GetMsg() []byte {
 	if m != nil {
 		return m.Msg
 	}
 	return nil
 }
 
-func (m *RelayACK) GetMsgID() uint32 {
+func (m *RelayAck) GetMsgId() uint32 {
 	if m != nil {
-		return m.MsgID
+		return m.MsgId
 	}
 	return 0
 }
 
-func (m *RelayACK) GetBytes() []byte {
+func (m *RelayAck) GetBytes() []byte {
 	if m != nil {
 		return m.Bytes
 	}
 	return nil
 }
 
-func (m *RelayACK) GetInt64() int64 {
+func (m *RelayAck) GetInt64() int64 {
 	if m != nil {
 		return m.Int64
 	}
 	return 0
 }
 
-func (m *RelayACK) GetInt64Slice() []int64 {
+func (m *RelayAck) GetInt64Slice() []int64 {
 	if m != nil {
 		return m.Int64Slice
 	}
 	return nil
 }
 
-func (m *RelayACK) GetStr() string {
+func (m *RelayAck) GetStr() string {
 	if m != nil {
 		return m.Str
 	}
@@ -100,7 +100,7 @@ func (m *RelayACK) GetStr() string {
 }
 
 func init() {
-	proto.RegisterType((*RelayACK)(nil), "msgProto.RelayACK")
+	proto.RegisterType((*RelayAck)(nil), "msgProto.RelayAck")
 }
 
 func init() { proto.RegisterFile("relay.proto", fileDescriptor_9f69a7d5a802d584) }
@@ -109,12 +109,12 @@ var fileDescriptor_9f69a7d5a802d584 = []byte{
 	// 156 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xe2, 0xe2, 0x2e, 0x4a, 0xcd, 0x49,
 	0xac, 0xd4, 0x2b, 0x28, 0xca, 0x2f, 0xc9, 0x17, 0xe2, 0xc8, 0x2d, 0x4e, 0x0f, 0x00, 0xb1, 0x94,
-	0x26, 0x30, 0x72, 0x71, 0x04, 0x81, 0x64, 0x1c, 0x9d, 0xbd, 0x85, 0x04, 0xb8, 0x98, 0x7d, 0x8b,
+	0x26, 0x30, 0x72, 0x71, 0x04, 0x81, 0x64, 0x1c, 0x93, 0xb3, 0x85, 0x04, 0xb8, 0x98, 0x7d, 0x8b,
 	0xd3, 0x25, 0x18, 0x15, 0x18, 0x35, 0x78, 0x82, 0x40, 0x4c, 0x21, 0x11, 0x2e, 0x56, 0xdf, 0xe2,
-	0x74, 0x4f, 0x17, 0x09, 0x26, 0x05, 0x46, 0x0d, 0xde, 0x20, 0x08, 0x07, 0x24, 0xea, 0x54, 0x59,
+	0x74, 0xcf, 0x14, 0x09, 0x26, 0x05, 0x46, 0x0d, 0xde, 0x20, 0x08, 0x07, 0x24, 0xea, 0x54, 0x59,
 	0x92, 0x5a, 0x2c, 0xc1, 0x0c, 0x56, 0x09, 0xe1, 0x80, 0x44, 0x3d, 0xf3, 0x4a, 0xcc, 0x4c, 0x24,
 	0x58, 0x14, 0x18, 0x35, 0x98, 0x83, 0x20, 0x1c, 0x21, 0x39, 0x2e, 0x2e, 0x30, 0x23, 0x38, 0x27,
 	0x33, 0x39, 0x55, 0x82, 0x55, 0x81, 0x59, 0x83, 0x39, 0x08, 0x49, 0x04, 0x64, 0x67, 0x70, 0x49,
 	0x91, 0x04, 0x9b, 0x02, 0xa3, 0x06, 0x67, 0x10, 0x88, 0x99, 0xc4, 0x06, 0x76, 0xa3, 0x31, 0x20,
-	0x00, 0x00, 0xff, 0xff, 0xbf, 0x55, 0x1a, 0x3a, 0xb2, 0x00, 0x00, 0x00,
+	0x00, 0x00, 0xff, 0xff, 0x32, 0xbd, 0x22, 0x6e, 0xb2, 0x00, 0x00, 0x00,
 }

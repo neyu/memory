@@ -2,32 +2,32 @@ syntax = "proto3";
 
 package msgProto;
 
-message ClientID 
+message ClientId 
 {
-    int64 ID = 1;			// 客户端在网关上的SessionID
-	string SvcID = 2;		// 客户端在哪个网关
+    int64 Id = 1;			// 客户端在网关上的SessionID
+	string SvcId = 2;		// 客户端在哪个网关
 }
 
 // backend ->agent 切断用户连接
-message CloseClientACK 
+message CloseClientAck 
 {
-    repeated int64 ID = 1;
+    repeated int64 Id = 1;
 	bool All = 2; 
 }
 
 // agent -> backend 客户端断开
-message ClientClosedACK 
+message ClientClosedAck 
 {
-    ClientID ID = 1;	
+    ClientId Id = 1;	
 }
 
 // agent <-> backend 在网关和后端服务器之间传输协议
-message TransmitACK 
+message TransmitAck 
 {
-    uint32 MsgID = 1;  				// 用户消息ID
+    uint32 MsgId = 1;  				// 用户消息ID
     bytes MsgData = 2; 				// 用户消息数据
 
-    int64 ClientID = 3;       		// 单发
+    int64 ClientId = 3;       		// 单发
     repeated int64 ClientIDList = 4;	// 列表发
     bool All = 5;             		// 全发
 }
