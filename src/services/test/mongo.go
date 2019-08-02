@@ -2,9 +2,9 @@ package main
 
 import (
 	"core/consts/service"
-	. "core/libs"
-	"core/libs/guid"
-	"core/libs/random"
+	. "core/lib"
+	"core/lib/guid"
+	"core/lib/random"
 	"core/service"
 	"strconv"
 

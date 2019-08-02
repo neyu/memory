@@ -1,8 +1,8 @@
 package lib
 
 import (
-	"fmt"
-	"log"
+	"core/log"
+
 	"runtime/debug"
 	"sync"
 )
@@ -84,7 +84,7 @@ func (self *eventQueue) StartLoop() EventQueue {
 				case nil:
 					break
 				default:
-					log.Printf("unexpected type %T", t)
+					log.Debug("unexpected type %T", t)
 				}
 			}
 
@@ -119,23 +119,23 @@ func NewEventQueue() EventQueue {
 		// 默认的崩溃捕获打印
 		onPanic: func(raw interface{}, queue EventQueue) {
 
-			fmt.Printf("%v \n%s\n", raw, string(debug.Stack()))
+			log.Error("%v \n%s\n", raw, string(debug.Stack()))
 			debug.PrintStack()
 		},
 	}
 }
 
 // 在会话对应的Peer上的事件队列中执行callback，如果没有队列，则马上执行
-// func SessionQueuedCall(ses Session, callback func()) {
-// 	if ses == nil {
-// 		return
-// 	}
-// 	q := ses.Peer().(interface {
-// 		Queue() EventQueue
-// 	}).Queue()
+func SessionQueuedCall(ses Session, callback func()) {
+	if ses == nil {
+		return
+	}
+	q := ses.Peer().(interface {
+		Queue() EventQueue
+	}).Queue()
 
-// 	QueuedCall(q, callback)
-// }
+	QueuedCall(q, callback)
+}
 
 // 有队列时队列调用，无队列时直接调用
 func QueuedCall(queue EventQueue, callback func()) {

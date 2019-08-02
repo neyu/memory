@@ -60,7 +60,7 @@ func (self *sessionManager) Remove(ses Session) {
 // 获得一个连接
 func (self *sessionManager) GetSession(id int64) Session {
 	if v, ok := self.sesById.Load(id); ok {
-		return v.(lib.Session)
+		return v.(Session)
 	}
 
 	return nil
@@ -70,7 +70,7 @@ func (self *sessionManager) VisitSession(callback func(Session) bool) {
 
 	self.sesById.Range(func(key, value interface{}) bool {
 
-		return callback(value.(lib.Session))
+		return callback(value.(Session))
 
 	})
 }

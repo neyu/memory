@@ -1,5 +1,13 @@
 package lib
 
+import (
+	"errors"
+	"net"
+	"sync"
+	"sync/atomic"
+	"time"
+)
+
 type Peer interface {
 	Start() Peer
 	Stop()
@@ -15,16 +23,16 @@ type Peer interface {
 
 type PeerProp struct {
 	name  string
-	queue lib.EventQueue
+	queue EventQueue
 	addr  string
 
 	running        int64
 	stoppingWaitor sync.WaitGroup
 	stopping       int64
 
-	transmit lib.MessageTransmitter
-	hooker   lib.EventHooker
-	callback lib.EventCallback
+	transmit MessageTransmitter
+	hooker   EventHooker
+	callback EventCallback
 
 	readBufferSize  int
 	writeBufferSize int
@@ -39,7 +47,7 @@ func (this *PeerProp) Name() string {
 	return this.name
 }
 
-func (this *PeerProp) Queue() lib.EventQueue {
+func (this *PeerProp) Queue() EventQueue {
 	return this.queue
 }
 
@@ -51,7 +59,7 @@ func (this *PeerProp) SetName(v string) {
 	this.name = v
 }
 
-func (this *PeerProp) SetQueue(v lib.EventQueue) {
+func (this *PeerProp) SetQueue(v EventQueue) {
 	this.queue = v
 }
 
@@ -93,28 +101,28 @@ func (this *PeerProp) EndStopping() {
 
 }
 
-func (this *PeerProp) SetTransmitter(v lib.MessageTransmitter) {
+func (this *PeerProp) SetTransmitter(v MessageTransmitter) {
 	this.transmit = v
 }
 
-func (this *PeerProp) SetHooker(v lib.EventHooker) {
+func (this *PeerProp) SetHooker(v EventHooker) {
 	this.hooker = v
 }
 
-func (this *PeerProp) SetCallback(v lib.EventCallback) {
+func (this *PeerProp) SetCallback(v EventCallback) {
 	this.callback = v
 }
 
 var notHandled = errors.New("Processor: Transimitter nil")
 
-func (this *PeerProp) ReadMessage(ses lib.Session) (msg interface{}, err error) {
+func (this *PeerProp) ReadMessage(ses Session) (msg interface{}, err error) {
 	if this.transmit != nil {
 		return this.transmit.OnRecvMessage(ses)
 	}
 	return nil, notHandled
 }
 
-func (this *PeerProp) SendMessage(ev lib.Event) {
+func (this *PeerProp) SendMessage(ev Event) {
 	if this.hooker != nil {
 		ev = this.hooker.OnOutboundEvent(ev)
 	}
@@ -123,7 +131,7 @@ func (this *PeerProp) SendMessage(ev lib.Event) {
 	}
 }
 
-func (this *PeerProp) ProcEvent(ev lib.Event) {
+func (this *PeerProp) ProcEvent(ev Event) {
 	if this.hooker != nil {
 		ev = this.hooker.OnInboundEvent(ev)
 	}

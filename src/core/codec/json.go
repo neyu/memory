@@ -1,8 +1,6 @@
 package codec
 
 import (
-	"core/codec"
-	"core/xlib"
 	"encoding/json"
 )
 
@@ -18,7 +16,7 @@ func (this *jsonCodec) MimeType() string {
 	return "application/json"
 }
 
-func (this *jsonCodec) Encode(msgObj interface{}, ctx lib.ContextSet) (data interface{}, err error) {
+func (this *jsonCodec) Encode(msgObj interface{}) (data interface{}, err error) {
 	return json.Marshal(msgObj)
 }
 
@@ -27,5 +25,5 @@ func (this *jsonCodec) Decode(data interface{}, msgObj interface{}) error {
 }
 
 func init() {
-	codec.RegisterCodec(new(jsonCodec))
+	RegisterCodec(new(jsonCodec))
 }

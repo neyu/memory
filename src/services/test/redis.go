@@ -2,7 +2,7 @@ package main
 
 import (
 	"core/consts/service"
-	. "core/libs"
+	. "core/lib"
 	"strconv"
 
 	"core/service"

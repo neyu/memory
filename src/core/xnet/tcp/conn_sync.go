@@ -2,8 +2,8 @@ package tcp
 
 import (
 	"core/xlib"
-	"fmt"
 
+	"fmt"
 	"net"
 	"time"
 )

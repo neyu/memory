@@ -1,8 +1,8 @@
 package tcp
 
 import (
-	"core/peer"
 	"core/xlib"
+
 	"fmt"
 	"net"
 	"sync"

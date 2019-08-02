@@ -4,6 +4,7 @@ import (
 	"core/codec"
 	"core/log"
 	"core/xlib"
+	"core/xnet/relay"
 	"core/xnet/rpc"
 
 	"reflect"
@@ -12,6 +13,8 @@ import (
 const (
 	ID_RemoteCallReq = 500
 	ID_RemoteCallAck = 501
+
+	ID_RelayAck = 600
 
 	ID_ContentReq_c2s = 1001
 	ID_ContentAck_s2c = 1002
@@ -39,12 +42,13 @@ const (
 	ID_SvcStatusAck        = 1016
 
 	ID_ServiceIdentifyAck = 1017
-	ID_RelayAck           = 1018
 )
 
 func init() {
 	RegMsg(ID_RemoteCallReq, rpc.RemoteCallReq{})
 	RegMsg(ID_RemoteCallAck, rpc.RemoteCallAck{})
+
+	RegMsg(ID_RelayAck, relay.RelayAck{})
 
 	RegMsg(ID_ContentReq_c2s, ContentReq{})
 	RegMsg(ID_ContentAck_s2c, ContentAck{})
@@ -66,7 +70,6 @@ func init() {
 	RegMsg(ID_SvcStatusAck, SvcStatusAck{})
 
 	RegMsg(ID_ServiceIdentifyAck, ServiceIdentifyAck{})
-	RegMsg(ID_RelayAck, RelayAck{})
 }
 
 func RegMsg(msgId int, msg interface{}) {
@@ -75,6 +78,6 @@ func RegMsg(msgId int, msg interface{}) {
 		Type:  reflect.TypeOf(msg),
 		Id:    msgId,
 	}
-	log.Debug("gameProto.regMsg:%d %s\n", metaMsg.ID, metaMsg.FullName())
+	log.info("gameProto.regMsg:%d %s\n", metaMsg.Id, metaMsg.FullName())
 	lib.RegisterMessageMeta(&metaMsg)
 }

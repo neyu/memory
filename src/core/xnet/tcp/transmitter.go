@@ -1,8 +1,8 @@
 package tcp
 
 import (
-	"core/libs"
 	"core/util"
+	"core/xlib"
 
 	//"fmt"
 	"io"

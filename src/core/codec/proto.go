@@ -1,9 +1,6 @@
 package codec
 
 import (
-	"core/codec"
-	"core/xlib"
-
 	"github.com/golang/protobuf/proto"
 )
 
@@ -19,7 +16,7 @@ func (this *protoCodec) MimeType() string {
 	return "application/x-protobuf"
 }
 
-func (this *protoCodec) Encode(msgObj interface{}, ctx lib.ContextSet) (data interface{}, err error) {
+func (this *protoCodec) Encode(msgObj interface{}) (data interface{}, err error) {
 	return proto.Marshal(msgObj.(proto.Message))
 }
 
@@ -28,5 +25,5 @@ func (this *protoCodec) Decode(data interface{}, msgObj interface{}) error {
 }
 
 func init() {
-	codec.RegisterCodec(new(protoCodec))
+	RegisterCodec(new(protoCodec))
 }

@@ -1,9 +1,5 @@
 package lib
 
-import (
-	"fmt"
-)
-
 type Event interface {
 	Session() Session
 	Message() interface{}
@@ -28,11 +24,11 @@ type ProcessorBundle interface {
 }
 
 // 让EventCallback保证放在ses的队列里，而不是并发的
-func NewQueuedEventCallback(callback lib.EventCallback) lib.EventCallback {
+func NewQueuedEventCallback(callback EventCallback) EventCallback {
 
-	return func(ev lib.Event) {
+	return func(ev Event) {
 		if callback != nil {
-			lib.SessionQueuedCall(ev.Session(), func() {
+			SessionQueuedCall(ev.Session(), func() {
 
 				callback(ev)
 			})
@@ -41,9 +37,9 @@ func NewQueuedEventCallback(callback lib.EventCallback) lib.EventCallback {
 }
 
 // 当需要多个Hooker时，使用NewMultiHooker将多个hooker合并成1个hooker处理
-type MultiHooker []lib.EventHooker
+type MultiHooker []EventHooker
 
-func (self MultiHooker) OnInboundEvent(input lib.Event) (output lib.Event) {
+func (self MultiHooker) OnInboundEvent(input Event) (output Event) {
 
 	for _, h := range self {
 
@@ -57,7 +53,7 @@ func (self MultiHooker) OnInboundEvent(input lib.Event) (output lib.Event) {
 	return input
 }
 
-func (self MultiHooker) OnOutboundEvent(input lib.Event) (output lib.Event) {
+func (self MultiHooker) OnOutboundEvent(input Event) (output Event) {
 
 	for _, h := range self {
 
@@ -71,7 +67,7 @@ func (self MultiHooker) OnOutboundEvent(input lib.Event) (output lib.Event) {
 	return input
 }
 
-func NewMultiHooker(h ...lib.EventHooker) lib.EventHooker {
+func NewMultiHooker(h ...EventHooker) EventHooker {
 
 	return MultiHooker(h)
 }

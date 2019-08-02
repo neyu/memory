@@ -21,5 +21,6 @@ fmt:
 
 proto:
 	cd $(SRC_DIR)/services/msg/proto && protoc --go_out=. *.proto
-	cd $(SRC_DIR)/core/net/rpc && protoc --go_out=. *.proto
-#	cd $(SRC_DIR)/core/net/rpc && protoc --go_out=plugins=grpc:. *.proto
+	cd $(SRC_DIR)/core/xnet/rpc && protoc --go_out=. rpc.proto
+	cd $(SRC_DIR)/core/xnet/relay && protoc --go_out=. relay.proto
+#	cd $(SRC_DIR)/core/xnet/relay && protoc --go_out=plugins=grpc:. relay.proto

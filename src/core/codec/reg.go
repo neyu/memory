@@ -1,19 +1,15 @@
 package codec
 
-import (
-	"core/xlib"
-)
+var registerCodecs []Codec
 
-var registerCodecs []lib.Codec
-
-func RegisterCodec(c lib.Codec) {
+func RegisterCodec(c Codec) {
 	if GetCodec(c.Name()) != nil {
 		panic("duplicate codec:" + c.Name())
 	}
 	registerCodecs = append(registerCodecs, c)
 }
 
-func GetCodec(name string) lib.Codec {
+func GetCodec(name string) Codec {
 	for _, c := range registerCodecs {
 		if c.Name() == name {
 			return c
@@ -22,7 +18,7 @@ func GetCodec(name string) lib.Codec {
 	return nil
 }
 
-func MustGetCodec(name string) lib.Codec {
+func MustGetCodec(name string) Codec {
 	codec := GetCodec(name)
 	if codec == nil {
 		panic("codec not register!" + name)

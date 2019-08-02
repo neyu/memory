@@ -1,11 +1,10 @@
 package tcp
 
 import (
-	"core/relay"
-	"core/rpc"
+	"core/log"
 	"core/xlib"
-
-	"fmt"
+	"core/xnet/relay"
+	"core/xnet/rpc"
 )
 
 type MsgHooker struct {
@@ -19,14 +18,14 @@ func (this MsgHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Even
 	inputEvent, handled, err = rpc.ResolveInboundEvent(inputEvent)
 	if err != nil {
 		//log.Errorln("rpc.ResolveInboundEvent:", err)
-		fmt.Println("rpc.ResolveInboundEvent:", err)
+		log.Error("rpc.ResolveInboundEvent:", err)
 		return
 	}
 	if !handled {
 		inputEvent, handled, err = relay.ResolveInboundEvent(inputEvent)
 		if err != nil {
 			//log.Errorln("relay.ResolveInboundEvent:", err)
-			fmt.Println("relay.ResolveInboundEvent:", err)
+			log.Error("relay.ResolveInboundEvent:", err)
 			return
 		}
 		if !handled {
@@ -40,14 +39,14 @@ func (this MsgHooker) OnOutboundEvent(inputEvent lib.Event) (outputEvent lib.Eve
 	handled, err := rpc.ResolveOutboundEvent(inputEvent)
 	if err != nil {
 		//log.Errorln("rpc.ResolveOutboundEvent:", err)
-		fmt.Println("rpc.ResolveOutboundEvent:", err)
+		log.Error("rpc.ResolveOutboundEvent:", err)
 		return nil
 	}
 	if !handled {
 		handled, err = relay.ResolveOutboundEvent(inputEvent)
 		if err != nil {
 			//log.Errorln("relay.ResolveOutboundEvent:", err)
-			fmt.Println("relay.ResolveOutboundEvent:", err)
+			log.Error("relay.ResolveOutboundEvent:", err)
 			return nil
 		}
 		if !handled {

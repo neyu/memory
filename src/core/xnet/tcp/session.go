@@ -1,8 +1,8 @@
 package tcp
 
 import (
-	"core/libs"
-	"core/utils"
+	"core/xlib"
+	"core/util"
 
 	"net"
 	"sync"

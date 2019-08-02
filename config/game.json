@@ -1,4 +1,3 @@
 {
-	"game": "memory",
-	"desc": "rpg for story"
+	"port": 8302
 }

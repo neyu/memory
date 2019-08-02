@@ -19,7 +19,7 @@ type MessageMeta struct {
 	Codec Codec        // 消息用到的编码
 	Type  reflect.Type // 消息类型, 注册时使用指针类型
 
-	ID int // 消息ID (二进制协议中使用)
+	Id int // 消息Id (二进制协议中使用)
 
 	ctxListGuard sync.RWMutex
 	ctxList      []*context
@@ -124,7 +124,7 @@ func (self *MessageMeta) GetContextAsInt(name string, defaultValue int) int {
 var (
 	// 消息元信息与消息名称，消息ID和消息类型的关联关系
 	metaByFullName = map[string]*MessageMeta{}
-	metaByID       = map[int]*MessageMeta{}
+	metaById       = map[int]*MessageMeta{}
 	metaByType     = map[reflect.Type]*MessageMeta{}
 )
 
@@ -148,7 +148,7 @@ func RegisterMessageMeta(meta *MessageMeta) *MessageMeta {
 	}
 
 	if _, ok := metaByType[meta.Type]; ok {
-		panic(fmt.Sprintf("Duplicate message meta register by type: %d name: %s", meta.ID, meta.Type.Name()))
+		panic(fmt.Sprintf("Duplicate message meta register by type: %d name: %s", meta.Id, meta.Type.Name()))
 	} else {
 		metaByType[meta.Type] = meta
 	}
@@ -159,14 +159,14 @@ func RegisterMessageMeta(meta *MessageMeta) *MessageMeta {
 		metaByFullName[meta.FullName()] = meta
 	}
 
-	if meta.ID == 0 {
+	if meta.Id == 0 {
 		panic("message meta require 'ID' field: " + meta.TypeName())
 	}
 
-	if prev, ok := metaByID[meta.ID]; ok {
-		panic(fmt.Sprintf("Duplicate message meta register by id: %d type: %s, pre type: %s", meta.ID, meta.TypeName(), prev.TypeName()))
+	if prev, ok := metaById[meta.Id]; ok {
+		panic(fmt.Sprintf("Duplicate message meta register by id: %d type: %s, pre type: %s", meta.Id, meta.TypeName(), prev.TypeName()))
 	} else {
-		metaByID[meta.ID] = meta
+		metaById[meta.Id] = meta
 	}
 
 	return meta
@@ -229,8 +229,8 @@ func MessageMetaByMsg(msg interface{}) *MessageMeta {
 }
 
 // 根据id查找消息元信息
-func MessageMetaByID(id int) *MessageMeta {
-	if v, ok := metaByID[id]; ok {
+func MessageMetaById(id int) *MessageMeta {
+	if v, ok := metaById[id]; ok {
 		return v
 	}
 
@@ -252,7 +252,7 @@ func MessageToName(msg interface{}) string {
 	return meta.TypeName()
 }
 
-func MessageToID(msg interface{}) int {
+func MessageToId(msg interface{}) int {
 
 	if msg == nil {
 		return 0
@@ -263,7 +263,7 @@ func MessageToID(msg interface{}) int {
 		return 0
 	}
 
-	return int(meta.ID)
+	return int(meta.Id)
 }
 
 func MessageSize(msg interface{}) int {
@@ -279,7 +279,7 @@ func MessageSize(msg interface{}) int {
 	}
 
 	// 将消息编码为字节数组
-	raw, err := meta.Codec.Encode(msg, nil)
+	raw, err := meta.Codec.Encode(msg)
 
 	if err != nil {
 		return 0
@@ -306,13 +306,13 @@ func MessageToString(msg interface{}) string {
 // 直接发送数据时，将*RawPacket作为Send参数
 type RawPacket struct {
 	MsgData []byte
-	MsgID   int
+	MsgId   int
 }
 
 func (self *RawPacket) Message() interface{} {
 
 	// 获取消息元信息
-	meta := MessageMetaByID(self.MsgID)
+	meta := MessageMetaById(self.MsgId)
 
 	// 消息没有注册
 	if meta == nil {

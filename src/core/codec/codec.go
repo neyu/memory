@@ -1,13 +1,9 @@
 package codec
 
-import (
-	"core/xlib"
-)
-
 // 编码包
 type Codec interface {
 	// 将数据转换为字节数组
-	Encode(msgObj interface{}, ctx lib.ContextSet) (data interface{}, err error)
+	Encode(msgObj interface{}) (data interface{}, err error)
 
 	// 将字节数组转换为数据
 	Decode(data interface{}, msgObj interface{}) error
