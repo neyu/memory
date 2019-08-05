@@ -132,10 +132,10 @@ func writeAgentLog(ses lib.Session, dir string, ack *msgProto.TransmitAck) {
 			dir,
 			peerInfo.Name(),
 			ses.ID(),
-			lib.MessageSize(userMsg),
-			lib.MessageToName(userMsg),
+			codec.MessageSize(userMsg),
+			codec.MessageToName(userMsg),
 			ack.ClientID,
-			lib.MessageToString(userMsg))
+			codec.MessageToString(userMsg))
 	} else {
 
 		// 网关没有相关的消息, 只能打出消息号

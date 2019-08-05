@@ -3,7 +3,7 @@ package msgProto
 import (
 	"core/codec"
 	"core/log"
-	"core/xlib"
+
 	"core/xnet/relay"
 	"core/xnet/rpc"
 
@@ -73,11 +73,11 @@ func init() {
 }
 
 func RegMsg(msgId int, msg interface{}) {
-	metaMsg := lib.MessageMeta{
+	metaMsg := codec.MessageMeta{
 		Codec: codec.MustGetCodec("proto"),
 		Type:  reflect.TypeOf(msg),
 		Id:    msgId,
 	}
-	log.info("gameProto.regMsg:%d %s\n", metaMsg.Id, metaMsg.FullName())
-	lib.RegisterMessageMeta(&metaMsg)
+	log.Info("msgProto.regMsg:%d %s\n", metaMsg.Id, metaMsg.FullName())
+	codec.RegisterMessageMeta(&metaMsg)
 }

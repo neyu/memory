@@ -1,6 +1,12 @@
 package tcp
 
-type TcpSockOpt interface {
+import (
+	"core/xlib"
+
+	"time"
+)
+
+type TcpSockOpter interface {
 	SetSocketBuffer(readBufferSize, writeBufferSize int, noDelay bool)
 	SetMaxPacketSize(maxSize int)
 	SetSocketDeadline(read, write time.Duration)
@@ -8,14 +14,14 @@ type TcpSockOpt interface {
 
 type TcpAcceptor interface {
 	lib.Peer
-	TcpSockOpt
+	TcpSockOpter
 
 	Port() int
 }
 
 type TcpConnector interface {
 	lib.Peer
-	TcpSockOpt
+	TcpSockOpter
 
 	SetReconnectDuration(time.Duration)
 	ReconnectDuration() time.Duration

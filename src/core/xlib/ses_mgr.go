@@ -5,6 +5,17 @@ import (
 	"sync/atomic"
 )
 
+package lib
+
+// 长连接
+type Session interface {
+	Raw() interface{}
+	Peer() Peer
+	Send(msg interface{})
+	Close()
+	Id() int64
+}
+
 // 完整功能的会话管理
 type SessionManager interface {
 	// cellnet.SessionAccessor
@@ -52,7 +63,7 @@ func (self *sessionManager) Add(ses Session) {
 
 func (self *sessionManager) Remove(ses Session) {
 
-	self.sesById.Delete(ses.ID())
+	self.sesById.Delete(ses.Id())
 
 	atomic.AddInt64(&self.count, -1)
 }

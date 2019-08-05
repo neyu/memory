@@ -30,7 +30,7 @@ func (this *request) Send(ses lib.Session, msg interface{}) {
 
 	//ctx, _ := ses.(cellnet.ContextSet)
 
-	data, meta, err := codec.EncodeMessage(msg, nil)
+	data, meta, err := codec.EncodeMessage(msg)
 
 	if err != nil {
 		//log.Errorf("rpc request message encode error: %s", err)

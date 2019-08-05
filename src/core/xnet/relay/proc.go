@@ -30,10 +30,10 @@ func ResolveInboundEvent(inputEvent lib.Event) (outputEvent lib.Event, handled b
 		// fmt.Printf("#relay.recv(%s)@%d len: %d %s <%s>| %s",
 		// 	peerInfo.Name(),
 		// 	inputEvent.Session().ID(),
-		// 	lib.MessageSize(ev.Message()),
-		// 	lib.MessageToName(ev.Message()),
-		// 	lib.MessageToString(relayMsg),
-		// 	lib.MessageToString(ev.Message()))
+		// 	codec.MessageSize(ev.Message()),
+		// 	codec.MessageToName(ev.Message()),
+		// 	codec.MessageToString(relayMsg),
+		// 	codec.MessageToString(ev.Message()))
 		// //}
 
 		if bcFunc != nil {
@@ -67,10 +67,10 @@ func ResolveOutboundEvent(inputEvent lib.Event) (handled bool, err error) {
 		// fmt.Printf("#relay.send(%s)@%d len: %d %s <%s>| %s",
 		// 	peerInfo.Name(),
 		// 	inputEvent.Session().ID(),
-		// 	lib.MessageSize(payload),
-		// 	lib.MessageToName(payload),
-		// 	lib.MessageToString(relayMsg),
-		// 	lib.MessageToString(payload))
+		// 	codec.MessageSize(payload),
+		// 	codec.MessageToName(payload),
+		// 	codec.MessageToString(relayMsg),
+		// 	codec.MessageToString(payload))
 		// //}
 		return true, nil
 	}

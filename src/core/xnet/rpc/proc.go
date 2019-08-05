@@ -31,14 +31,14 @@ func ResolveInboundEvent(inputEvent lib.Event) (outputEvent lib.Event, handled b
 	//if log.IsDebugEnabled() {
 
 	//if !msglog.IsBlockedMessageById(int(rpcMsg.GetMsgId())) {
-	peerInfo := inputEvent.Session().Peer().(lib.PeerProp)
+	peerInfo := inputEvent.Session().Peer() //.(lib.PeerProp)
 	//log.Debugf("#rpc.recv(%s)@%d len: %d %s | %s",
 	log.Debug("#rpc.recv(%s)@%d len: %d %s | %s\n",
 		peerInfo.Name(),
 		inputEvent.Session().Id(),
-		lib.MessageSize(userMsg),
-		lib.MessageToName(userMsg),
-		lib.MessageToString(userMsg))
+		codec.MessageSize(userMsg),
+		codec.MessageToName(userMsg),
+		codec.MessageToString(userMsg))
 	//}
 	//}
 
@@ -72,14 +72,14 @@ func ResolveOutboundEvent(inputEvent lib.Event) (handled bool, err error) {
 
 	//if log.IsDebugEnabled() {
 	//if !msglog.IsBlockedMessageById(int(rpcMsg.GetMsgId())) {
-	peerInfo := inputEvent.Session().Peer().(lib.PeerProp)
+	peerInfo := inputEvent.Session().Peer() //.(lib.PeerProp)
 	//log.Debugf("#rpc.send(%s)@%d len: %d %s | %s",
 	log.Debug("#rpc.send(%s)@%d len: %d %s | %s\n",
 		peerInfo.Name(),
 		inputEvent.Session().Id(),
-		lib.MessageSize(userMsg),
-		lib.MessageToName(userMsg),
-		lib.MessageToString(userMsg))
+		codec.MessageSize(userMsg),
+		codec.MessageToName(userMsg),
+		codec.MessageToString(userMsg))
 	//}
 	//}
 

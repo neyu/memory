@@ -1,8 +1,8 @@
 package tcp
 
 import (
-	"core/xlib"
 	"core/util"
+	"core/xlib"
 
 	"net"
 	"sync"
@@ -12,11 +12,11 @@ import (
 
 // Socket会话
 type tcpSession struct {
-	peer.CoreContextSet
-	peer.CoreSessionIdentify
-	*peer.CoreProcBundle
+	// lib.CoreContextSet
+	// lib.CoreSessionIdentify
+	// *lib.CoreProcBundle
 
-	pInterface cellnet.Peer
+	pInterface lib.Peer
 
 	// Socket原始连接
 	conn      net.Conn
@@ -47,7 +47,7 @@ func (self *tcpSession) Conn() net.Conn {
 	return self.conn
 }
 
-func (self *tcpSession) Peer() cellnet.Peer {
+func (self *tcpSession) Peer() lib.Peer {
 	return self.pInterface
 }
 
@@ -202,7 +202,7 @@ func (self *tcpSession) Start() {
 	go func() {
 
 		// 等待2个任务结束
-		self.exitSync.Wait()0
+		self.exitSync.Wait()
 
 		// 将会话从管理器移除
 		self.Peer().(peer.SessionManager).Remove(self)

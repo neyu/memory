@@ -46,7 +46,7 @@ func (self *tcpAcceptor) Start() {
 	self.WaitStopFinished()
 
 	if self.IsRunning() {
-		return self
+		return
 	}
 
 	ln, err := util.DetectPort(self.Address(), func(a *util.Address, port int) (interface{}, error) {
@@ -59,12 +59,12 @@ func (self *tcpAcceptor) Start() {
 
 		self.SetRunning(false)
 
-		return self
+		return
 	}
 
 	self.listener = ln.(net.Listener)
 
-	log.Infof("#tcp.listen(%s) %s", self.Name(), self.ListenAddress())
+	log.Info("#tcp.listen(%s) %s", self.Name(), self.ListenAddress())
 
 	go self.accept()
 
@@ -105,7 +105,7 @@ func (self *tcpAcceptor) accept() {
 			}
 
 			// 调试状态时, 才打出accept的具体错误
-			log.Errorf("#tcp.accept failed(%s) %v", self.Name(), err.Error())
+			log.Error("#tcp.accept failed(%s) %v", self.Name(), err.Error())
 			break
 		}
 	}

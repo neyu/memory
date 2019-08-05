@@ -9,9 +9,9 @@ import (
 )
 
 type Peer interface {
-	Start() Peer
-	Stop()
-	TypeName() string
+	// Start()
+	// Stop()
+	// TypeName() string
 
 	Name() string
 	Address() string
@@ -194,4 +194,10 @@ func (this *PeerProp) ApplySocketWriteTimeout(conn net.Conn, callback func()) {
 func (this *PeerProp) Init() {
 	this.readBufferSize = -1
 	this.writeBufferSize = -1
+}
+
+func NewPeer() Peer {
+	return &PeerProp{
+		//
+	}
 }

@@ -24,8 +24,8 @@ func getPeerSession(ud interface{}) (ses lib.Session, err error) {
 		ses = i.RPCSession()
 	case lib.Session:
 		ses = i
-	case peer.TCPConnector:
-		ses = i.Session()
+	// case peer.TCPConnector:
+	// 	ses = i.Session()
 	default:
 		err = ErrInvalidPeerSession
 		return
