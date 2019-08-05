@@ -4,24 +4,26 @@ import (
 	"services/msg/proto"
 
 	"core/log"
+	"core/timer"
 	"core/xlib"
 
 	"bufio"
 	"fmt"
 	"os"
+	"strings"
 	"time"
 )
 
 var gateSes lib.Session
 
 func main() {
-	logs.Info("client, test for connector to login/gate...")
+	log.Info("client, test for connector to login/gate...")
 
-	gateAddr, gameSvcId := login()
+	gateAddr, _ := login()
 
 	gateSes = getGateSession(gateAddr)
 
-	verifyGameToken()
+	verifyGameToken("xxx")
 
 	startPing()
 
@@ -30,7 +32,7 @@ func main() {
 }
 
 func login() (gateAddr, svcId string) {
-	logs.Info("ready to connect to login server")
+	log.Info("ready to connect to login server")
 
 	loginSes := connectToLogin()
 
@@ -40,8 +42,8 @@ func login() (gateAddr, svcId string) {
 		Uid:      "1234",
 	}, func(ack *msgProto.LoginAck) {
 		if ack.Result == msgProto.ResultCode_NoError {
-			gateAddr = fmt.Sprintf("%s:%d", ack.Server.IP, ack.Server.Port)
-			svcId = ack.SvcId
+			gateAddr = fmt.Sprintf("%s:%d", ack.Server.Ip, ack.Server.Port)
+			svcId = ack.GameSvcId
 		} else {
 			panic(ack.Result.String())
 		}
@@ -56,22 +58,22 @@ func getGateSession(addr string) (ret lib.Session) {
 		ret = ses
 		done <- struct{}{}
 	}, func() {
-		logs.Error("connect to gate failed")
+		log.Error("connect to gate failed")
 		os.Exit(0)
 	})
 
 	<-done
 
-	logs.Debug("gate connection ready")
+	log.Debug("gate connection ready")
 	return
 }
 
 func verifyGameToken(svcId string) {
-	remoteCall(agentSes, &msgProto.VerifyReq{
+	remoteCall(gateSes, &msgProto.VerifyReq{
 		GameToken: "token_xxx",
 		GameSvcId: svcId,
 	}, func(ack *msgProto.VerifyAck) {
-		logs.Info("verify ack:", ack)
+		log.Info("verify ack:", ack)
 	})
 }
 
@@ -82,7 +84,7 @@ func startPing() {
 }
 
 func startChat() {
-	logs.Debug("Start chat now !")
+	log.Debug("Start chat now !")
 
 	readConsole(func(word string) {
 		// 1.测试远程过程调用

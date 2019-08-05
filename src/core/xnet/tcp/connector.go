@@ -12,6 +12,7 @@ import (
 type tcpConnector struct {
 	lib.SessionManager
 
+	// lib.Peer
 	lib.PeerProp
 	// lib.CoreContextSet
 	// lib.CoreRunningTag
@@ -30,7 +31,7 @@ type tcpConnector struct {
 func (this *tcpConnector) Start() {
 	this.WaitStopFinished()
 	if this.IsRunning() {
-		return this
+		return
 	}
 
 	go this.connect(this.Address())
@@ -42,7 +43,7 @@ func (this *tcpConnector) Session() lib.Session {
 }
 
 func (this *tcpConnector) SetSessionManager(raw interface{}) {
-	this.SessionManager = raw.(peer.SessionManager)
+	this.SessionManager = raw.(lib.SessionManager)
 }
 
 func (this *tcpConnector) Stop() {

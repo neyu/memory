@@ -55,7 +55,7 @@ func connectToGame() {
 }
 
 func createAcceptor() {
-	acceptor := tcp.CreateAcceptor()
+	acceptor := tcp.NewAcceptor()
 	acceptor.SetName("gate")
 	acceptor.SetAddress(":8301")
 
@@ -76,6 +76,6 @@ func createAcceptor() {
 func stop() {
 	if model.FrontendSessionManager != nil {
 		model.FrontendSessionManager.(lib.Peer).Stop()
-		// discovery.Default.Deregister(model.AgentSvcID)
+		// discovery.Default.Deregister(model.GateSvcId)
 	}
 }

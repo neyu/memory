@@ -28,6 +28,6 @@ message TransmitAck
     bytes MsgData = 2; 				// 用户消息数据
 
     int64 ClientId = 3;       		// 单发
-    repeated int64 ClientIDList = 4;	// 列表发
+    repeated int64 ClientIdList = 4;	// 列表发
     bool All = 5;             		// 全发
 }

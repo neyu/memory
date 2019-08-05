@@ -11,6 +11,7 @@ import (
 type tcpSyncConnector struct {
 	lib.SessionManager
 
+	// lib.Peer
 	lib.PeerProp
 
 	// lib.CoreContextSet
@@ -28,7 +29,7 @@ func (this *tcpSyncConnector) Port() int {
 	return this.defaultSes.conn.LocalAddr().(*net.TCPAddr).Port
 }
 
-func (this *tcpSyncConnector) Start() lib.Peer {
+func (this *tcpSyncConnector) Start() {
 
 	// 尝试用Socket连接地址
 	conn, err := net.Dial("tcp", this.Address())
@@ -36,11 +37,11 @@ func (this *tcpSyncConnector) Start() lib.Peer {
 	// 发生错误时退出
 	if err != nil {
 
-		//log.Debugf("#tcp.connect failed(%s)@%d address: %s", this.Name(), this.defaultSes.ID(), this.Address())
-		fmt.Printf("#tcp.connect failed(%s)@%d address: %s\n", this.Name(), this.defaultSes.ID(), this.Address())
+		//log.Debugf("#tcp.connect failed(%s)@%d address: %s", this.Name(), this.defaultSes.Id(), this.Address())
+		fmt.Printf("#tcp.connect failed(%s)@%d address: %s\n", this.Name(), this.defaultSes.Id(), this.Address())
 
 		this.ProcEvent(&lib.RecvMsgEvent{Ses: this.defaultSes, Msg: &lib.SessionConnectError{}})
-		return this
+		return
 	}
 
 	this.defaultSes.conn = conn
@@ -51,7 +52,7 @@ func (this *tcpSyncConnector) Start() lib.Peer {
 
 	this.ProcEvent(&lib.RecvMsgEvent{Ses: this.defaultSes, Msg: &lib.SessionConnected{}})
 
-	return this
+	return
 }
 
 func (this *tcpSyncConnector) Session() lib.Session {
@@ -59,7 +60,7 @@ func (this *tcpSyncConnector) Session() lib.Session {
 }
 
 func (this *tcpSyncConnector) SetSessionManager(raw interface{}) {
-	this.SessionManager = raw.(peer.SessionManager)
+	this.SessionManager = raw.(lib.SessionManager)
 }
 
 func (this *tcpSyncConnector) ReconnectDuration() time.Duration {

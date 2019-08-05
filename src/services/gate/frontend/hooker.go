@@ -1,11 +1,11 @@
 package frontend
 
 import (
-	"services/agent/model"
+	"services/gate/model"
 	"services/msg/proto"
 
 	"core/codec"
-	"core/lib"
+	"core/xlib"
 
 	"fmt"
 	"time"
@@ -57,7 +57,7 @@ func ProcFrontendPacket(msgId int, msgData []byte, ses lib.Session) (msg interfa
 		// 在路由规则中查找消息ID是否是路由规则允许的消息
 		rule := model.GetRuleByMsgId(msgId)
 		if rule == nil {
-			return nil, fmt.Errorf("Message not in route table, msgid: %d, execute MakeProto.sh and restart agent", msgID)
+			return nil, fmt.Errorf("Message not in route table, msgid: %d, execute MakeProto.sh and restart agent", msgId)
 		}
 
 		// 找到已经绑定的用户
@@ -92,8 +92,8 @@ func (FrontendEventHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib
 		// 通知后台客户端关闭
 		u := model.SessionToUser(inputEvent.Session())
 		if u != nil {
-			u.BroadcastToBackends(&msgProto.ClientClosedACK{
-				ID: &msgProto.ClientID{
+			u.BroadcastToBackends(&msgProto.ClientClosedAck{
+				Id: &msgProto.ClientId{
 					Id:    inputEvent.Session().Id(),
 					SvcId: model.AgentSvcId,
 				},

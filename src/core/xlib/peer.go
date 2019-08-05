@@ -43,6 +43,12 @@ type PeerProp struct {
 	writeTimeout time.Duration
 }
 
+func NewPeer() Peer {
+	return &PeerProp{
+		//
+	}
+}
+
 func (this *PeerProp) Name() string {
 	return this.name
 }
@@ -194,10 +200,4 @@ func (this *PeerProp) ApplySocketWriteTimeout(conn net.Conn, callback func()) {
 func (this *PeerProp) Init() {
 	this.readBufferSize = -1
 	this.writeBufferSize = -1
-}
-
-func NewPeer() Peer {
-	return &PeerProp{
-		//
-	}
 }

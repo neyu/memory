@@ -5,8 +5,6 @@ import (
 	"sync/atomic"
 )
 
-package lib
-
 // 长连接
 type Session interface {
 	Raw() interface{}
@@ -28,20 +26,20 @@ type SessionManager interface {
 	Remove(Session)
 	Count() int
 
-	SetIDBase(base int64)
+	SetIdBase(base int64)
 }
 
 type sessionManager struct {
 	sesById sync.Map // 使用Id关联会话
 
-	sesIDGen int64 // 记录已经生成的会话ID流水号
+	sesIdGen int64 // 记录已经生成的会话Id流水号
 
 	count int64 // 记录当前在使用的会话数量
 }
 
-func (self *sessionManager) SetIDBase(base int64) {
+func (self *sessionManager) SetIdBase(base int64) {
 
-	atomic.StoreInt64(&self.sesIDGen, base)
+	atomic.StoreInt64(&self.sesIdGen, base)
 }
 
 func (self *sessionManager) Count() int {
@@ -50,13 +48,13 @@ func (self *sessionManager) Count() int {
 
 func (self *sessionManager) Add(ses Session) {
 
-	id := atomic.AddInt64(&self.sesIDGen, 1)
+	id := atomic.AddInt64(&self.sesIdGen, 1)
 
 	atomic.AddInt64(&self.count, 1)
 
 	ses.(interface {
-		SetID(int64)
-	}).SetID(id)
+		SetId(int64)
+	}).SetId(id)
 
 	self.sesById.Store(id, ses)
 }

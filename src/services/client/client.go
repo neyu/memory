@@ -13,7 +13,11 @@ import (
 	"time"
 )
 
-func connectToLogin() lib.Session {
+var (
+	callByType sync.Map
+)
+
+func connectToLogin() (ret lib.Session) {
 	done := make(chan struct{})
 
 	go func() {
@@ -28,7 +32,7 @@ func connectToLogin() lib.Session {
 
 		if syncConn.IsReady() {
 			ret = syncConn.Session()
-			break
+			// break
 		}
 
 		syncConn.Stop()
@@ -47,7 +51,6 @@ func connectToGate(addr string, onReady func(lib.Session), onClose func()) {
 	syncConn.SetName("gate")
 	syncConn.SetAddress(addr)
 
-	bundle := pr.(ProcessorBundle)
 	syncConn.SetTransmitter(new(tcp.TCPMessageTransmitter))
 	syncConn.SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
 	syncConn.SetCallback(lib.NewQueuedEventCallback(gateMsgHandler))
@@ -72,9 +75,9 @@ func connectToGate(addr string, onReady func(lib.Session), onClose func()) {
 func gateMsgHandler(ev lib.Event) {
 	switch msg := ev.Message().(type) {
 	case *lib.SessionClosed:
-		stop.Done()
-	case *msgProto.ChatACK:
-		fmt.Println(msg.Content)
+		// stop.Done()
+	case *msgProto.ChatAck:
+		log.Info(msg.Content)
 	}
 }
 
@@ -106,7 +109,7 @@ func remoteCall(ses lib.Session, req interface{}, callback interface{}) error {
 		vCall.Call([]reflect.Value{reflect.ValueOf(ack)})
 		return nil
 	case <-time.After(time.Second * 10):
-		logs.Warn("client.remoteCall rpc time out")
+		log.Warn("client.remoteCall rpc time out")
 		return errors.New("client.remoteCall rpc time out")
 	}
 	return nil

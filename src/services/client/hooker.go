@@ -1,7 +1,10 @@
 package main
 
 import (
+	"core/log"
 	"core/xlib"
+
+	"reflect"
 )
 
 type TypeRPCHooker struct {
@@ -12,7 +15,7 @@ func (TypeRPCHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Event
 	outputEvent, _, err := ResolveInboundEvent(inputEvent)
 	if err != nil {
 		//log.Errorln("rpc.ResolveInboundEvent", err)
-		fmt.Println("rpc.ResolveInboundEvent", err)
+		log.Error("rpc.ResolveInboundEvent", err)
 		return
 	}
 

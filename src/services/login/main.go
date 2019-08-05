@@ -5,7 +5,6 @@ import (
 	"core/xlib"
 	"core/xnet/tcp"
 
-	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
@@ -23,14 +22,14 @@ func main() {
 
 	// queue.Wait()
 
-	acceptor := tcp.CreateAcceptor()
+	acceptor := tcp.NewAcceptor()
 	acceptor.SetName("name")
 	acceptor.SetAddress(":8300")
 	acceptor.SetQueue(queue)
 
-	acceptor.SetTransmitter(new(TCPMessageTransmitter))
-	acceptor.SetHooker(new(MsgHooker))
-	acceptor.SetCallback(lib.NewQueuedEventCallback(messageHandler))
+	acceptor.(*lib.PeerProp).SetTransmitter(new(tcp.TCPMessageTransmitter))
+	acceptor.(*lib.PeerProp).SetHooker(new(tcp.MsgHooker))
+	acceptor.(*lib.PeerProp).SetCallback(lib.NewQueuedEventCallback(messageHandler))
 
 	waitExitSignal()
 	log.Info("main exit!")

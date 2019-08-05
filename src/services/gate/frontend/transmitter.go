@@ -2,8 +2,8 @@ package frontend
 
 import (
 	"core/codec"
-	"core/lib"
 	"core/util"
+	"core/xlib"
 
 	"github.com/gorilla/websocket"
 
@@ -118,8 +118,8 @@ func (directWSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{
 
 		switch messageType {
 		case websocket.BinaryMessage:
-			msgID := binary.LittleEndian.Uint16(raw)
-			msgData := raw[MsgIDSize:]
+			msgId := binary.LittleEndian.Uint16(raw)
+			msgData := raw[MsgIdSize:]
 
 			// 尝试透传到后台或者解析
 			if err == nil {
@@ -171,7 +171,7 @@ func (directWSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}
 
 	pkt := make([]byte, MsgIdSize+len(msgData))
 	binary.LittleEndian.PutUint16(pkt, uint16(msgId))
-	copy(pkt[MsgIDSize:], msgData)
+	copy(pkt[MsgIdSize:], msgData)
 
 	conn.WriteMessage(websocket.BinaryMessage, pkt)
 

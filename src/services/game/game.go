@@ -1,13 +1,13 @@
 package main
 
 import (
-	"services/gate/backend"
-	"services/gate/api"
-	"services/msg/proto"
 	"services/fx/service"
-	
-	"core/xlib"
+	"services/gate/api"
+	"services/gate/backend"
+	"services/msg/proto"
+
 	"core/log"
+	"core/xlib"
 )
 
 var handleDefault func(ev lib.Event)
@@ -49,8 +49,7 @@ func handleChatReq(incomingEv lib.Event) {
 			Dummy: "single send",
 		})
 	}
-})
-
+}
 
 func handleVerifyReq(incomingEv lib.Event) {
 	switch ev := incomingEv.(type) {
@@ -68,4 +67,4 @@ func handleVerifyReq(incomingEv lib.Event) {
 		log.Debug("verfiy: %+v \n", msg.GameToken)
 		service.Reply(ev, &msgProto.VerifyAck{})
 	}
-})
+}

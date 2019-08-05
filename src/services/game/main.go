@@ -32,19 +32,19 @@ func createAcceptor() {
 	queue := lib.NewEventQueue()
 	queue.StartLoop()
 
-	acceptor := tcp.CreateAcceptor()
+	acceptor := tcp.NewAcceptor()
 	acceptor.SetName("name")
 	acceptor.SetAddress(":8302")
 	acceptor.SetQueue(queue)
 
-	acceptor.SetTransmitter(new(tcp.TCPMessageTransmitter))
-	acceptor.SetHooker(lib.NewMultiHooker(
+	acceptor.(*lib.PeerProp).SetTransmitter(new(tcp.TCPMessageTransmitter))
+	acceptor.(*lib.PeerProp).SetHooker(lib.NewMultiHooker(
 		new(service.SvcEventHooker),   // 服务互联处理
 		new(backend.BackendMsgHooker), // 网关消息处理
 		new(tcp.MsgHooker)))           // tcp基础消息处理
-	acceptor.SetCallback(lib.NewQueuedEventCallback(messageHandler))
+	acceptor.(*lib.PeerProp).SetCallback(lib.NewQueuedEventCallback(messageHandler))
 
-	acceptor.SetSocketBuffer(2048, 2048, true)
+	acceptor.(*lib.PeerProp).SetSocketBuffer(2048, 2048, true)
 
-	acceptor.Start()
+	// acceptor.Start()
 }

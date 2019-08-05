@@ -4,7 +4,7 @@ import (
 	"services/fx/service"
 	"services/msg/proto"
 
-	"core/lib"
+	"core/xlib"
 
 	"errors"
 	"time"
@@ -12,7 +12,7 @@ import (
 
 type Backend struct {
 	SvcName string
-	SvcID   string // 只保留绑定后台的svcid,即便后台更换session,也无需同步
+	SvcId   string // 只保留绑定后台的svcid,即便后台更换session,也无需同步
 }
 
 type User struct {
@@ -28,7 +28,7 @@ func (this *User) BroadcastToBackends(msg interface{}) {
 
 	for _, t := range this.Targets {
 
-		backendSes := service.GetRemoteService(t.SvcID)
+		backendSes := service.GetRemoteService(t.SvcId)
 		if backendSes != nil {
 			backendSes.Send(msg)
 		}

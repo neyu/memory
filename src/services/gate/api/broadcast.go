@@ -29,7 +29,7 @@ func CloseAllClient() {
 // 广播给所有客户端
 func BroadcastAll(msg interface{}) {
 
-	data, meta, err := codec.EncodeMessage(msg, nil)
+	data, meta, err := codec.EncodeMessage(msg)
 	if err != nil {
 		//log.Errorf("BroadcastAll.EncodeMessage %s", err)
 		log.Debug("BroadcastAll.EncodeMessage %s\n", err)
@@ -56,7 +56,7 @@ func Send(cid *msgProto.ClientId, msg interface{}) {
 
 	gateSes := service.GetRemoteService(cid.SvcId)
 	if gateSes != nil {
-		data, meta, err := codec.EncodeMessage(msg, nil)
+		data, meta, err := codec.EncodeMessage(msg)
 		if err != nil {
 			//log.Errorf("Send.EncodeMessage %s", err)
 			fmt.Printf("Send.EncodeMessage %s\n", err)
@@ -77,16 +77,16 @@ type ClientList struct {
 
 // 添加客户端
 func (this *ClientList) AddClient(cid *msgProto.ClientId) {
-	seslist := this.sesByAgentSvcId[cid.SvcId]
+	seslist := this.sesByGateSvcId[cid.SvcId]
 	seslist = append(seslist, cid.Id)
-	this.sesByAgentSvcId[cid.SvcId] = seslist
+	this.sesByGateSvcId[cid.SvcId] = seslist
 }
 
 // 关闭列表中客户端的连接
 func (this *ClientList) CloseClient() {
-	for gateSvcId, sesList := range this.sesByAgentSvcId {
+	for gateSvcId, sesList := range this.sesByGateSvcId {
 
-		gateSes := service.GetRemoteService(agentSvcId)
+		gateSes := service.GetRemoteService(gateSvcId)
 		if gateSes != nil {
 			gateSes.Send(&msgProto.CloseClientAck{
 				Id: sesList,
@@ -98,16 +98,16 @@ func (this *ClientList) CloseClient() {
 // 将消息广播给列表中的客户端
 func (this *ClientList) Broadcast(msg interface{}) {
 
-	data, meta, err := codec.EncodeMessage(msg, nil)
+	data, meta, err := codec.EncodeMessage(msg)
 	if err != nil {
 		//log.Errorf("ClientList.EncodeMessage %s", err)
 		fmt.Printf("ClientList.EncodeMessage %s\n", err)
 		return
 	}
 
-	for agentSvcId, sesList := range this.sesByAgentSvcId {
+	for gateSvcId, sesList := range this.sesByGateSvcId {
 
-		gateSes := service.GetRemoteService(agentSvcId)
+		gateSes := service.GetRemoteService(gateSvcId)
 		if gateSes != nil {
 
 			gateSes.Send(&msgProto.TransmitAck{
@@ -117,7 +117,7 @@ func (this *ClientList) Broadcast(msg interface{}) {
 			})
 
 		} else {
-			//log.Warnf("Agent not ready, ignore msg, svcid: '%s' msg: '%+v'", agentSvcID, msg)
+			//log.Warnf("Agent not ready, ignore msg, svcid: '%s' msg: '%+v'", agentSvcId, msg)
 			fmt.Printf("Agent not ready, ignore msg, svcid: '%s' msg: '%+v'\n", gateSvcId, msg)
 		}
 	}

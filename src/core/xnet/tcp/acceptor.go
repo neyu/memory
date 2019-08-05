@@ -13,7 +13,7 @@ import (
 // 接受器
 type tcpAcceptor struct {
 	lib.SessionManager
-
+	// lib.Peer
 	lib.PeerProp
 
 	// lib.CorePeerProperty
@@ -155,7 +155,7 @@ func (self *tcpAcceptor) TypeName() string {
 	return "tcp.Acceptor"
 }
 
-func CreateAcceptor() *tcpAcceptor {
+func NewAcceptor() lib.Peer {
 	this := &tcpAcceptor{
 		// SessionManager: new(peer.CoreSessionManager),
 		SessionManager: lib.NewSessionManager(),

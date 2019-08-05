@@ -25,7 +25,7 @@ func (this *RecvMsgEvent) Message() interface{} {
 
 func (this *RecvMsgEvent) Reply(msg interface{}) {
 
-	data, meta, err := codec.EncodeMessage(msg, nil)
+	data, meta, err := codec.EncodeMessage(msg)
 	if err != nil {
 		//log.Errorf("Reply.EncodeMessage %s", err)
 		fmt.Printf("Reply.EncodeMessage %s\n", err)

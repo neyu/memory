@@ -1,7 +1,7 @@
 package tcp
 
 import (
-	"core/util"
+	// "core/util"
 	"core/xlib"
 
 	//"fmt"
@@ -29,7 +29,7 @@ func (TCPMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, er
 	opt := ses.Peer().(socketOpt)
 	if conn, ok := reader.(net.Conn); ok {
 		opt.ApplySocketReadTimeout(conn, func() {
-			msg, err = util.RecvLTVPacket(reader, opt.MaxPacketSize())
+			msg, err = RecvLTVPacket(reader, opt.MaxPacketSize())
 		})
 	}
 	return
@@ -44,7 +44,7 @@ func (TCPMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}) (er
 
 	opt := ses.Peer().(socketOpt)
 	opt.ApplySocketWriteTimeout(writer.(net.Conn), func() {
-		err = util.SendLTVPacket(writer, ses.(lib.ContextSet), msg)
+		err = SendLTVPacket(writer, msg) //, ses.(lib.ContextSet)
 	})
 	return
 }

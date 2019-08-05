@@ -1,11 +1,12 @@
 package backend
 
 import (
-	"services/agent/model"
+	"services/gate/model"
 	"services/msg/proto"
 
 	"core/codec"
-	"core/lib"
+	"core/log"
+	"core/xlib"
 
 	"fmt"
 )
@@ -21,8 +22,8 @@ func (BackendMsgHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Ev
 
 		userMsg, _, err := codec.DecodeMessage(int(incomingMsg.MsgId), incomingMsg.MsgData)
 		if err != nil {
-			//log.Warnf("Backend msg decode failed, %s, msgid: %d", err.Error(), incomingMsg.MsgID)
-			fmt.Printf("Backend msg decode failed, %s, msgid: %d\n", err.Error(), incomingMsg.MsgID)
+			//log.Warnf("Backend msg decode failed, %s, msgid: %d", err.Error(), incomingMsg.MsgId)
+			log.Warn("Backend msg decode failed, %s, msgid: %d\n", err.Error(), incomingMsg.MsgId)
 			return nil
 		}
 
@@ -62,7 +63,7 @@ func (broadcasterHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.E
 	switch incomingMsg := inputEvent.Message().(type) {
 	case *msgProto.TransmitAck:
 
-		rawPkt := &lib.RawPacket{
+		rawPkt := &codec.RawPacket{
 			MsgData: incomingMsg.MsgData,
 			MsgId:   int(incomingMsg.MsgId),
 		}
@@ -119,34 +120,34 @@ func (broadcasterHooker) OnOutboundEvent(inputEvent lib.Event) (outputEvent lib.
 
 func writeAgentLog(ses lib.Session, dir string, ack *msgProto.TransmitAck) {
 
-	// if msglog.IsBlockedMessageByID(int(ack.MsgID)) {
+	// if msglog.IsBlockedMessageById(int(ack.MsgId)) {
 	// 	return
 	// }
 
-	peerInfo := ses.Peer().(lib.PeerProperty)
+	peerInfo := ses.Peer().(*lib.PeerProp)
 
-	userMsg, _, err := codec.DecodeMessage(int(ack.MsgID), ack.MsgData)
+	userMsg, _, err := codec.DecodeMessage(int(ack.MsgId), ack.MsgData)
 	if err == nil {
 		//log.Debugf("#agent.%s(%s)@%d len: %d %s <%d>| %s",
-		fmt.Printf("#agent.%s(%s)@%d len: %d %s <%d>| %s\n",
+		log.Debug("#agent.%s(%s)@%d len: %d %s <%d>| %s\n",
 			dir,
 			peerInfo.Name(),
-			ses.ID(),
+			ses.Id(),
 			codec.MessageSize(userMsg),
 			codec.MessageToName(userMsg),
-			ack.ClientID,
+			ack.ClientId,
 			codec.MessageToString(userMsg))
 	} else {
 
 		// 网关没有相关的消息, 只能打出消息号
 		//log.Debugf("#agent.%s(%s)@%d len: %d msgid: %d <%d>",
-		fmt.Printf("#agent.%s(%s)@%d len: %d msgid: %d <%d>\n",
+		log.Debug("#agent.%s(%s)@%d len: %d msgid: %d <%d>\n",
 			dir,
 			peerInfo.Name(),
-			ses.ID(),
+			ses.Id(),
 			len(ack.MsgData),
-			ack.MsgID,
-			ack.ClientID,
+			ack.MsgId,
+			ack.ClientId,
 		)
 	}
 }

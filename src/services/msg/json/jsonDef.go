@@ -29,7 +29,7 @@ func init() {
 	ackMsg := lib.MessageMeta{
 		Codec: codec.MustGetCodec("json"),
 		Type:  reflect.TypeOf((*ChatAck)(nil)).Elem(),
-		ID:    1234,
+		Id:    1234,
 	}
 	fmt.Println("json.regMsg:", ackMsg.FullName())
 	lib.RegisterMessageMeta(&ackMsg)
@@ -37,7 +37,7 @@ func init() {
 	reqMsg := lib.MessageMeta{
 		Codec: codec.MustGetCodec("json"),
 		Type:  reflect.TypeOf((*ChatReq)(nil)).Elem(),
-		ID:    1235,
+		Id:    1235,
 	}
 	fmt.Println("json.regMsg:", reqMsg.FullName())
 	lib.RegisterMessageMeta(&reqMsg)

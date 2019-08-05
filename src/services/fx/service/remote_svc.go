@@ -1,21 +1,21 @@
 package service
 
 import (
+	"core/log"
 	"core/xlib"
 
-	"fmt"
 	"sync"
 )
 
 type RemoteServiceContext struct {
 	Name  string
-	SvcID string
+	SvcId string
 }
 
 type NotifyFunc func(ctx *RemoteServiceContext, ses lib.Session)
 
 var (
-	connBySvcID        = map[string]lib.Session{}
+	connBySvcId        = map[string]lib.Session{}
 	connBySvcNameGuard sync.RWMutex
 	removeNotify       NotifyFunc
 )
@@ -23,12 +23,13 @@ var (
 func AddRemoteService(ses lib.Session, svcid, name string) {
 
 	connBySvcNameGuard.Lock()
-	ses.(lib.ContextSet).SetContext("ctx", &RemoteServiceContext{Name: name, SvcID: svcid})
-	connBySvcID[svcid] = ses
+	// 20190805 for test
+	// ses.(lib.ContextSet).SetContext("ctx", &RemoteServiceContext{Name: name, SvcId: svcid})
+	connBySvcId[svcid] = ses
 	connBySvcNameGuard.Unlock()
 
-	//log.SetColor("green").Infof("remote service added: '%s' sid: %d", svcid, ses.ID())
-	fmt.Printf("remote service added: '%s' sid: %d\n", svcid, ses.ID())
+	//log.SetColor("green").Infof("remote service added: '%s' sid: %d", svcid, ses.Id())
+	log.Info("remote service added: '%s' sid: %d\n", svcid, ses.Id())
 }
 
 func RemoveRemoteService(ses lib.Session) {
@@ -41,11 +42,11 @@ func RemoveRemoteService(ses lib.Session) {
 		}
 
 		connBySvcNameGuard.Lock()
-		delete(connBySvcID, ctx.SvcID)
+		delete(connBySvcId, ctx.SvcId)
 		connBySvcNameGuard.Unlock()
 
-		//log.SetColor("yellow").Infof("remote service removed '%s' sid: %d", ctx.SvcID, ses.ID())
-		fmt.Printf("remote service removed '%s' sid: %d\n", ctx.SvcID, ses.ID())
+		//log.SetColor("yellow").Infof("remote service removed '%s' sid: %d", ctx.SvcId, ses.Id())
+		log.Info("remote service removed '%s' sid: %d\n", ctx.SvcId, ses.Id())
 	}
 }
 
@@ -66,9 +67,10 @@ func SessionToContext(ses lib.Session) *RemoteServiceContext {
 		return nil
 	}
 
-	if raw, ok := ses.(lib.ContextSet).GetContext("ctx"); ok {
-		return raw.(*RemoteServiceContext)
-	}
+	// 20190805 for test
+	// if raw, ok := ses.(lib.ContextSet).GetContext("ctx"); ok {
+	// 	return raw.(*RemoteServiceContext)
+	// }
 
 	return nil
 }
@@ -78,7 +80,7 @@ func GetRemoteService(svcid string) lib.Session {
 	connBySvcNameGuard.RLock()
 	defer connBySvcNameGuard.RUnlock()
 
-	if ses, ok := connBySvcID[svcid]; ok {
+	if ses, ok := connBySvcId[svcid]; ok {
 
 		return ses
 	}
@@ -90,7 +92,7 @@ func GetRemoteService(svcid string) lib.Session {
 func VisitRemoteService(callback func(ses lib.Session, ctx *RemoteServiceContext) bool) {
 	connBySvcNameGuard.RLock()
 
-	for _, ses := range connBySvcID {
+	for _, ses := range connBySvcId {
 
 		if !callback(ses, SessionToContext(ses)) {
 			break
