@@ -2,6 +2,7 @@ package tcp
 
 import (
 	"core/codec"
+	"core/log"
 	"core/util"
 
 	"encoding/binary"
@@ -26,7 +27,7 @@ func RecvLTVPacket(reader io.Reader, maxPacketSize int) (msg interface{}, err er
 	var sizeBuffer = make([]byte, bodySize)
 	_, err = io.ReadFull(reader, sizeBuffer)
 	if err != nil {
-		fmt.Printf("read ltv packet err !!!%s\n", err.Error())
+		log.Error("read ltv packet err !!!%s", err.Error())
 		return
 	}
 	if len(sizeBuffer) < bodySize {

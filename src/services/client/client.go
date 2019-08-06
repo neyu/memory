@@ -35,11 +35,11 @@ func connectToLogin() (ret lib.Session) {
 
 		syncConn.Start()
 
-		// syncConn.(interface{ IsReady() bool }).IsReady()
-
 		if syncConn.(peerChecker).IsReady() {
 			ret = syncConn.(peerChecker).Session()
-			// break
+
+			done <- struct{}{}
+			return
 		}
 
 		syncConn.Stop()
@@ -58,21 +58,21 @@ func connectToGate(addr string, onReady func(lib.Session), onClose func()) {
 	syncConn.SetName("gate")
 	syncConn.SetAddress(addr)
 
-	syncConn.(*tcp.TcpSyncConnector).SetTransmitter(new(tcp.TCPMessageTransmitter))
-	syncConn.(*tcp.TcpSyncConnector).SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
-	syncConn.(*tcp.TcpSyncConnector).SetCallback(lib.NewQueuedEventCallback(gateMsgHandler))
+	syncConn.Prop().SetTransmitter(new(tcp.TCPMessageTransmitter))
+	syncConn.Prop().SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
+	syncConn.Prop().SetCallback(lib.NewQueuedEventCallback(gateMsgHandler))
 
 	stop.Add(1)
 
-	syncConn.(*tcp.TcpSyncConnector).Start()
+	syncConn.Start()
 
-	if syncConn.(*tcp.TcpSyncConnector).IsReady() {
-		onReady(syncConn.(*tcp.TcpSyncConnector).Session())
+	if syncConn.(peerChecker).IsReady() {
+		onReady(syncConn.(peerChecker).Session())
 
 		stop.Wait()
 	}
 
-	syncConn.(*tcp.TcpSyncConnector).Stop()
+	syncConn.Stop()
 
 	if onClose != nil {
 		onClose()

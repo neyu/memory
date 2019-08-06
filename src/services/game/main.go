@@ -33,7 +33,7 @@ func createAcceptor() {
 	queue.StartLoop()
 
 	acceptor := tcp.NewAcceptor()
-	acceptor.SetName("name")
+	acceptor.SetName("game_1")
 	acceptor.SetAddress(":8302")
 	acceptor.SetQueue(queue)
 

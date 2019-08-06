@@ -11,7 +11,7 @@ import (
 )
 
 // 接受器
-type TcpAcceptor struct {
+type tcpAcceptor struct {
 	lib.SessionManager
 	// lib.Peer
 	lib.PeerProp
@@ -27,11 +27,11 @@ type TcpAcceptor struct {
 	listener net.Listener
 }
 
-func (self *TcpAcceptor) Prop() *lib.PeerProp {
+func (self *tcpAcceptor) Prop() *lib.PeerProp {
 	return self.GetProp()
 }
 
-func (self *TcpAcceptor) Port() int {
+func (self *tcpAcceptor) Port() int {
 	if self.listener == nil {
 		return 0
 	}
@@ -39,13 +39,13 @@ func (self *TcpAcceptor) Port() int {
 	return self.listener.Addr().(*net.TCPAddr).Port
 }
 
-func (self *TcpAcceptor) IsReady() bool {
+func (self *tcpAcceptor) IsReady() bool {
 
 	return self.IsRunning()
 }
 
 // 异步开始侦听
-func (self *TcpAcceptor) Start() {
+func (self *tcpAcceptor) Start() {
 
 	self.WaitStopFinished()
 
@@ -75,7 +75,7 @@ func (self *TcpAcceptor) Start() {
 	return
 }
 
-func (self *TcpAcceptor) ListenAddress() string {
+func (self *tcpAcceptor) ListenAddress() string {
 
 	pos := strings.Index(self.Address(), ":")
 	if pos == -1 {
@@ -87,7 +87,7 @@ func (self *TcpAcceptor) ListenAddress() string {
 	return util.JoinAddress(host, self.Port())
 }
 
-func (self *TcpAcceptor) accept() {
+func (self *tcpAcceptor) accept() {
 	self.SetRunning(true)
 
 	for {
@@ -120,7 +120,7 @@ func (self *TcpAcceptor) accept() {
 
 }
 
-func (self *TcpAcceptor) onNewSession(conn net.Conn) {
+func (self *tcpAcceptor) onNewSession(conn net.Conn) {
 
 	self.ApplySocketOption(conn)
 
@@ -135,7 +135,7 @@ func (self *TcpAcceptor) onNewSession(conn net.Conn) {
 }
 
 // 停止侦听器
-func (self *TcpAcceptor) Stop() {
+func (self *tcpAcceptor) Stop() {
 	if !self.IsRunning() {
 		return
 	}
@@ -155,12 +155,12 @@ func (self *TcpAcceptor) Stop() {
 	self.WaitStopFinished()
 }
 
-func (self *TcpAcceptor) TypeName() string {
+func (self *tcpAcceptor) TypeName() string {
 	return "tcp.Acceptor"
 }
 
 func NewAcceptor() lib.Peer {
-	this := &TcpAcceptor{
+	this := &tcpAcceptor{
 		// SessionManager: new(peer.CoreSessionManager),
 		SessionManager: lib.NewSessionManager(),
 	}

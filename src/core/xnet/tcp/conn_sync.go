@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type TcpSyncConnector struct {
+type tcpSyncConnector struct {
 	lib.SessionManager
 
 	// lib.Peer
@@ -21,11 +21,11 @@ type TcpSyncConnector struct {
 	defaultSes *tcpSession
 }
 
-func (self *TcpSyncConnector) Prop() *lib.PeerProp {
+func (self *tcpSyncConnector) Prop() *lib.PeerProp {
 	return self.GetProp()
 }
 
-func (this *TcpSyncConnector) Port() int {
+func (this *tcpSyncConnector) Port() int {
 	if this.defaultSes.conn == nil {
 		return 0
 	}
@@ -33,7 +33,7 @@ func (this *TcpSyncConnector) Port() int {
 	return this.defaultSes.conn.LocalAddr().(*net.TCPAddr).Port
 }
 
-func (this *TcpSyncConnector) Start() {
+func (this *tcpSyncConnector) Start() {
 
 	// 尝试用Socket连接地址
 	conn, err := net.Dial("tcp", this.Address())
@@ -59,23 +59,23 @@ func (this *TcpSyncConnector) Start() {
 	return
 }
 
-func (this *TcpSyncConnector) Session() lib.Session {
+func (this *tcpSyncConnector) Session() lib.Session {
 	return this.defaultSes
 }
 
-func (this *TcpSyncConnector) SetSessionManager(raw interface{}) {
+func (this *tcpSyncConnector) SetSessionManager(raw interface{}) {
 	this.SessionManager = raw.(lib.SessionManager)
 }
 
-func (this *TcpSyncConnector) ReconnectDuration() time.Duration {
+func (this *tcpSyncConnector) ReconnectDuration() time.Duration {
 	return 0
 }
 
-func (this *TcpSyncConnector) SetReconnectDuration(v time.Duration) {
+func (this *tcpSyncConnector) SetReconnectDuration(v time.Duration) {
 
 }
 
-func (this *TcpSyncConnector) Stop() {
+func (this *tcpSyncConnector) Stop() {
 
 	if this.defaultSes != nil {
 		this.defaultSes.Close()
@@ -83,17 +83,17 @@ func (this *TcpSyncConnector) Stop() {
 
 }
 
-func (this *TcpSyncConnector) IsReady() bool {
+func (this *tcpSyncConnector) IsReady() bool {
 
 	return this.SessionCount() != 0
 }
 
-func (this *TcpSyncConnector) TypeName() string {
+func (this *tcpSyncConnector) TypeName() string {
 	return "tcp.SyncConnector"
 }
 
 func CreateSyncConnector() lib.Peer {
-	this := &TcpSyncConnector{
+	this := &tcpSyncConnector{
 		SessionManager: lib.NewSessionManager(),
 	}
 	this.defaultSes = newSession(nil, this, nil)

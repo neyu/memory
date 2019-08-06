@@ -27,7 +27,7 @@ func main() {
 
 	gateSes = getGateSession(gateAddr)
 
-	verifyGameToken("xxx")
+	verifyGameToken("game_1")
 
 	startPing()
 

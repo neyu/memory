@@ -2,10 +2,11 @@ package codec
 
 import (
 	"fmt"
-	"path"
+	// "path"
 	"reflect"
 	"regexp"
-	"strings"
+
+	// "strings"
 	"sync"
 )
 
@@ -40,12 +41,12 @@ func (self *MessageMeta) FullName() string {
 		return ""
 	}
 
-	var sb strings.Builder
-	sb.WriteString(path.Base(self.Type.PkgPath()))
-	sb.WriteString(".")
-	sb.WriteString(self.Type.Name())
-
-	return sb.String()
+	// var sb strings.Builder
+	// sb.WriteString(path.Base(self.Type.PkgPath()))
+	// sb.WriteString(".")
+	// sb.WriteString(self.Type.Name())
+	// return sb.String()
+	return self.Type.String()
 }
 
 // 创建meta类型的实例

@@ -1,6 +1,7 @@
 package util
 
 import (
+	"core/log"
 	"core/xlib"
 
 	"errors"
@@ -113,7 +114,7 @@ func ParseAddress(addr string) (addrObj *Address, err error) {
 
 func DetectPort(addr string, fn func(a *Address, port int) (interface{}, error)) (interface{}, error) {
 	addrObj, err := ParseAddress(addr)
-	fmt.Printf("addrObj:%+v\n", addrObj)
+	log.Debug("addrObj:%+v", addrObj)
 	if err != nil {
 		return nil, err
 	}

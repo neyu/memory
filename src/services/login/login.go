@@ -68,5 +68,6 @@ func handleLoginReq(ev lib.Event) {
 	}
 
 	// service.Reply(ev, &ack)
+	log.Debug("handleLoginReq:%+v", ack)
 	ev.Session().Send(&ack)
 }

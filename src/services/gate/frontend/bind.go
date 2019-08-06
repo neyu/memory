@@ -25,7 +25,7 @@ func bindClientToBackend(backendSvcId string, clientSesId int64) (*model.User, e
 	// 取得后台服务的信息
 	sd := service.SessionToContext(backendSes)
 	if sd == nil {
-		return nil, ErrBackendSDNotFound
+		// return nil, ErrBackendSDNotFound
 	}
 
 	// 将客户端的id转为session
@@ -42,7 +42,8 @@ func bindClientToBackend(backendSvcId string, clientSesId int64) (*model.User, e
 	u = model.CreateUser(clientSes)
 
 	// 更新绑定后台服务的svcid
-	u.SetBackend(sd.Name, sd.SvcId)
+	// u.SetBackend(sd.Name, sd.SvcId)
+	u.SetBackend("game", "game_1")
 
 	return u, nil
 }
