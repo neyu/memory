@@ -11,7 +11,7 @@ import (
 )
 
 // 接受器
-type tcpAcceptor struct {
+type TcpAcceptor struct {
 	lib.SessionManager
 	// lib.Peer
 	lib.PeerProp
@@ -27,7 +27,7 @@ type tcpAcceptor struct {
 	listener net.Listener
 }
 
-func (self *tcpAcceptor) Port() int {
+func (self *TcpAcceptor) Port() int {
 	if self.listener == nil {
 		return 0
 	}
@@ -35,13 +35,13 @@ func (self *tcpAcceptor) Port() int {
 	return self.listener.Addr().(*net.TCPAddr).Port
 }
 
-func (self *tcpAcceptor) IsReady() bool {
+func (self *TcpAcceptor) IsReady() bool {
 
 	return self.IsRunning()
 }
 
 // 异步开始侦听
-func (self *tcpAcceptor) Start() {
+func (self *TcpAcceptor) Start() {
 
 	self.WaitStopFinished()
 
@@ -71,7 +71,7 @@ func (self *tcpAcceptor) Start() {
 	return
 }
 
-func (self *tcpAcceptor) ListenAddress() string {
+func (self *TcpAcceptor) ListenAddress() string {
 
 	pos := strings.Index(self.Address(), ":")
 	if pos == -1 {
@@ -83,7 +83,7 @@ func (self *tcpAcceptor) ListenAddress() string {
 	return util.JoinAddress(host, self.Port())
 }
 
-func (self *tcpAcceptor) accept() {
+func (self *TcpAcceptor) accept() {
 	self.SetRunning(true)
 
 	for {
@@ -116,7 +116,7 @@ func (self *tcpAcceptor) accept() {
 
 }
 
-func (self *tcpAcceptor) onNewSession(conn net.Conn) {
+func (self *TcpAcceptor) onNewSession(conn net.Conn) {
 
 	self.ApplySocketOption(conn)
 
@@ -131,7 +131,7 @@ func (self *tcpAcceptor) onNewSession(conn net.Conn) {
 }
 
 // 停止侦听器
-func (self *tcpAcceptor) Stop() {
+func (self *TcpAcceptor) Stop() {
 	if !self.IsRunning() {
 		return
 	}
@@ -151,12 +151,12 @@ func (self *tcpAcceptor) Stop() {
 	self.WaitStopFinished()
 }
 
-func (self *tcpAcceptor) TypeName() string {
+func (self *TcpAcceptor) TypeName() string {
 	return "tcp.Acceptor"
 }
 
 func NewAcceptor() lib.Peer {
-	this := &tcpAcceptor{
+	this := &TcpAcceptor{
 		// SessionManager: new(peer.CoreSessionManager),
 		SessionManager: lib.NewSessionManager(),
 	}

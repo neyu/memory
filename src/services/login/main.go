@@ -23,13 +23,15 @@ func main() {
 	// queue.Wait()
 
 	acceptor := tcp.NewAcceptor()
-	acceptor.SetName("name")
+	acceptor.SetName("login_svr")
 	acceptor.SetAddress(":8300")
 	acceptor.SetQueue(queue)
 
-	acceptor.(*lib.PeerProp).SetTransmitter(new(tcp.TCPMessageTransmitter))
-	acceptor.(*lib.PeerProp).SetHooker(new(tcp.MsgHooker))
-	acceptor.(*lib.PeerProp).SetCallback(lib.NewQueuedEventCallback(messageHandler))
+	acceptor.(*tcp.TcpAcceptor).SetTransmitter(new(tcp.TCPMessageTransmitter))
+	acceptor.(*tcp.TcpAcceptor).SetHooker(new(tcp.MsgHooker))
+	acceptor.(*tcp.TcpAcceptor).SetCallback(lib.NewQueuedEventCallback(messageHandler))
+
+	acceptor.(*tcp.TcpAcceptor).Start()
 
 	waitExitSignal()
 	log.Info("main exit!")

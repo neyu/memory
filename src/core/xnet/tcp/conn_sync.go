@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-type tcpSyncConnector struct {
+type TcpSyncConnector struct {
 	lib.SessionManager
 
 	// lib.Peer
@@ -21,7 +21,7 @@ type tcpSyncConnector struct {
 	defaultSes *tcpSession
 }
 
-func (this *tcpSyncConnector) Port() int {
+func (this *TcpSyncConnector) Port() int {
 	if this.defaultSes.conn == nil {
 		return 0
 	}
@@ -29,7 +29,7 @@ func (this *tcpSyncConnector) Port() int {
 	return this.defaultSes.conn.LocalAddr().(*net.TCPAddr).Port
 }
 
-func (this *tcpSyncConnector) Start() {
+func (this *TcpSyncConnector) Start() {
 
 	// 尝试用Socket连接地址
 	conn, err := net.Dial("tcp", this.Address())
@@ -55,23 +55,23 @@ func (this *tcpSyncConnector) Start() {
 	return
 }
 
-func (this *tcpSyncConnector) Session() lib.Session {
+func (this *TcpSyncConnector) Session() lib.Session {
 	return this.defaultSes
 }
 
-func (this *tcpSyncConnector) SetSessionManager(raw interface{}) {
+func (this *TcpSyncConnector) SetSessionManager(raw interface{}) {
 	this.SessionManager = raw.(lib.SessionManager)
 }
 
-func (this *tcpSyncConnector) ReconnectDuration() time.Duration {
+func (this *TcpSyncConnector) ReconnectDuration() time.Duration {
 	return 0
 }
 
-func (this *tcpSyncConnector) SetReconnectDuration(v time.Duration) {
+func (this *TcpSyncConnector) SetReconnectDuration(v time.Duration) {
 
 }
 
-func (this *tcpSyncConnector) Stop() {
+func (this *TcpSyncConnector) Stop() {
 
 	if this.defaultSes != nil {
 		this.defaultSes.Close()
@@ -79,17 +79,17 @@ func (this *tcpSyncConnector) Stop() {
 
 }
 
-func (this *tcpSyncConnector) IsReady() bool {
+func (this *TcpSyncConnector) IsReady() bool {
 
 	return this.SessionCount() != 0
 }
 
-func (this *tcpSyncConnector) TypeName() string {
+func (this *TcpSyncConnector) TypeName() string {
 	return "tcp.SyncConnector"
 }
 
-func CreateSyncConnector() *tcpSyncConnector {
-	this := &tcpSyncConnector{
+func CreateSyncConnector() lib.Peer {
+	this := &TcpSyncConnector{
 		SessionManager: lib.NewSessionManager(),
 	}
 	this.defaultSes = newSession(nil, this, nil)

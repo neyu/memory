@@ -22,20 +22,20 @@ func connectToLogin() (ret lib.Session) {
 
 	go func() {
 		syncConn := tcp.CreateSyncConnector()
-		syncConn.SetName("login")
-		syncConn.SetAddress(":7300")
+		syncConn.SetName("client-to-login")
+		syncConn.SetAddress(":8300")
 
-		syncConn.SetTransmitter(new(tcp.TCPMessageTransmitter))
-		syncConn.SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
+		syncConn.(*tcp.TcpSyncConnector).SetTransmitter(new(tcp.TCPMessageTransmitter))
+		syncConn.(*tcp.TcpSyncConnector).SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
 
-		syncConn.Start()
+		syncConn.(*tcp.TcpSyncConnector).Start()
 
-		if syncConn.IsReady() {
-			ret = syncConn.Session()
+		if syncConn.(*tcp.TcpSyncConnector).IsReady() {
+			ret = syncConn.(*tcp.TcpSyncConnector).Session()
 			// break
 		}
 
-		syncConn.Stop()
+		syncConn.(*tcp.TcpSyncConnector).Stop()
 
 		done <- struct{}{}
 	}()
@@ -51,21 +51,21 @@ func connectToGate(addr string, onReady func(lib.Session), onClose func()) {
 	syncConn.SetName("gate")
 	syncConn.SetAddress(addr)
 
-	syncConn.SetTransmitter(new(tcp.TCPMessageTransmitter))
-	syncConn.SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
-	syncConn.SetCallback(lib.NewQueuedEventCallback(gateMsgHandler))
+	syncConn.(*tcp.TcpSyncConnector).SetTransmitter(new(tcp.TCPMessageTransmitter))
+	syncConn.(*tcp.TcpSyncConnector).SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
+	syncConn.(*tcp.TcpSyncConnector).SetCallback(lib.NewQueuedEventCallback(gateMsgHandler))
 
 	stop.Add(1)
 
-	syncConn.Start()
+	syncConn.(*tcp.TcpSyncConnector).Start()
 
-	if syncConn.IsReady() {
-		onReady(syncConn.Session())
+	if syncConn.(*tcp.TcpSyncConnector).IsReady() {
+		onReady(syncConn.(*tcp.TcpSyncConnector).Session())
 
 		stop.Wait()
 	}
 
-	syncConn.Stop()
+	syncConn.(*tcp.TcpSyncConnector).Stop()
 
 	if onClose != nil {
 		onClose()

@@ -78,6 +78,6 @@ func RegMsg(msgId int, msg interface{}) {
 		Type:  reflect.TypeOf(msg),
 		Id:    msgId,
 	}
-	log.Info("msgProto.regMsg:%d %s\n", metaMsg.Id, metaMsg.FullName())
+	log.Info("msgProto.regMsg:%d %s", metaMsg.Id, metaMsg.FullName())
 	codec.RegisterMessageMeta(&metaMsg)
 }

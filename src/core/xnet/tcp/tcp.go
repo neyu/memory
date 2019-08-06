@@ -12,12 +12,12 @@ type TcpSockOpter interface {
 	SetSocketDeadline(read, write time.Duration)
 }
 
-type TcpAcceptor interface {
-	lib.Peer
-	TcpSockOpter
+// type TcpAcceptor interface {
+// 	lib.Peer
+// 	TcpSockOpter
 
-	Port() int
-}
+// 	Port() int
+// }
 
 type TcpConnector interface {
 	lib.Peer

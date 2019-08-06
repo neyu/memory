@@ -20,6 +20,10 @@ func main() {
 	log.Info("client, test for connector to login/gate...")
 
 	gateAddr, _ := login()
+	if gateAddr == "" {
+		log.Error("gate addr nil")
+		return
+	}
 
 	gateSes = getGateSession(gateAddr)
 
@@ -35,6 +39,10 @@ func login() (gateAddr, svcId string) {
 	log.Info("ready to connect to login server")
 
 	loginSes := connectToLogin()
+	if loginSes == nil {
+		log.Error("connect to login error")
+		return
+	}
 
 	remoteCall(loginSes, &msgProto.LoginReq{
 		Version:  "1.0",

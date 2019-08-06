@@ -117,7 +117,7 @@ func (self *tcpSession) protectedReadMessage() (msg interface{}, err error) {
 	}()
 
 	// msg, err = self.ReadMessage(self)
-	msg, err = self.peer.(*lib.PeerProp).ReadMessage(self)
+	msg, err = self.peer.(*TcpAcceptor).ReadMessage(self)
 
 	return
 }
@@ -140,7 +140,7 @@ func (self *tcpSession) recvLoop() {
 			msg, err = self.protectedReadMessage()
 		} else {
 			// msg, err = self.ReadMessage(self)
-			msg, err = self.peer.(*lib.PeerProp).ReadMessage(self)
+			msg, err = self.peer.(*TcpAcceptor).ReadMessage(self)
 		}
 
 		if err != nil {
@@ -156,11 +156,11 @@ func (self *tcpSession) recvLoop() {
 				closedMsg.Reason = lib.CloseReason_Manual
 			}
 
-			self.peer.(*lib.PeerProp).ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: closedMsg})
+			self.peer.(*TcpAcceptor).ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: closedMsg})
 			break
 		}
 
-		self.peer.(*lib.PeerProp).ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: msg})
+		self.peer.(*TcpAcceptor).ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: msg})
 	}
 
 	// 通知完成
@@ -180,7 +180,7 @@ func (self *tcpSession) sendLoop() {
 		for _, msg := range writeList {
 
 			// self.SendMessage(&cellnet.SendMsgEvent{Ses: self, Msg: msg})
-			self.peer.(*lib.PeerProp).SendMessage(&lib.SendMsgEvent{Ses: self, Msg: msg})
+			self.peer.(*TcpAcceptor).SendMessage(&lib.SendMsgEvent{Ses: self, Msg: msg})
 		}
 
 		if exit {
