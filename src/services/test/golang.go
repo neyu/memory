@@ -27,8 +27,8 @@ func main() {
 	p.(*golang.TcpAcceptor).Age = byte(199) // ok
 	p.(*golang.TcpAcceptor).SetAge(133)     // ok
 
-	p.Age = byte(199) // no field or method
-	p.SetAge(133)     // no field or method
+	// p.Age = byte(199) // no field or method
+	// p.SetAge(133)     // no field or method
 
 	fmt.Printf("struct p 2:%+v\n", p)
 	// p.SessionManager = a1 //如果这个接口不赋值的话，会崩的
@@ -43,12 +43,12 @@ func main() {
 	// fmt.Printf("struct hits:%+v\n", p.embededLock)
 
 	// // hits.Mutex = sync.Mutex{}
-	// p.Mutex.Lock()
-	// // hits.Lock()
-	// p.n++
-	// p.n++
-	// p.n++
-	// p.Mutex.Unlock()
-	// // hits.Unlock()
-	// fmt.Println("hit.n:", p.n)
+	p.Mutex.Lock()
+	// hits.Lock()
+	p.n++
+	p.n++
+	p.n++
+	p.Mutex.Unlock()
+	// hits.Unlock()
+	fmt.Println("hit.n:", p.n)
 }

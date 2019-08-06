@@ -37,14 +37,14 @@ func createAcceptor() {
 	acceptor.SetAddress(":8302")
 	acceptor.SetQueue(queue)
 
-	acceptor.(*lib.PeerProp).SetTransmitter(new(tcp.TCPMessageTransmitter))
-	acceptor.(*lib.PeerProp).SetHooker(lib.NewMultiHooker(
+	acceptor.Prop().SetTransmitter(new(tcp.TCPMessageTransmitter))
+	acceptor.Prop().SetHooker(lib.NewMultiHooker(
 		new(service.SvcEventHooker),   // 服务互联处理
 		new(backend.BackendMsgHooker), // 网关消息处理
 		new(tcp.MsgHooker)))           // tcp基础消息处理
-	acceptor.(*lib.PeerProp).SetCallback(lib.NewQueuedEventCallback(messageHandler))
+	acceptor.Prop().SetCallback(lib.NewQueuedEventCallback(messageHandler))
 
-	acceptor.(*lib.PeerProp).SetSocketBuffer(2048, 2048, true)
+	acceptor.Prop().SetSocketBuffer(2048, 2048, true)
 
-	// acceptor.Start()
+	acceptor.Start()
 }

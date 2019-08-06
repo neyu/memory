@@ -130,9 +130,10 @@ func SessionQueuedCall(ses Session, callback func()) {
 	if ses == nil {
 		return
 	}
-	q := ses.Peer().(interface {
-		Queue() EventQueue
-	}).Queue()
+	// q := ses.Peer().(interface {
+	// 	Queue() EventQueue
+	// }).Queue()
+	q := ses.GetPeer().Queue()
 
 	QueuedCall(q, callback)
 }

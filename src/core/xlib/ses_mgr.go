@@ -8,7 +8,7 @@ import (
 // 长连接
 type Session interface {
 	Raw() interface{}
-	Peer() Peer
+	GetPeer() Peer
 	Send(msg interface{})
 	Close()
 	Id() int64

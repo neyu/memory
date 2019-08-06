@@ -2,8 +2,8 @@ package frontend
 
 import (
 	"core/codec"
-	"core/util"
 	"core/xlib"
+	"core/xnet/tcp"
 
 	"github.com/gorilla/websocket"
 
@@ -18,11 +18,11 @@ type socketOpt interface {
 	ApplySocketWriteTimeout(conn net.Conn, callback func())
 }
 
-type directTCPTransmitter struct {
+type DirectTCPTransmitter struct {
 }
 
 // 来自客户端的消息
-func (directTCPTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err error) {
+func (DirectTCPTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err error) {
 
 	reader, ok := ses.Raw().(io.Reader)
 
@@ -31,7 +31,7 @@ func (directTCPTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err
 		return nil, nil
 	}
 
-	opt := ses.Peer().(socketOpt)
+	opt := ses.GetPeer().Prop()
 
 	if conn, ok := ses.Raw().(net.Conn); ok {
 
@@ -67,7 +67,7 @@ func (directTCPTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err
 }
 
 // 网关发往客户端的消息
-func (directTCPTransmitter) OnSendMessage(ses lib.Session, msg interface{}) (err error) {
+func (DirectTCPTransmitter) OnSendMessage(ses lib.Session, msg interface{}) (err error) {
 
 	writer, ok := ses.Raw().(io.Writer)
 
@@ -76,12 +76,12 @@ func (directTCPTransmitter) OnSendMessage(ses lib.Session, msg interface{}) (err
 		return nil
 	}
 
-	opt := ses.Peer().(socketOpt)
+	opt := ses.GetPeer().Prop()
 
 	// 有写超时时，设置超时
 	opt.ApplySocketWriteTimeout(writer.(net.Conn), func() {
 
-		err = util.SendLTVPacket(writer, ses.(lib.ContextSet), msg)
+		err = tcp.SendLTVPacket(writer, msg)
 
 	})
 
@@ -152,15 +152,15 @@ func (directWSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}
 	)
 
 	switch m := msg.(type) {
-	case *lib.RawPacket: // 发裸包
+	case *codec.RawPacket: // 发裸包
 		msgData = m.MsgData
 		msgId = m.MsgId
 	default: // 发普通编码包
 		var err error
-		var meta *lib.MessageMeta
+		var meta *codec.MessageMeta
 
 		// 将用户数据转换为字节数组和消息Id
-		msgData, meta, err = codec.EncodeMessage(msg, nil)
+		msgData, meta, err = codec.EncodeMessage(msg)
 
 		if err != nil {
 			return err

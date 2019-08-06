@@ -54,11 +54,11 @@ func (BackendMsgHooker) OnOutboundEvent(inputEvent lib.Event) (outputEvent lib.E
 	return inputEvent
 }
 
-type broadcasterHooker struct {
+type BroadcasterHooker struct {
 }
 
 // 来自后台服务器的消息
-func (broadcasterHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
+func (BroadcasterHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
 
 	switch incomingMsg := inputEvent.Message().(type) {
 	case *msgProto.TransmitAck:
@@ -107,7 +107,7 @@ func (broadcasterHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.E
 }
 
 // 发送给后台服务器
-func (broadcasterHooker) OnOutboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
+func (BroadcasterHooker) OnOutboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
 
 	switch outgoingMsg := inputEvent.Message().(type) {
 	case *msgProto.TransmitAck:
@@ -124,7 +124,7 @@ func writeAgentLog(ses lib.Session, dir string, ack *msgProto.TransmitAck) {
 	// 	return
 	// }
 
-	peerInfo := ses.Peer().(*lib.PeerProp)
+	peerInfo := ses.GetPeer().Prop()
 
 	userMsg, _, err := codec.DecodeMessage(int(ack.MsgId), ack.MsgData)
 	if err == nil {

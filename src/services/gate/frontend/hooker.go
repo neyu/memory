@@ -12,8 +12,8 @@ import (
 )
 
 var (
-	PingAckMsgId   = lib.MessageMetaByFullName("msgProto.PingAck").Id
-	VerifyReqMsgId = lib.MessageMetaByFullName("msgProto.VerifyReq").Id
+	PingAckMsgId   = codec.MessageMetaByFullName("msgProto.PingAck").Id
+	VerifyReqMsgId = codec.MessageMetaByFullName("msgProto.VerifyReq").Id
 )
 
 func ProcFrontendPacket(msgId int, msgData []byte, ses lib.Session) (msg interface{}, err error) {
@@ -55,10 +55,10 @@ func ProcFrontendPacket(msgId int, msgData []byte, ses lib.Session) (msg interfa
 
 	default:
 		// 在路由规则中查找消息ID是否是路由规则允许的消息
-		rule := model.GetRuleByMsgId(msgId)
-		if rule == nil {
-			return nil, fmt.Errorf("Message not in route table, msgid: %d, execute MakeProto.sh and restart agent", msgId)
-		}
+		// rule := model.GetRuleByMsgId(msgId)
+		// if rule == nil {
+		// 	return nil, fmt.Errorf("Message not in route table, msgid: %d, execute MakeProto.sh and restart agent", msgId)
+		// }
 
 		// 找到已经绑定的用户
 		u := model.SessionToUser(ses)
@@ -66,9 +66,9 @@ func ProcFrontendPacket(msgId int, msgData []byte, ses lib.Session) (msg interfa
 		if u != nil {
 
 			// 透传到后台
-			if err = u.TransmitToBackend(u.GetBackend(rule.SvcName), msgId, msgData); err != nil {
-				//log.Warnf("TransmitToBackend %s, msg: '%s' svc: %s", err, rule.MsgName, rule.SvcName)
-				fmt.Printf("TransmitToBackend %s, msg: '%s' svc: %s\n", err, rule.MsgName, rule.SvcName)
+			if err = u.TransmitToBackend(u.GetBackend("game"), msgId, msgData); err != nil {
+				// log.Warnf("TransmitToBackend %s, msg: '%s' svc: %s", err, rule.MsgName, rule.SvcName)
+				// fmt.Printf("TransmitToBackend %s, msg: '%s' svc: %s\n", err, rule.MsgName, rule.SvcName)
 			}
 
 		} else {

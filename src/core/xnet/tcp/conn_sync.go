@@ -21,6 +21,10 @@ type TcpSyncConnector struct {
 	defaultSes *tcpSession
 }
 
+func (self *TcpSyncConnector) Prop() *lib.PeerProp {
+	return self.GetProp()
+}
+
 func (this *TcpSyncConnector) Port() int {
 	if this.defaultSes.conn == nil {
 		return 0

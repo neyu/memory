@@ -17,6 +17,11 @@ var (
 	callByType sync.Map
 )
 
+type peerChecker interface {
+	IsReady() bool
+	Session() lib.Session
+}
+
 func connectToLogin() (ret lib.Session) {
 	done := make(chan struct{})
 
@@ -25,17 +30,19 @@ func connectToLogin() (ret lib.Session) {
 		syncConn.SetName("client-to-login")
 		syncConn.SetAddress(":8300")
 
-		syncConn.(*tcp.TcpSyncConnector).SetTransmitter(new(tcp.TCPMessageTransmitter))
-		syncConn.(*tcp.TcpSyncConnector).SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
+		syncConn.Prop().SetTransmitter(new(tcp.TCPMessageTransmitter))
+		syncConn.Prop().SetHooker(lib.NewMultiHooker(new(tcp.MsgHooker), new(TypeRPCHooker)))
 
-		syncConn.(*tcp.TcpSyncConnector).Start()
+		syncConn.Start()
 
-		if syncConn.(*tcp.TcpSyncConnector).IsReady() {
-			ret = syncConn.(*tcp.TcpSyncConnector).Session()
+		// syncConn.(interface{ IsReady() bool }).IsReady()
+
+		if syncConn.(peerChecker).IsReady() {
+			ret = syncConn.(peerChecker).Session()
 			// break
 		}
 
-		syncConn.(*tcp.TcpSyncConnector).Stop()
+		syncConn.Stop()
 
 		done <- struct{}{}
 	}()

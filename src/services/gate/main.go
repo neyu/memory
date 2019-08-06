@@ -1,16 +1,18 @@
 package main
 
 import (
+	"os"
+	"os/signal"
 	"services/fx/service"
 	"services/gate/backend"
 	"services/gate/frontend"
 	"services/gate/model"
+	"syscall"
+	"time"
 
 	"core/log"
 	"core/xlib"
 	"core/xnet/tcp"
-
-	"fmt"
 )
 
 func main() {
@@ -32,6 +34,10 @@ func waitExitSignal() {
 	<-ch
 }
 
+type reconnector interface {
+	SetReconnectDuration(time.Duration)
+}
+
 func connectToGame() {
 	queue := lib.NewEventQueue()
 	queue.StartLoop()
@@ -41,15 +47,15 @@ func connectToGame() {
 	connector.SetAddress(":8302")
 	connector.SetQueue(queue)
 
-	connector.SetTransmitter(new(tcp.TCPMessageTransmitter))
-	connector.SetHooker(lib.NewMultiHooker(
+	connector.Prop().SetTransmitter(new(tcp.TCPMessageTransmitter))
+	connector.Prop().SetHooker(lib.NewMultiHooker(
 		new(service.SvcEventHooker),    // 服务互联处理
-		new(backend.broadcasterHooker), // 网关消息处理
+		new(backend.BroadcasterHooker), // 网关消息处理
 		new(tcp.MsgHooker)))            // tcp基础消息处理
-	connector.SetCallback(lib.NewQueuedEventCallback(messageHandler))
+	connector.Prop().SetCallback(lib.NewQueuedEventCallback(messageHandler))
 
-	connector.SetSocketBuffer(2048, 2048, true)
-	connector.SetReconnectDuration(time.Second * 3)
+	connector.Prop().SetSocketBuffer(2048, 2048, true)
+	connector.(reconnector).SetReconnectDuration(time.Second * 3)
 
 	connector.Start()
 }
@@ -59,18 +65,18 @@ func createAcceptor() {
 	acceptor.SetName("gate")
 	acceptor.SetAddress(":8301")
 
-	acceptor.SetTransmitter(new(frontend.directTCPTransmitter))
-	acceptor.SetHooker(lib.NewMultiHooker(
+	acceptor.Prop().SetTransmitter(new(frontend.DirectTCPTransmitter))
+	acceptor.Prop().SetHooker(lib.NewMultiHooker(
 		new(tcp.MsgHooker),                //  TCP基础消息及日志
 		new(frontend.FrontendEventHooker), // 内部消息处理
 	))
 
-	acceptor.SetSocketBuffer(2048, 2048, true)
-	acceptor.SetSocketDeadline(time.Second*40, time.Second*20)
+	acceptor.Prop().SetSocketBuffer(2048, 2048, true)
+	acceptor.Prop().SetSocketDeadline(time.Second*40, time.Second*20)
 
 	acceptor.Start()
 
-	model.FrontendSessionManager = acceptor
+	model.FrontendSessionManager = acceptor.(lib.SessionManager)
 }
 
 func stop() {

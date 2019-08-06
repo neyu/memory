@@ -21,9 +21,10 @@ func (this *RecvMsgEvent) Message() interface{} {
 }
 
 func (this *RecvMsgEvent) Queue() lib.EventQueue {
-	return this.ses.Peer().(interface {
-		Queue() lib.EventQueue
-	}).Queue()
+	// return this.ses.Peer().(interface {
+	// 	Queue() lib.EventQueue
+	// }).Queue()
+	return this.ses.GetPeer().Queue()
 }
 
 func (this *RecvMsgEvent) Reply(msg interface{}) {

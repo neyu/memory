@@ -1,9 +1,9 @@
 package main
 
 import (
+	"services/gate/model"
 	"services/msg/proto"
 
-	"core/log"
 	"core/xlib"
 )
 
@@ -11,7 +11,7 @@ var handleDefault func(ev lib.Event)
 
 func messageHandler(ev lib.Event) {
 	switch ev.Message().(type) {
-	case *CloseClientAck:
+	case *msgProto.CloseClientAck:
 		handleCloseClientAck(ev)
 	default:
 		if handleDefault != nil {

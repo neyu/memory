@@ -9,9 +9,9 @@ import (
 )
 
 type Peer interface {
-	// Start()
-	// Stop()
-	// TypeName() string
+	Start()
+	Stop()
+	TypeName() string
 
 	Name() string
 	Address() string
@@ -19,6 +19,7 @@ type Peer interface {
 	SetName(v string)
 	SetAddress(v string)
 	SetQueue(v EventQueue)
+	Prop() *PeerProp
 }
 
 type PeerProp struct {
@@ -43,10 +44,14 @@ type PeerProp struct {
 	writeTimeout time.Duration
 }
 
-func NewPeer() Peer {
+func NewPeerProp() *PeerProp {
 	return &PeerProp{
 		//
 	}
+}
+
+func (this *PeerProp) GetProp() *PeerProp {
+	return this
 }
 
 func (this *PeerProp) Name() string {

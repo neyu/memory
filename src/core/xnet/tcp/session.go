@@ -16,9 +16,9 @@ type tcpSession struct {
 	// lib.CoreContextSet
 	// lib.CoreSessionIdentify
 	// *lib.CoreProcBundle
+	lib.Peer
 
-	id   int64
-	peer lib.Peer
+	id int64
 
 	// Socket原始连接
 	conn      net.Conn
@@ -57,8 +57,8 @@ func (self *tcpSession) Conn() net.Conn {
 	return self.conn
 }
 
-func (self *tcpSession) Peer() lib.Peer {
-	return self.peer
+func (self *tcpSession) GetPeer() lib.Peer {
+	return self.Peer
 }
 
 // 取原始连接
@@ -116,8 +116,8 @@ func (self *tcpSession) protectedReadMessage() (msg interface{}, err error) {
 
 	}()
 
-	// msg, err = self.ReadMessage(self)
-	msg, err = self.peer.(*TcpAcceptor).ReadMessage(self)
+	msg, err = self.Prop().ReadMessage(self)
+	// msg, err = self.peer.(*TcpAcceptor).ReadMessage(self)
 
 	return
 }
@@ -139,8 +139,8 @@ func (self *tcpSession) recvLoop() {
 		if capturePanic {
 			msg, err = self.protectedReadMessage()
 		} else {
-			// msg, err = self.ReadMessage(self)
-			msg, err = self.peer.(*TcpAcceptor).ReadMessage(self)
+			msg, err = self.Prop().ReadMessage(self)
+			// msg, err = self.peer.PeerProp.ReadMessage(self)
 		}
 
 		if err != nil {
@@ -156,11 +156,11 @@ func (self *tcpSession) recvLoop() {
 				closedMsg.Reason = lib.CloseReason_Manual
 			}
 
-			self.peer.(*TcpAcceptor).ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: closedMsg})
+			self.Prop().ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: closedMsg})
 			break
 		}
 
-		self.peer.(*TcpAcceptor).ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: msg})
+		self.Prop().ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: msg})
 	}
 
 	// 通知完成
@@ -179,8 +179,8 @@ func (self *tcpSession) sendLoop() {
 		// 遍历要发送的数据
 		for _, msg := range writeList {
 
-			// self.SendMessage(&cellnet.SendMsgEvent{Ses: self, Msg: msg})
-			self.peer.(*TcpAcceptor).SendMessage(&lib.SendMsgEvent{Ses: self, Msg: msg})
+			self.Prop().SendMessage(&lib.SendMsgEvent{Ses: self, Msg: msg})
+			// self.peer.(*TcpAcceptor).SendMessage(&lib.SendMsgEvent{Ses: self, Msg: msg})
 		}
 
 		if exit {
@@ -210,15 +210,16 @@ func (self *tcpSession) Start() {
 	self.exitSync.Add(2)
 
 	// 将会话添加到管理器, 在线程处理前添加到管理器(分配id), 避免ID还未分配,就开始使用id的竞态问题
-	self.Peer().(lib.SessionManager).Add(self)
+	self.GetPeer().(lib.SessionManager).Add(self)
 
 	go func() {
+
 
 		// 等待2个任务结束
 		self.exitSync.Wait()
 
 		// 将会话从管理器移除
-		self.Peer().(lib.SessionManager).Remove(self)
+		self.GetPeer().(lib.SessionManager).Remove(self)
 
 		if self.endNotify != nil {
 			self.endNotify()
@@ -238,7 +239,7 @@ func newSession(conn net.Conn, p lib.Peer, endNotify func()) *tcpSession {
 		conn:      conn,
 		endNotify: endNotify,
 		sendQueue: lib.NewPipe(),
-		peer:      p,
+		Peer:      p,
 		// CoreProcBundle: p.(interface {
 		// 	GetBundle() *lib.CoreProcBundle
 		// }).GetBundle(),

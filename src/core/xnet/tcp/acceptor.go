@@ -27,6 +27,10 @@ type TcpAcceptor struct {
 	listener net.Listener
 }
 
+func (self *TcpAcceptor) Prop() *lib.PeerProp {
+	return self.GetProp()
+}
+
 func (self *TcpAcceptor) Port() int {
 	if self.listener == nil {
 		return 0

@@ -27,11 +27,11 @@ func main() {
 	acceptor.SetAddress(":8300")
 	acceptor.SetQueue(queue)
 
-	acceptor.(*tcp.TcpAcceptor).SetTransmitter(new(tcp.TCPMessageTransmitter))
-	acceptor.(*tcp.TcpAcceptor).SetHooker(new(tcp.MsgHooker))
-	acceptor.(*tcp.TcpAcceptor).SetCallback(lib.NewQueuedEventCallback(messageHandler))
+	acceptor.Prop().SetTransmitter(new(tcp.TCPMessageTransmitter))
+	acceptor.Prop().SetHooker(new(tcp.MsgHooker))
+	acceptor.Prop().SetCallback(lib.NewQueuedEventCallback(messageHandler))
 
-	acceptor.(*tcp.TcpAcceptor).Start()
+	acceptor.Start()
 
 	waitExitSignal()
 	log.Info("main exit!")

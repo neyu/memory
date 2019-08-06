@@ -28,6 +28,10 @@ type tcpConnector struct {
 	reconDur time.Duration
 }
 
+func (self *tcpConnector) Prop() *lib.PeerProp {
+	return self.GetProp()
+}
+
 func (this *tcpConnector) Start() {
 	this.WaitStopFinished()
 	if this.IsRunning() {
@@ -134,7 +138,7 @@ func (this *tcpConnector) TypeName() string {
 	return "tcp.Connector"
 }
 
-func CreateConnector() *tcpConnector {
+func CreateConnector() lib.Peer {
 	this := &tcpConnector{
 		// SessionManager: new(lib.CoreSessionManager),
 		SessionManager: lib.NewSessionManager(),
