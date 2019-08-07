@@ -23,7 +23,7 @@ an open world for our memory to be continued
 # 我们还需要解决以下问题
 1. golang的channel并发与eventQueue式的并发哪个更好.
 2. 底层消息对象池，消息数据队列的使用.
-3. cache怎么雅的编写对接redis和mysql的接口.
+3. cache怎么优雅的编写对接redis和mysql的接口.
 
 // 网关、登录，广播，网络IO密集
 web/login<-client
