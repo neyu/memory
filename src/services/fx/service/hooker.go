@@ -31,7 +31,7 @@ func (SvcEventHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Even
 		// 用Connector的名称（一般是ProcName）让远程知道自己是什么服务，用于网关等需要反向发送消息的标识
 		inputEvent.Session().Send(&msgProto.ServiceIdentifyAck{
 			SvcName: "gate",   //GetProcName(),
-			SvcId:   "game_1", //GetLocalSvcId(),
+			SvcId:   "gate_1", //GetLocalSvcId(),
 		})
 
 		log.Debug("SessionConnected to AddRemoteService:%+v", msg)
