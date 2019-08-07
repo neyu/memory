@@ -7,9 +7,10 @@
 2. gate
 3. game
 4. hub
-5. consul
-6. redis/mysql
-7. mq
+5. mq
+6. log
+7. consul
+8. redis/mysql/mongo
 
 # what should i do for my mind
 an open world for our memory to be continued
