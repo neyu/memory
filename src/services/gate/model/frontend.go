@@ -24,7 +24,7 @@ func CreateUser(clientSes lib.Session) *User {
 	u := NewUser(clientSes)
 
 	// 绑定到session上
-	clientSes.(lib.ContextSet).SetContext("user", u)
+	clientSes.SetContext("user", u)
 	return u
 }
 
@@ -35,7 +35,7 @@ func SessionToUser(clientSes lib.Session) *User {
 		return nil
 	}
 
-	if raw, ok := clientSes.(lib.ContextSet).GetContext("user"); ok {
+	if raw, ok := clientSes.GetContext("user"); ok {
 		return raw.(*User)
 	}
 

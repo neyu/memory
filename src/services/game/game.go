@@ -33,8 +33,8 @@ func handleChatReq(incomingEv lib.Event) {
 		var cid msgProto.ClientId
 		cid.Id = ev.ClientId
 
-		if agentCtx := service.SessionToContext(ev.Session()); agentCtx != nil {
-			cid.SvcId = agentCtx.SvcId
+		if gateCtx := service.SessionToContext(ev.Session()); gateCtx != nil {
+			cid.SvcId = gateCtx.SvcId
 		}
 
 		// userHandler(incomingEv, cid)

@@ -16,7 +16,7 @@ func CloseAllClient() {
 
 	service.VisitRemoteService(func(ses lib.Session, ctx *service.RemoteServiceContext) bool {
 
-		if ctx.Name == "gate" {
+		if ctx != nil && ctx.Name == "gate" {
 			ses.Send(&msgProto.CloseClientAck{
 				All: true,
 			})
@@ -38,13 +38,15 @@ func BroadcastAll(msg interface{}) {
 
 	service.VisitRemoteService(func(ses lib.Session, ctx *service.RemoteServiceContext) bool {
 
-		if ctx.Name == "gate" {
-			fmt.Println("msg for agent to broadcast to all clients")
+		if ctx != nil && ctx.Name == "gate" {
+			log.Debug("ctx name is gate to broadcast")
 			ses.Send(&msgProto.TransmitAck{
 				MsgId:   uint32(meta.Id),
 				MsgData: data,
 				All:     true,
 			})
+		} else {
+			log.Debug("to broadcast for ctx:", ctx)
 		}
 
 		return true

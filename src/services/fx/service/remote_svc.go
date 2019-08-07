@@ -23,8 +23,7 @@ var (
 func AddRemoteService(ses lib.Session, svcid, name string) {
 
 	connBySvcNameGuard.Lock()
-	// 20190805 for test
-	// ses.(lib.ContextSet).SetContext("ctx", &RemoteServiceContext{Name: name, SvcId: svcid})
+	ses.SetContext("ctx", &RemoteServiceContext{Name: name, SvcId: svcid})
 	connBySvcId[svcid] = ses
 	connBySvcNameGuard.Unlock()
 
@@ -67,10 +66,9 @@ func SessionToContext(ses lib.Session) *RemoteServiceContext {
 		return nil
 	}
 
-	// 20190805 for test
-	// if raw, ok := ses.(lib.ContextSet).GetContext("ctx"); ok {
-	// 	return raw.(*RemoteServiceContext)
-	// }
+	if raw, ok := ses.GetContext("ctx"); ok {
+		return raw.(*RemoteServiceContext)
+	}
 
 	return nil
 }

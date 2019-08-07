@@ -17,6 +17,7 @@ type tcpSession struct {
 	// lib.CoreSessionIdentify
 	// *lib.CoreProcBundle
 	lib.Peer
+	lib.ContextSet
 
 	id int64
 
@@ -213,7 +214,6 @@ func (self *tcpSession) Start() {
 	self.GetPeer().(lib.SessionManager).Add(self)
 
 	go func() {
-
 
 		// 等待2个任务结束
 		self.exitSync.Wait()

@@ -12,6 +12,10 @@ type Session interface {
 	Send(msg interface{})
 	Close()
 	Id() int64
+
+	SetContext(key interface{}, v interface{})
+	GetContext(key interface{}) (interface{}, bool)
+	FetchContext(key, valuePtr interface{}) bool
 }
 
 // 完整功能的会话管理

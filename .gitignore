@@ -11,3 +11,5 @@
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
 /src/services/client/client
+/src/services/client/client.debug
+/src/services/client/*.debug
