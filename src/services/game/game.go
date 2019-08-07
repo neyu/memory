@@ -64,7 +64,7 @@ func handleVerifyReq(incomingEv lib.Event) {
 
 		// userHandler(incomingEv, cid)
 		msg := ev.Message().(*msgProto.VerifyReq)
-		log.Debug("verfiy: %+v \n", msg.GameToken)
+		log.Debug("verfiy:%+v", msg)
 		service.Reply(ev, &msgProto.VerifyAck{})
 	}
 }

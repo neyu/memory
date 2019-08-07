@@ -5,6 +5,7 @@ import (
 	"services/msg/proto"
 
 	"core/codec"
+	"core/log"
 	"core/xlib"
 
 	"fmt"
@@ -30,13 +31,17 @@ func ProcFrontendPacket(msgId int, msgData []byte, ses lib.Session) (msg interfa
 
 		switch userMsg := msg.(type) {
 		case *msgProto.PingAck:
+			log.Info("recv ping msg")
 			u := model.SessionToUser(ses)
 			if u != nil {
 				u.LastPingTime = time.Now()
 
 				// 回消息
 				ses.Send(&msgProto.PingAck{})
+
+				log.Info("ack ping msg")
 			} else {
+				log.Info("close session by ping msg")
 				ses.Close()
 			}
 

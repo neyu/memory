@@ -81,12 +81,13 @@ func verifyGameToken(svcId string) {
 		GameToken: "token_xxx",
 		GameSvcId: svcId,
 	}, func(ack *msgProto.VerifyAck) {
-		log.Info("verify ack:", ack)
+		log.Info("verify ack:%+v", ack)
 	})
 }
 
 func startPing() {
-	timer.NewLoop(nil, time.Second*5, func(loop *timer.Loop) {
+	timer.NewLoop(nil, time.Second*10, func(loop *timer.Loop) {
+		log.Info("ping...")
 		gateSes.Send(&msgProto.PingAck{})
 	}, nil).Start()
 }
