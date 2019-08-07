@@ -1,14 +1,15 @@
 # memory
-thousand years gone, we may revive with memory, to mark !
+1. 20190720
+2. thousand years gone, we may revive with memory, to mark !
 
 # we need following parts
-1. gate
-2. game
-3. hub
-4. redis/mysql
+1. web/login
+2. gate
+3. game
+4. hub
 5. consul
-6. mq
-7. web
+6. redis/mysql
+7. mq
 
 # what should i do for my mind
 an open world for our memory to be continued
@@ -24,6 +25,7 @@ an open world for our memory to be continued
 3. cache怎么雅的编写对接redis和mysql的接口.
 
 // 网关、登录，广播，网络IO密集
+web/login<-client
 gate<-client
 gate->game
 
@@ -38,4 +40,7 @@ hub<-game
 
 // 服务发现，单机多进程，
 consul
+
+# 开始进业务逻辑
+1. 20190807
 
