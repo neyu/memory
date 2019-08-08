@@ -1,4 +1,4 @@
-package service
+package fx
 
 import (
 	"flag"

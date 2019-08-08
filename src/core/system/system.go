@@ -1,10 +1,12 @@
 package system
 
 import (
+	// "fmt"
 	"os"
 	"os/exec"
+
+	// "path"
 	"path/filepath"
-	// "fmt"
 )
 
 var (
@@ -18,6 +20,9 @@ func init() {
 func initRootPath() {
 	curFilename := os.Args[0]
 	// fmt.Println("curFilename:", curFilename)
+	// fmt.Println("filepath.Base:", filepath.Base(curFilename))
+	// fmt.Println("filepath.Dir:", filepath.Dir(curFilename))
+	// fmt.Println("filepath.Ext:", filepath.Ext(curFilename))
 
 	binaryPath, err := exec.LookPath(curFilename)
 	if err != nil {
@@ -31,5 +36,6 @@ func initRootPath() {
 	}
 	// fmt.Println("abs.binaryPath:", binaryPath)
 
-	ROOT = filepath.Dir(filepath.Dir(binaryPath))
+	// ROOT = filepath.Dir(filepath.Dir(binaryPath))
+	ROOT = "D:/rpgGame2/memory"
 }

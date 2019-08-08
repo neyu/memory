@@ -17,11 +17,11 @@ import (
 var gateSes lib.Session
 
 func main() {
-	log.Info("client, test for connector to login/gate...")
+	logs.Info("client, test for connector to login/gate...")
 
 	gateAddr, _ := login()
 	if gateAddr == "" {
-		log.Error("gate addr nil")
+		logs.Error("gate addr nil")
 		return
 	}
 
@@ -36,11 +36,11 @@ func main() {
 }
 
 func login() (gateAddr, svcId string) {
-	log.Info("ready to connect to login server")
+	logs.Info("ready to connect to login server")
 
 	loginSes := connectToLogin()
 	if loginSes == nil {
-		log.Error("connect to login error")
+		logs.Error("connect to login error")
 		return
 	}
 
@@ -66,13 +66,13 @@ func getGateSession(addr string) (ret lib.Session) {
 		ret = ses
 		done <- struct{}{}
 	}, func() {
-		log.Error("connect to gate failed")
+		logs.Error("connect to gate failed")
 		os.Exit(0)
 	})
 
 	<-done
 
-	log.Debug("gate connection ready")
+	logs.Debug("gate connection ready")
 	return
 }
 
@@ -81,19 +81,19 @@ func verifyGameToken(svcId string) {
 		GameToken: "token_xxx",
 		GameSvcId: svcId,
 	}, func(ack *msgProto.VerifyAck) {
-		log.Info("verify ack:%+v", ack)
+		logs.Info("verify ack:%+v", ack)
 	})
 }
 
 func startPing() {
 	timer.NewLoop(nil, time.Second*10, func(loop *timer.Loop) {
-		log.Info("ping...")
+		logs.Info("ping...")
 		gateSes.Send(&msgProto.PingAck{})
 	}, nil).Start()
 }
 
 func startChat() {
-	log.Debug("Start chat now !")
+	logs.Debug("Start chat now !")
 
 	readConsole(func(word string) {
 		// 1.测试远程过程调用

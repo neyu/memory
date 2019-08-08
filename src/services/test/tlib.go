@@ -10,8 +10,8 @@ func main() {
 	pr := lib.NewPeer()
 	pr.SetName("test peer library")
 
-	log.Info("Name:%s", pr.Name())
+	logs.Info("Name:%s", pr.Name())
 
 	acceptor := tcp.NewAcceptor()
-	log.Info("acceptor:%+v" acceptor)
+	logs.Info("acceptor:%+v" acceptor)
 }

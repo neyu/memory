@@ -27,7 +27,7 @@ func RecvLTVPacket(reader io.Reader, maxPacketSize int) (msg interface{}, err er
 	var sizeBuffer = make([]byte, bodySize)
 	_, err = io.ReadFull(reader, sizeBuffer)
 	if err != nil {
-		log.Error("read ltv packet err !!!%s", err.Error())
+		logs.Error("read ltv packet err !!!%s", err.Error())
 		return
 	}
 	if len(sizeBuffer) < bodySize {

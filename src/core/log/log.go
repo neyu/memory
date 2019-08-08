@@ -25,9 +25,9 @@
 // Use it like this:
 //
 //	log.Trace("trace")
-//	log.Info("info")
+//	logs.Info("info")
 //	log.Warn("warning")
-//	log.Debug("debug")
+//	logs.Debug("debug")
 //	log.Critical("critical")
 //
 //  more docs http://beego.me/docs/module/logs.md

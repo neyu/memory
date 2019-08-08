@@ -84,7 +84,7 @@ func (self *eventQueue) StartLoop() EventQueue {
 				case nil:
 					break
 				default:
-					log.Debug("unexpected type %T", t)
+					logs.Debug("unexpected type %T", t)
 				}
 			}
 
@@ -119,7 +119,7 @@ func NewEventQueue() EventQueue {
 		// 默认的崩溃捕获打印
 		onPanic: func(raw interface{}, queue EventQueue) {
 
-			log.Error("%v \n%s\n", raw, string(debug.Stack()))
+			logs.Error("%v \n%s\n", raw, string(debug.Stack()))
 			debug.PrintStack()
 		},
 	}

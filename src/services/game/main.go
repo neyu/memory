@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	log.Info("game server entry")
+	logs.Info("game server entry")
 
 	createAcceptor()
 

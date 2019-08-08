@@ -33,7 +33,7 @@ func (this *RecvMsgEvent) Reply(msg interface{}) {
 
 	if err != nil {
 		//log.Errorf("rpc reply message encode error: %s", err)
-		log.Error("rpc reply message encode error: %s\n", err)
+		logs.Error("rpc reply message encode error: %s\n", err)
 		return
 	}
 

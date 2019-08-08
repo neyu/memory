@@ -111,7 +111,7 @@ func (self *tcpSession) protectedReadMessage() (msg interface{}, err error) {
 	defer func() {
 
 		if err := recover(); err != nil {
-			log.Error("IO panic: %s", err)
+			logs.Error("IO panic: %s", err)
 			self.Conn().Close()
 		}
 
@@ -146,7 +146,7 @@ func (self *tcpSession) recvLoop() {
 
 		if err != nil {
 			if !util.IsEOFOrNetReadError(err) {
-				log.Error("session closed, sesid: %d, err: %s", self.Id(), err)
+				logs.Error("session closed, sesid: %d, err: %s", self.Id(), err)
 			}
 
 			self.sendQueue.Add(nil)

@@ -15,7 +15,7 @@ func (TypeRPCHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Event
 	outputEvent, _, err := ResolveInboundEvent(inputEvent)
 	if err != nil {
 		//log.Errorln("rpc.ResolveInboundEvent", err)
-		log.Error("rpc.ResolveInboundEvent", err)
+		logs.Error("rpc.ResolveInboundEvent", err)
 		return
 	}
 

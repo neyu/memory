@@ -16,7 +16,7 @@ import (
 )
 
 func main() {
-	log.Info("gate server entry")
+	logs.Info("gate server entry")
 
 	connectToGame()
 

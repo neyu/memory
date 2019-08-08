@@ -18,7 +18,7 @@ func Relay(sesDetector interface{}, dataList ...interface{}) error {
 	ses, err := getSession(sesDetector)
 	if err != nil {
 		//log.Errorln("relay.Relay:", err)
-		log.Error("relay.Relay err:%v", err)
+		logs.Error("relay.Relay err:%v", err)
 		return err
 	}
 

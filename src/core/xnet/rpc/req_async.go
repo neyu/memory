@@ -11,7 +11,7 @@ func Call(sesOrPeer interface{}, reqMsg interface{}, timeout time.Duration, user
 	ses, err := getPeerSession(sesOrPeer)
 	if err != nil {
 		//log.Errorf("Remote call failed, ", err)
-		log.Error("Remote call failed, %v\n", err)
+		logs.Error("Remote call failed, %v\n", err)
 		lib.SessionQueuedCall(ses, func() {
 			userCallback(err)
 		})

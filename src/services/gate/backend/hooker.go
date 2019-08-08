@@ -129,7 +129,7 @@ func writeAgentLog(ses lib.Session, dir string, ack *msgProto.TransmitAck) {
 	userMsg, _, err := codec.DecodeMessage(int(ack.MsgId), ack.MsgData)
 	if err == nil {
 		//log.Debugf("#agent.%s(%s)@%d len: %d %s <%d>| %s",
-		log.Debug("#gate.%s(%s)@%d len: %d %s <%d>| %s",
+		logs.Debug("#gate.%s(%s)@%d len: %d %s <%d>| %s",
 			dir,
 			peerInfo.Name(),
 			ses.Id(),
@@ -141,7 +141,7 @@ func writeAgentLog(ses lib.Session, dir string, ack *msgProto.TransmitAck) {
 
 		// 网关没有相关的消息, 只能打出消息号
 		//log.Debugf("#agent.%s(%s)@%d len: %d msgid: %d <%d>",
-		log.Debug("#gate.%s(%s)@%d len: %d msgid: %d <%d>",
+		logs.Debug("#gate.%s(%s)@%d len: %d msgid: %d <%d>",
 			dir,
 			peerInfo.Name(),
 			ses.Id(),

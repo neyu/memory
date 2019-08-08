@@ -19,7 +19,7 @@ func (SvcEventHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Even
 		if pre := GetRemoteService(msg.SvcId); pre == nil {
 
 			// 添加连接上来的对方服务
-			log.Debug("ServiceIdentifyAck to AddRemoteService:%+v", msg)
+			logs.Debug("ServiceIdentifyAck to AddRemoteService:%+v", msg)
 			AddRemoteService(inputEvent.Session(), msg.SvcId, msg.SvcName)
 		}
 	case *lib.SessionConnected:
@@ -34,7 +34,7 @@ func (SvcEventHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Even
 			SvcId:   "gate_1", //GetLocalSvcId(),
 		})
 
-		log.Debug("SessionConnected to AddRemoteService:%+v", msg)
+		logs.Debug("SessionConnected to AddRemoteService:%+v", msg)
 		// AddRemoteService(inputEvent.Session(), sd.Id, sd.Name)
 		AddRemoteService(inputEvent.Session(), "game_1", GetProcName())
 		// }

@@ -28,7 +28,7 @@ func AddRemoteService(ses lib.Session, svcid, name string) {
 	connBySvcNameGuard.Unlock()
 
 	//log.SetColor("green").Infof("remote service added: '%s' sid: %d", svcid, ses.Id())
-	log.Info("remote service added: '%s' sid: %d, connBySvcId:%+v", svcid, ses.Id(), connBySvcId)
+	logs.Info("remote service added: '%s' sid: %d, connBySvcId:%+v", svcid, ses.Id(), connBySvcId)
 }
 
 func RemoveRemoteService(ses lib.Session) {
@@ -45,7 +45,7 @@ func RemoveRemoteService(ses lib.Session) {
 		connBySvcNameGuard.Unlock()
 
 		//log.SetColor("yellow").Infof("remote service removed '%s' sid: %d", ctx.SvcId, ses.Id())
-		log.Info("remote service removed '%s' sid: %d connBySvcId:%+v", ctx.SvcId, ses.Id(), connBySvcId)
+		logs.Info("remote service removed '%s' sid: %d connBySvcId:%+v", ctx.SvcId, ses.Id(), connBySvcId)
 	}
 }
 
@@ -78,7 +78,7 @@ func GetRemoteService(svcid string) lib.Session {
 	connBySvcNameGuard.RLock()
 	defer connBySvcNameGuard.RUnlock()
 
-	log.Info("remote service query: '%s' connBySvcId: %+v", svcid, connBySvcId)
+	logs.Info("remote service query: '%s' connBySvcId: %+v", svcid, connBySvcId)
 
 	if ses, ok := connBySvcId[svcid]; ok {
 

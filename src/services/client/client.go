@@ -84,7 +84,7 @@ func gateMsgHandler(ev lib.Event) {
 	case *lib.SessionClosed:
 		// stop.Done()
 	case *msgProto.ChatAck:
-		log.Info(msg.Content)
+		logs.Info(msg.Content)
 	}
 }
 

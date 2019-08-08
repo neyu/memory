@@ -20,31 +20,31 @@ func test_beego() {
 	log.SetLogger("file", `{"filename":"test.log"}`)
 
 	log.Trace("trace file")
-	log.Info("info file")
+	logs.Info("info file")
 	log.Warn("warning file")
-	log.Debug("debug file")
+	logs.Debug("debug file")
 	log.Critical("critical file")
 
 	log.DelLogger("file")
 	log.SetLogger("console", "")
 
 	log.Trace("trace")
-	log.Info("info")
+	logs.Info("info")
 	log.Warn("warning")
-	log.Debug("debug")
+	logs.Debug("debug")
 	log.Critical("critical")
 
 	log.Emergency("Emergency %d", logs.LevelEmergency)
 	log.Alert("Alert %d", logs.LevelAlert)
 	log.Critical("Critical %d", logs.LevelCritical)
-	log.Error("Error %d", logs.LevelError)
+	logs.Error("Error %d", logs.LevelError)
 	log.Warning("Warning %d", logs.LevelWarning)
 	log.Notice("Notice %d", logs.LevelNotice)
 	log.Informational("Informational %d", logs.LevelInformational)
-	log.Debug("Debug %d", logs.LevelDebug)
+	logs.Debug("Debug %d", logs.LevelDebug)
 
 	// log.SetLogger("conn", `{"net":"tcp","addr":":7020"}`)
-	// log.Info("info")
+	// logs.Info("info")
 
 	// log.SetLogger("smtp", `{"username":"1504651030@qq.com","password":"a19841125","host":"smtp.qq.com:587","sendTos":["240276334@qq.com"]}`)
 	// log.Critical("sendmail critical")

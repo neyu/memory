@@ -33,7 +33,7 @@ func ResolveInboundEvent(inputEvent lib.Event) (outputEvent lib.Event, handled b
 	//if !msglog.IsBlockedMessageById(int(rpcMsg.GetMsgId())) {
 	peerInfo := inputEvent.Session().GetPeer()
 	//log.Debugf("#rpc.recv(%s)@%d len: %d %s | %s",
-	log.Debug("#rpc.recv(%s)@%d len: %d %s | %s\n",
+	logs.Debug("#rpc.recv(%s)@%d len: %d %s | %s\n",
 		peerInfo.Name(),
 		inputEvent.Session().Id(),
 		codec.MessageSize(userMsg),
@@ -74,7 +74,7 @@ func ResolveOutboundEvent(inputEvent lib.Event) (handled bool, err error) {
 	//if !msglog.IsBlockedMessageById(int(rpcMsg.GetMsgId())) {
 	peerInfo := inputEvent.Session().GetPeer()
 	//log.Debugf("#rpc.send(%s)@%d len: %d %s | %s",
-	log.Debug("#rpc.send(%s)@%d len: %d %s | %s\n",
+	logs.Debug("#rpc.send(%s)@%d len: %d %s | %s\n",
 		peerInfo.Name(),
 		inputEvent.Session().Id(),
 		codec.MessageSize(userMsg),

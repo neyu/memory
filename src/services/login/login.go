@@ -42,7 +42,7 @@ func handleLoginReq(ev lib.Event) {
 	host, port, err := util.SpliteAddress(gateWAN)
 	if err != nil {
 		//log.Errorf("invalid address: '%s' %s", agentWAN, err.Error())
-		log.Error("invalid address: '%s' %s\n", gateWAN, err.Error())
+		logs.Error("invalid address: '%s' %s\n", gateWAN, err.Error())
 
 		ack.Result = msgProto.ResultCode_GateAddressError
 
@@ -68,6 +68,6 @@ func handleLoginReq(ev lib.Event) {
 	}
 
 	// service.Reply(ev, &ack)
-	log.Debug("handleLoginReq:%+v", ack)
+	logs.Debug("handleLoginReq:%+v", ack)
 	ev.Session().Send(&ack)
 }

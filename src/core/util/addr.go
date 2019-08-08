@@ -114,7 +114,7 @@ func ParseAddress(addr string) (addrObj *Address, err error) {
 
 func DetectPort(addr string, fn func(a *Address, port int) (interface{}, error)) (interface{}, error) {
 	addrObj, err := ParseAddress(addr)
-	log.Debug("addrObj:%+v", addrObj)
+	logs.Debug("addrObj:%+v", addrObj)
 	if err != nil {
 		return nil, err
 	}

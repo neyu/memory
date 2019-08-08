@@ -32,21 +32,21 @@ func BroadcastAll(msg interface{}) {
 	data, meta, err := codec.EncodeMessage(msg)
 	if err != nil {
 		//log.Errorf("BroadcastAll.EncodeMessage %s", err)
-		log.Debug("BroadcastAll.EncodeMessage %s\n", err)
+		logs.Debug("BroadcastAll.EncodeMessage %s\n", err)
 		return
 	}
 
 	service.VisitRemoteService(func(ses lib.Session, ctx *service.RemoteServiceContext) bool {
 
 		if ctx != nil && ctx.Name == "gate" {
-			log.Debug("ctx name is gate to broadcast")
+			logs.Debug("ctx name is gate to broadcast")
 			ses.Send(&msgProto.TransmitAck{
 				MsgId:   uint32(meta.Id),
 				MsgData: data,
 				All:     true,
 			})
 		} else {
-			log.Debug("to broadcast for ctx:", ctx)
+			logs.Debug("to broadcast for ctx:", ctx)
 		}
 
 		return true

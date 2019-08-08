@@ -1,0 +1,18 @@
+{
+	"mm": {
+		 "host": "localhost",
+		 "port": "3306",
+		 "user": "root",
+		 "password": "123456",
+		 "db": "mm",
+		 "charset": "utf8mb4"
+	},
+	"h5": {
+		 "host": "localhost",
+		 "port": "3306",
+		 "user": "root",
+		 "password": "123456",
+		 "db": "mm_h5",
+		 "charset": "utf8mb4"
+	}
+}

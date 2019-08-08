@@ -45,7 +45,7 @@ const (
 )
 
 func init() {
-	log.Info("register msg meta")
+	logs.Info("register msg meta")
 
 	RegMsg(ID_RemoteCallReq, rpc.RemoteCallReq{})
 	RegMsg(ID_RemoteCallAck, rpc.RemoteCallAck{})
@@ -80,6 +80,6 @@ func RegMsg(msgId int, msg interface{}) {
 		Type:  reflect.TypeOf(msg),
 		Id:    msgId,
 	}
-	// log.Info("register msg meta:%d %s", metaMsg.Id, metaMsg.FullName())
+	// logs.Info("register msg meta:%d %s", metaMsg.Id, metaMsg.FullName())
 	codec.RegisterMessageMeta(&metaMsg)
 }

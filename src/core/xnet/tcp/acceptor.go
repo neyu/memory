@@ -59,7 +59,7 @@ func (self *tcpAcceptor) Start() {
 
 	if err != nil {
 
-		log.Error("#tcp.listen failed(%s) %v", self.Name(), err.Error())
+		logs.Error("#tcp.listen failed(%s) %v", self.Name(), err.Error())
 
 		self.SetRunning(false)
 
@@ -68,7 +68,7 @@ func (self *tcpAcceptor) Start() {
 
 	self.listener = ln.(net.Listener)
 
-	log.Info("#tcp.listen(%s) %s", self.Name(), self.ListenAddress())
+	logs.Info("#tcp.listen(%s) %s", self.Name(), self.ListenAddress())
 
 	go self.accept()
 
@@ -109,7 +109,7 @@ func (self *tcpAcceptor) accept() {
 			}
 
 			// 调试状态时, 才打出accept的具体错误
-			log.Error("#tcp.accept failed(%s) %v", self.Name(), err.Error())
+			logs.Error("#tcp.accept failed(%s) %v", self.Name(), err.Error())
 			break
 		}
 	}

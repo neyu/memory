@@ -39,7 +39,7 @@ func handleChatReq(incomingEv lib.Event) {
 
 		// userHandler(incomingEv, cid)
 		msg := ev.Message().(*msgProto.ChatReq)
-		log.Debug("chat: %+v \n", msg.Content)
+		logs.Debug("chat: %+v \n", msg.Content)
 		// 消息广播到网关并发给客户端
 		gateapi.BroadcastAll(&msgProto.ChatAck{
 			Content: msg.Content,
@@ -64,7 +64,7 @@ func handleVerifyReq(incomingEv lib.Event) {
 
 		// userHandler(incomingEv, cid)
 		msg := ev.Message().(*msgProto.VerifyReq)
-		log.Debug("verfiy:%+v", msg)
+		logs.Debug("verfiy:%+v", msg)
 		service.Reply(ev, &msgProto.VerifyAck{})
 	}
 }
