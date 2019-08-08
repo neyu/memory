@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package log
+package logs
 
 import (
 	"encoding/json"
@@ -63,7 +63,7 @@ func (c *connWriter) WriteMsg(when time.Time, msg string, level int) error {
 		defer c.innerWriter.Close()
 	}
 
-	c.lg.println(when, msg)
+	c.lg.writeln(when, msg)
 	return nil
 }
 
