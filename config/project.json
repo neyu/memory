@@ -1,0 +1,22 @@
+{
+    "isSandBox": 1,
+    "isValidIAP": 0,
+    "serverLogTime":5,
+    "userLogTime":4,
+    "vKey":"kj1sGd6hEs2hdj",
+    "serverHttpHost":"127.0.0.1",
+    "serverHttpPort":"24200",
+    "mainHttpHost":"127.0.0.1",
+    "mainHttpPort":"",
+    "guildWarHttpHost":"127.0.0.1",
+    "guildWarHttpPort":"",
+    "viewHttpHost":"127.0.0.1",
+    "viewHttpPort":"",
+    "monitorHttpHost":"127.0.0.1",
+    "monitorHttpPort":"",
+    "notify_url":"https://www.longxia80.com",
+    "serverId":"1",
+    "bonusShareUrl":"",
+    "gameId":"100220",
+    "cpuWorkers":2
+}

@@ -1,15 +1,34 @@
-07/20 23:01:33.464 [D] trace file
-07/20 23:01:33.464 [I] info file
-07/20 23:01:33.464 [W] warning file
-07/20 23:01:33.464 [D] debug file
-07/20 23:01:33.464 [C] critical file
-07/20 23:01:48.196 [D] trace file
-07/20 23:01:48.196 [I] info file
-07/20 23:01:48.196 [W] warning file
-07/20 23:01:48.196 [D] debug file
-07/20 23:01:48.196 [C] critical file
-07/20 23:02:51.908 [D] trace file
-07/20 23:02:51.908 [I] info file
-07/20 23:02:51.908 [W] warning file
-07/20 23:02:51.908 [D] debug file
-07/20 23:02:51.908 [C] critical file
+clientSes:&{
+Peer:0xc000095520 
+ContextSet:
+{
+ctxes:
+	[{key:user value:0xc0001b6000}] 
+	ctxesGuard:
+	{
+		w: {state:0 sema:0} 
+		writerSem:0 
+		readerSem:0 
+		readerCount:0 
+		readerWait:0
+	}
+} 
+id:1 
+conn:0xc000146010 
+connGuard:
+	{
+		w: {state:0 sema:0} 
+		writerSem:0 
+		readerSem:0 
+		readerCount:0 
+		readerWait:0
+	} 
+exitSync:
+	{
+		noCopy:{} 
+		state1:[1 2 0]
+	} 
+sendQueue:0xc0001440f0 
+cleanupGuard:{state:0 sema:0} 
+endNotify:<nil> 
+closing:0}
