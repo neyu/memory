@@ -3,16 +3,16 @@
 2. 自己与他人的操作，互不阻塞
 3. 事务操作，提交，回滚
 # ***************************************************************<br>
-dao共包含以下接口：
-insert  插入一条数据
-insertList  批量插入
-update  更新
-del   删除
-select  查询一条数据
-selectCols  自定义列查询一条数据
-list    查询一组数据
-listCols 自定义列查询一组数据
-count   查询数据总数记录
+dao共包含以下接口：<br>
+insert  插入一条数据<br>
+insertList  批量插入<br>
+update  更新<br>
+del   删除<br>
+select  查询一条数据<br>
+selectCols  自定义列查询一条数据<br>
+list    查询一组数据<br>
+listCols 自定义列查询一组数据<br>
+count   查询数据总数记录<br>
 # ***************************************************************<br>
 <br>
 # 具体用法：<br>
