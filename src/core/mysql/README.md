@@ -17,97 +17,97 @@ count   查询数据总数记录
 <br>
 # 具体用法：<br>
 ------------------------------------------------<br>
-1. insert   插入一条数据：
-var testEntity = require('uw-test').TestEntity;
-var testEntity = new TestEntity();
-testDao.insert(client, testEntity, function(err, data){
-    //data返回插入数据的id
-    var id = data.insertId;
-});
+1. insert   插入一条数据：<br>
+var testEntity = require('uw-test').TestEntity;<br>
+var testEntity = new TestEntity();<br>
+testDao.insert(client, testEntity, function(err, data){<br>
+    //data返回插入数据的id<br>
+    var id = data.insertId;<br>
+});<br>
 
-insertList  批量插入
-var testEntity1 = new TestEntity();
-var testEntity2 = new TestEntity();
-testDao.insertList(client, [testEntity1,testEntity2], function(err, data){
-    //data返回空值
-});
-------------------------------------------------
-2. update  更新：
-两种使用方式
-一、
-testDao.update(client, {name:"aaa",lvl:2}, {id:1},function(err, data){
-    //data返回空值
-});
-二、
-testDao.update(client, {name:"aaa",lvl:2}, " id = ? and name = ? and name is not null ",[1,"xxx"],function(err, data){
-    //data返回空值
-});
-------------------------------------------------
-3. del   删除：
-两种使用方式
-一、
-testDao.del(client,{id:1},function(err, data){
-    //data返回空值
-});
-二、
-testDao.del(client,  " id = ? and name = ? and name is not null ",[1,"xxx"],function(err, data){
-    //data返回空值
-});
+insertList  批量插入<br>
+var testEntity1 = new TestEntity();<br>
+var testEntity2 = new TestEntity();<br>
+testDao.insertList(client, [testEntity1,testEntity2], function(err, data){<br>
+    //data返回空值<br>
+});<br>
+------------------------------------------------<br>
+2. update  更新：<br>
+两种使用方式<br>
+一、<br>
+testDao.update(client, {name:"aaa",lvl:2}, {id:1},function(err, data){<br>
+    //data返回空值<br>
+});<br>
+二、<br>
+testDao.update(client, {name:"aaa",lvl:2}, " id = ? and name = ? and name is not null ",[1,"xxx"],function(err,<br> data){<br>
+    //data返回空值<br>
+});<br>
+------------------------------------------------<br>
+3. del   删除：<br>
+两种使用方式<br>
+一、<br>
+testDao.del(client,{id:1},function(err, data){<br>
+    //data返回空值<br>
+});<br>
+二、<br>
+testDao.del(client,  " id = ? and name = ? and name is not null ",[1,"xxx"],function(err, data){<br>
+    //data返回空值<br>
+});<br>
 
-------------------------------------------------
-4. select  查询一条数据：
-两种使用方式
-一、
-testDao.select(client,{id:1},function(err, data){
-    //data返回object
-});
-二、
-testDao.select(client,  " id = ? and name = ? and name is not null ",[1,"xxx"],function(err, data){
-    //data返回object
-});
+------------------------------------------------<br>
+4. select  查询一条数据：<br>
+两种使用方式<br>
+一、<br>
+testDao.select(client,{id:1},function(err, data){<br>
+    //data返回object<br>
+});<br>
+二、<br>
+testDao.select(client,  " id = ? and name = ? and name is not null ",[1,"xxx"],function(err, data){<br>
+    //data返回object<br>
+});<br>
 
-select  自定义列查询一条数据：
-两种使用方式
-一、
-testDao.selectCols(client," name,lvl ",{id:1},function(err, data){
-    //data返回object，只包含name,lvl
-});
-二、
-testDao.selectCols(client, " name,lvl ", " id = ? and name = ? and name is not null ",[1,"xxx"],function(err, data){
-    //data返回object，只包含name,lvl
-});
+select  自定义列查询一条数据：<br>
+两种使用方式<br>
+一、<br>
+testDao.selectCols(client," name,lvl ",{id:1},function(err, data){<br>
+    //data返回object，只包含name,lvl<br>
+});<br>
+二、<br>
+testDao.selectCols(client, " name,lvl ", " id = ? and name = ? and name is not null ",[1,"xxx"],function(err, data){<br>
+    //data返回object，只包含name,lvl<br>
+});<br>
 
-------------------------------------------------
-5. list  查询一组数据：
-两种使用方式
-一、
-testDao.list(client,{lvl:10},function(err, data){
-    //data返回数组[object,...]
-});
-二、
-testDao.list(client,  " id = ? and name = ? and name is not null ",[1,"xxx"],function(err, data){
-    //data返回[object,...]
-});
+------------------------------------------------<br>
+5. list  查询一组数据：<br>
+两种使用方式<br>
+一、<br>
+testDao.list(client,{lvl:10},function(err, data){<br>
+    //data返回数组[object,...]<br>
+});<br>
+二、<br>
+testDao.list(client,  " id = ? and name = ? and name is not null ",[1,"xxx"],function(err, data){<br>
+    //data返回[object,...]<br>
+});<br>
 
-listCols  自定义列查询一组数据：
-两种使用方式
-一、
-testDao.listCols(client," name,lvl ",{lvl:10},function(err, data){
-    //data返回[object,...]，object只包含name,lvl
-});
-二、
-testDao.listCols(client, " name,lvl ", " lvl = ? and name is not null ",[10,"xxx"],function(err, data){
-    //data返回[object,...]，object只包含name,lvl
-});
+listCols  自定义列查询一组数据：<br>
+两种使用方式<br>
+一、<br>
+testDao.listCols(client," name,lvl ",{lvl:10},function(err, data){<br>
+    //data返回[object,...]，object只包含name,lvl<br>
+});<br>
+二、<br>
+testDao.listCols(client, " name,lvl ", " lvl = ? and name is not null ",[10,"xxx"],function(err, data){<br>
+    //data返回[object,...]，object只包含name,lvl<br>
+});<br>
 
-------------------------------------------------
-6. count   查询数据总数记录：
-两种使用方式
-一、
-testDao.count(client, {lvl:10}, function(err, data){
-    //data返回记录总数
-});
-二、
-testDao.count(client, " lvl = ?  name is not null ",[10,"xxx"],function(err, data){
-    //data返回记录总数
-});
+------------------------------------------------<br>
+6. count   查询数据总数记录：<br>
+两种使用方式<br>
+一、<br>
+testDao.count(client, {lvl:10}, function(err, data){<br>
+    //data返回记录总数<br>
+});<br>
+二、<br>
+testDao.count(client, " lvl = ?  name is not null ",[10,"xxx"],function(err, data){<br>
+    //data返回记录总数<br>
+});<br>
