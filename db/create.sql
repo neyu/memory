@@ -432,7 +432,7 @@ CREATE TABLE `uw_challengecup_rank`  (
   `vip` int(4) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uw_challengeCupRank_aid`(`userId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for uw_coffers
@@ -2276,7 +2276,7 @@ CREATE TABLE `uw_user`  (
   `highPaTa` int(4) NULL DEFAULT 0 COMMENT '通天塔最高层数',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uw_user_aid`(`accountId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 71318 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '角色，账号进入到每个服中扮演的角色。' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 71318 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色，账号进入到每个服中扮演的角色。' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of uw_user
