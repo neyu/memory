@@ -2,22 +2,24 @@
 后台-消耗钻石(ConsumeEntity)
 后台-消耗钻石
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/*序号*/
-    /** 时间 **/
-    recordTime: null/*时间*/
-    /** 用户ID **/
-    userId: null/*用户ID*/
-    /** 消耗项目 **/
-    item_id: null/*消耗项目*/
-    /** 消耗钻石 **/
-    amount: null/*消耗钻石*/
-    /** 商店记录 **/
-    shopRecord: null/*商店记录*/
-    /** 渠道号 **/
-    channelId: null/*渠道号*/
+var TbConsume = "uw_consume"
+
+type ConsumeEntity struct {
+	/** 序号 **/
+	Id int32 /*序号*/
+	/** 时间 **/
+	RecordTime int64 /*时间*/
+	/** 用户ID **/
+	UserId uint64 /*用户ID*/
+	/** 消耗项目 **/
+	Item_id string /*消耗项目*/
+	/** 消耗钻石 **/
+	Amount int32 /*消耗钻石*/
+	/** 商店记录 **/
+	ShopRecord string /*商店记录*/
+	/** 渠道号 **/
+	ChannelId string /*渠道号*/
 
 }
-_Class.tableName: 'uw_consume'

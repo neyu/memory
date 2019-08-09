@@ -2,14 +2,16 @@
 主-国库分组(CoffersGroupEntity)
 主-国库分组(CoffersGroupEntity)
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/**/
-    /** 组名 **/
-    name: null/*组名*/
-    /** 服务器组 **/
-    serverArr: null/*服务器组*/
+var TbCoffersGroup = "uw_coffers_group"
+
+type CoffersGroupEntity struct {
+	/** 序号 **/
+	Id int32 /**/
+	/** 组名 **/
+	Name string /*组名*/
+	/** 服务器组 **/
+	ServerArr string /*服务器组*/
 
 }
-_Class.tableName: 'uw_coffers_group'

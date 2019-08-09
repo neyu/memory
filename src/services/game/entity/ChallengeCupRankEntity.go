@@ -2,26 +2,28 @@
 王城擂主数据排行(ChallengeCupRankEntity)
 
 **/
+package table
 
-type AccountEntity struct {
-    /** 擂主数据id **/
-    id: null/**/
-    /** 守擂用户id **/
-    userId: null/**/
-    /** 守擂开始时间 **/
-    startTime: null/**/
-    /** 守擂结束时间 **/
-    endTime: null/**/
-    /** 最长守擂时间 **/
-    maxTime: 0/*最长守擂时间*/
-    /** 头像 **/
-    iconId: null/**/
-    /** 昵称 **/
-    nickName: null/**/
-    /** 等级 **/
-    lvl: null/**/
-    /** vip等级 **/
-    vip: null/**/
+var TbChallengeCupRank = "uw_challengeCup_rank"
+
+type ChallengeCupRankEntity struct {
+	/** 擂主数据id **/
+	Id int32 /**/
+	/** 守擂用户id **/
+	UserId uint64 /**/
+	/** 守擂开始时间 **/
+	StartTime int64 /**/
+	/** 守擂结束时间 **/
+	EndTime int64 /**/
+	/** 最长守擂时间 **/
+	MaxTime int32 /*最长守擂时间*/
+	/** 头像 **/
+	IconId int32 /**/
+	/** 昵称 **/
+	NickName string /**/
+	/** 等级 **/
+	Lvl int32 /**/
+	/** vip等级 **/
+	Vip int32 /**/
 
 }
-_Class.tableName: 'uw_challengeCup_rank'
