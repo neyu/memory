@@ -2,14 +2,16 @@
 后台-账号组(ManagerGroup)
 后台-账号组
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/*序号*/
-    /** 组名 **/
-    name: null/*组名*/
-    /** 权限 **/
-    rights: null/*权限*/
+var TbManagerGroup = "uw_manager_group"
+
+type ManagerGroup struct {
+	/** 序号 **/
+	Id int32 /*序号*/
+	/** 组名 **/
+	Name string /*组名*/
+	/** 权限 **/
+	Rights int32 /*权限*/
 
 }
-_Class.tableName: 'uw_manager_group'

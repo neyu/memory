@@ -2,14 +2,16 @@
 镜像世界排行榜视图(MirrorRankViewEntity)
 
 **/
+package table
 
-type AccountEntity struct {
-    /** combatEff **/
-    combatEff: null/**/
-    /** isLocked **/
-    isLocked: null/**/
-    /** totalGain **/
-    totalGain: null/**/
+var TbMirrorRankView = "uw_mirror_rank_view"
+
+type MirrorRankViewEntity struct {
+	/** combatEff **/
+	CombatEff int32 /**/
+	/** isLocked **/
+	IsLocked int8 /**/
+	/** totalGain **/
+	TotalGain int32 /**/
 
 }
-_Class.tableName: 'uw_mirror_rank_view'

@@ -21,7 +21,7 @@ func test_beego() {
 
 	log.Trace("trace file")
 	logs.Info("info file")
-	log.Warn("warning file")
+	logs.Warn("warning file")
 	logs.Debug("debug file")
 	log.Critical("critical file")
 
@@ -30,7 +30,7 @@ func test_beego() {
 
 	log.Trace("trace")
 	logs.Info("info")
-	log.Warn("warning")
+	logs.Warn("warning")
 	logs.Debug("debug")
 	log.Critical("critical")
 

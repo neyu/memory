@@ -23,7 +23,7 @@ func (BackendMsgHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Ev
 		userMsg, _, err := codec.DecodeMessage(int(incomingMsg.MsgId), incomingMsg.MsgData)
 		if err != nil {
 			//log.Warnf("Backend msg decode failed, %s, msgid: %d", err.Error(), incomingMsg.MsgId)
-			log.Warn("Backend msg decode failed, %s, msgid: %d\n", err.Error(), incomingMsg.MsgId)
+			logs.Warn("Backend msg decode failed, %s, msgid: %d\n", err.Error(), incomingMsg.MsgId)
 			return nil
 		}
 

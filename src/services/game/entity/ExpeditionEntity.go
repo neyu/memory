@@ -2,18 +2,20 @@
 游戏-传奇之路(ExpeditionEntity)
 传奇之路
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/*序号*/
-    /** 用户id **/
-    userId: 0/**/
-    /** 关卡数 **/
-    stageId: 0/*关卡数*/
-    /** 挑战次数 **/
-    fightCount: 0/*挑战次数*/
-    /** 元婴召唤次数 **/
-    soulCount: 0/*元婴召唤次数*/
+var TbExpedition = "uw_expedition"
+
+type ExpeditionEntity struct {
+	/** 序号 **/
+	Id int32 /*序号*/
+	/** 用户id **/
+	UserId uint64 /**/
+	/** 关卡数 **/
+	StageId int32 /*关卡数*/
+	/** 挑战次数 **/
+	FightCount int32 /*挑战次数*/
+	/** 元婴召唤次数 **/
+	SoulCount int32 /*元婴召唤次数*/
 
 }
-_Class.tableName: 'uw_expedition'

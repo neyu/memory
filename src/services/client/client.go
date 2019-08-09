@@ -116,7 +116,7 @@ func remoteCall(ses lib.Session, req interface{}, callback interface{}) error {
 		vCall.Call([]reflect.Value{reflect.ValueOf(ack)})
 		return nil
 	case <-time.After(time.Second * 10):
-		log.Warn("client.remoteCall rpc time out")
+		logs.Warn("client.remoteCall rpc time out")
 		return errors.New("client.remoteCall rpc time out")
 	}
 	return nil

@@ -2,14 +2,16 @@
 游戏-隐姓埋名玩家列表(IncognitoEntity)
 游戏-隐姓埋名玩家列表
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/*序号*/
-    /** 用户id **/
-    userId: null/*用户id*/
-    /** 开启时间 **/
-    openTime: null/*开启时间*/
+var TbIncognito = "uw_incognito"
+
+type IncognitoEntity struct {
+	/** 序号 **/
+	Id int32 /*序号*/
+	/** 用户id **/
+	UserId uint64 /*用户id*/
+	/** 开启时间 **/
+	OpenTime int64 /*开启时间*/
 
 }
-_Class.tableName: 'uw_incognito'

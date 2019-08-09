@@ -2,16 +2,18 @@
 后台-账号(ManagerEntity)
 后台-账号
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/**/
-    /** 名字 **/
-    name: null/**/
-    /** 密码 **/
-    pwd: null/**/
-    /** 组别 **/
-    groupId: null/**/
+var TbManager = "uw_manager"
+
+type ManagerEntity struct {
+	/** 序号 **/
+	Id int32 /**/
+	/** 名字 **/
+	Name string /**/
+	/** 密码 **/
+	Pwd string /**/
+	/** 组别 **/
+	GroupId int32 /**/
 
 }
-_Class.tableName: 'uw_manager'

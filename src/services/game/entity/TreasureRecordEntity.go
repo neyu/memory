@@ -2,28 +2,30 @@
 秘宝争夺记录(TreasureRecordEntity)
 秘宝争夺记录
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/*序号*/
-    /** 记录类型 **/
-    recordType: null/*记录类型*/
-    /** 玩家id **/
-    userId: null/*玩家id*/
-    /** 公会名 **/
-    guildName: null/*公会名*/
-    /** vip等级 **/
-    userVip: null/*vip等级*/
-    /** 玩家名 **/
-    userName: null/*玩家名*/
-    /** 勋章称号 **/
-    medalTitle: null/*勋章称号*/
-    /** 秘宝id **/
-    treasureId: null/*秘宝id*/
-    /** 掉落物品 **/
-    items: null/*掉落物品*/
-    /** 记录日期 **/
-    recordDate: null/**/
+var TbTreasureRecord = "uw_treasureRecord"
+
+type TreasureRecordEntity struct {
+	/** 序号 **/
+	Id int32 /*序号*/
+	/** 记录类型 **/
+	RecordType int32 /*记录类型*/
+	/** 玩家id **/
+	UserId uint64 /*玩家id*/
+	/** 公会名 **/
+	GuildName string /*公会名*/
+	/** vip等级 **/
+	UserVip int32 /*vip等级*/
+	/** 玩家名 **/
+	UserName string /*玩家名*/
+	/** 勋章称号 **/
+	MedalTitle int32 /*勋章称号*/
+	/** 秘宝id **/
+	TreasureId int32 /*秘宝id*/
+	/** 掉落物品 **/
+	Items string /*掉落物品*/
+	/** 记录日期 **/
+	RecordDate int64 /**/
 
 }
-_Class.tableName: 'uw_treasureRecord'

@@ -2,22 +2,24 @@
 游戏-聚灵妖莲(DemonLotusEntity)
 聚灵妖莲
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/*公会个人信息id*/
-    /** 用户id **/
-    userId: null/*用户id*/
-    /** 妖莲等级 **/
-    lvl: 0/*妖莲等级*/
-    /** 累计经验值 **/
-    addUpExpc: 0/*累计经验值*/
-    /** 最后操作时间 **/
-    lastOpeTime: null/*最后操作时间*/
-    /** 进阶等级 **/
-    advanceLvl: 0/*进阶等级*/
-    /** 宝物等级 **/
-    treasureLvl: 0/*宝物等级*/
+var TbDemonLotus = "uw_demon_lotus"
+
+type DemonLotusEntity struct {
+	/** 序号 **/
+	Id int32 /*公会个人信息id*/
+	/** 用户id **/
+	UserId uint64 /*用户id*/
+	/** 妖莲等级 **/
+	Lvl int32 /*妖莲等级*/
+	/** 累计经验值 **/
+	AddUpExpc int32 /*累计经验值*/
+	/** 最后操作时间 **/
+	LastOpeTime int64 /*最后操作时间*/
+	/** 进阶等级 **/
+	AdvanceLvl int32 /*进阶等级*/
+	/** 宝物等级 **/
+	TreasureLvl int32 /*宝物等级*/
 
 }
-_Class.tableName: 'uw_demon_lotus'

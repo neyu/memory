@@ -2,42 +2,44 @@
 游戏-公会个人信息(GuildPersonalEntity)
 公会个人信息
 **/
+package table
 
-type AccountEntity struct {
-    /** 公会个人信息id **/
-    id: null/*公会个人信息id*/
-    /** 用户id **/
-    userId: null/*用户id*/
-    /** 公会id **/
-    guildId: 0/*公会id*/
-    /** 职务 **/
-    position: 0/*职务*/
-    /** 被提升为副会长的时间 **/
-    viceTime: null/*被提升为副会长的时间*/
-    /** 今天贡献值 **/
-    todayAct: 0/*今天贡献值*/
-    /** 今天公告次数 **/
-    noticeCount: 0/*今天公告次数*/
-    /** 今天退会次数 **/
-    exitGuildCount: 0/*今天退会次数*/
-    /** 今日抽奖次数 **/
-    lotteryCount: 0/*今日抽奖次数*/
-    /** 贡献上一次刷新时间 **/
-    actLastTime: null/*贡献上一次刷新时间*/
-    /** 累计贡献值 **/
-    addUpAct: 0/*累计贡献值*/
-    /** 退会信息 **/
-    outMsg: null/*退会信息*/
-    /** 申请信息 **/
-    appliedMsg: null/*申请信息*/
-    /** 贡献数据 **/
-    actData: null/*格式:{&quot贡献id&quot:[次数]}*/
-    /** 当前公会贡献 **/
-    guildAct: 0/*当前公会贡献*/
-    /** 最后退会时间 **/
-    lastQuipGuildTime: null/*最后退会时间*/
-    /** 爵位 **/
-    ennoble: 0/*爵位*/
+var TbGuildPersonal = "uw_guild_personal"
+
+type GuildPersonalEntity struct {
+	/** 公会个人信息id **/
+	Id int32 /*公会个人信息id*/
+	/** 用户id **/
+	UserId uint64 /*用户id*/
+	/** 公会id **/
+	GuildId int32 /*公会id*/
+	/** 职务 **/
+	Position int32 /*职务*/
+	/** 被提升为副会长的时间 **/
+	ViceTime int64 /*被提升为副会长的时间*/
+	/** 今天贡献值 **/
+	TodayAct int32 /*今天贡献值*/
+	/** 今天公告次数 **/
+	NoticeCount int32 /*今天公告次数*/
+	/** 今天退会次数 **/
+	ExitGuildCount int32 /*今天退会次数*/
+	/** 今日抽奖次数 **/
+	LotteryCount int32 /*今日抽奖次数*/
+	/** 贡献上一次刷新时间 **/
+	ActLastTime int64 /*贡献上一次刷新时间*/
+	/** 累计贡献值 **/
+	AddUpAct int32 /*累计贡献值*/
+	/** 退会信息 **/
+	OutMsg string /*退会信息*/
+	/** 申请信息 **/
+	AppliedMsg string /*申请信息*/
+	/** 贡献数据 **/
+	ActData string /*格式:{&quot贡献id&quot:[次数]}*/
+	/** 当前公会贡献 **/
+	GuildAct int32 /*当前公会贡献*/
+	/** 最后退会时间 **/
+	LastQuipGuildTime int64 /*最后退会时间*/
+	/** 爵位 **/
+	Ennoble int32 /*爵位*/
 
 }
-_Class.tableName: 'uw_guild_personal'

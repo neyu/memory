@@ -2,38 +2,40 @@
 游戏-野外pk(PkOutEntity)
 游戏-野外pk
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/*序号*/
-    /** 用户id **/
-    userId: 0/*用户id*/
-    /** 对手组 **/
-    enemyIds: null/*对手组*/
-    /** 额外的对手 **/
-    exEnemyId: 0/*额外的对手*/
-    /** 上一次刷新对手时间 **/
-    freshTime: null/*上一次刷新对手时间*/
-    /** pk值 **/
-    pkValue: 0/*pk值*/
-    /** 历史最高pk值 **/
-    highPkValue: 0/*历史最高pk值*/
-    /** 杀戮值 **/
-    killValue: 0/*杀戮值*/
-    /** pk值结算时间 **/
-    pkValueTime: null/*pk值结算时间*/
-    /** 对手类型 **/
-    enemyTypes: 0/**/
-    /** 每日刷新对手次数 **/
-    todayRefreshNum: 0/*每日刷新对手次数*/
-    /** 最近每日刷新时间 **/
-    todayRefreshTime: null/*最近每日刷新时间*/
-    /** 连胜次数 **/
-    winCount: 0/*连胜次数*/
-    /** 历史最高连胜次数 **/
-    highWinCount: 0/*历史最高连胜次数*/
-    /** 累计胜利次数 **/
-    accWinCount: 0/*累计胜利次数*/
+var TbPkOut = "uw_pkout"
+
+type PkOutEntity struct {
+	/** 序号 **/
+	Id int32 /*序号*/
+	/** 用户id **/
+	UserId uint64 /*用户id*/
+	/** 对手组 **/
+	EnemyIds string /*对手组*/
+	/** 额外的对手 **/
+	ExEnemyId uint64 /*额外的对手*/
+	/** 上一次刷新对手时间 **/
+	FreshTime int64 /*上一次刷新对手时间*/
+	/** pk值 **/
+	PkValue int32 /*pk值*/
+	/** 历史最高pk值 **/
+	HighPkValue int32 /*历史最高pk值*/
+	/** 杀戮值 **/
+	KillValue int32 /*杀戮值*/
+	/** pk值结算时间 **/
+	PkValueTime int64 /*pk值结算时间*/
+	/** 对手类型 **/
+	EnemyTypes string /**/
+	/** 每日刷新对手次数 **/
+	TodayRefreshNum int32 /*每日刷新对手次数*/
+	/** 最近每日刷新时间 **/
+	TodayRefreshTime int64 /*最近每日刷新时间*/
+	/** 连胜次数 **/
+	WinCount int32 /*连胜次数*/
+	/** 历史最高连胜次数 **/
+	HighWinCount int32 /*历史最高连胜次数*/
+	/** 累计胜利次数 **/
+	AccWinCount int32 /*累计胜利次数*/
 
 }
-_Class.tableName: 'uw_pkout'

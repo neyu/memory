@@ -26,7 +26,7 @@
 //
 //	log.Trace("trace")
 //	logs.Info("info")
-//	log.Warn("warning")
+//	logs.Warn("warning")
 //	logs.Debug("debug")
 //	log.Critical("critical")
 //

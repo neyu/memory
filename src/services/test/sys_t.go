@@ -1,6 +1,8 @@
 package main
 
 import (
+	"services/game/entity"
+
 	"services/fx"
 	"services/fx/config"
 
@@ -35,5 +37,7 @@ func main() {
 	mysqlConf := config.GetMysql()
 	db_h5 := dict.GetString2(mysqlConf, "h5", "db")
 	logs.Info("mysql db for h5:", db_h5)
+
+	logs.Info("table user entity:", table.UserEntity{})
 
 }

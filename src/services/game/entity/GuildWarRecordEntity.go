@@ -2,16 +2,18 @@
 游戏-公会战记录(GuildWarRecordEntity)
 游戏-公会战记录(GuildWarRecordEntity)
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/*序号*/
-    /** 记录数据 **/
-    recordData: null/*记录数据*/
-    /** 记录时间 **/
-    recordTime: null/*记录时间*/
-    /** 结束排名数据 **/
-    lastRankData: null/*结束排名数据*/
+var TbGuildWarRecord = "uw_guildwar_record"
+
+type GuildWarRecordEntity struct {
+	/** 序号 **/
+	Id int32 /*序号*/
+	/** 记录数据 **/
+	RecordData string /*记录数据*/
+	/** 记录时间 **/
+	RecordTime string /*记录时间*/
+	/** 结束排名数据 **/
+	LastRankData string /*结束排名数据*/
 
 }
-_Class.tableName: 'uw_guildwar_record'

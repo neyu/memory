@@ -2,24 +2,26 @@
 主-用户调研(UserSurveyEntity)
 主-用户调研(UserSurveyEntity)
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/*序号*/
-    /** 服务器id **/
-    serverId: null/*服务器id*/
-    /** 用户id **/
-    userId: null/*用户id*/
-    /** 用户等级 **/
-    userLvl: null/*用户等级*/
-    /** 用户vip等级 **/
-    userVip: null/*用户vip等级*/
-    /** 活动id **/
-    activityId: null/*活动id*/
-    /** 题目id **/
-    questionId: null/*题目id*/
-    /** 玩家选择 **/
-    selectIndex: null/*玩家选择*/
+var TbUserSurvey = "uw_usersurvey_record"
+
+type UserSurveyEntity struct {
+	/** 序号 **/
+	Id int32 /*序号*/
+	/** 服务器id **/
+	ServerId int32 /*服务器id*/
+	/** 用户id **/
+	UserId uint64 /*用户id*/
+	/** 用户等级 **/
+	UserLvl int32 /*用户等级*/
+	/** 用户vip等级 **/
+	UserVip int32 /*用户vip等级*/
+	/** 活动id **/
+	ActivityId int32 /*活动id*/
+	/** 题目id **/
+	QuestionId int32 /*题目id*/
+	/** 玩家选择 **/
+	SelectIndex int32 /*玩家选择*/
 
 }
-_Class.tableName: 'uw_usersurvey_record'

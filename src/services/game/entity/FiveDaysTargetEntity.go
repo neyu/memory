@@ -2,26 +2,28 @@
 五日目标(FiveDaysTargetEntity)
 五日目标历史排行榜
 **/
+package table
 
-type AccountEntity struct {
-    /** 主键 **/
-    id: null/**/
-    /** 用户id **/
-    userId: null/**/
-    /** 用户名称 **/
-    userName: null/**/
-    /** 用户头像 **/
-    iconId: null/**/
-    /** 用户等级 **/
-    userLvl: null/**/
-    /** 英雄等级 **/
-    pkWinCount: null/**/
-    /** 战力 **/
-    combat: null/**/
-    /** 排名类型 **/
-    rankType: null/**/
-    /** 排名数值 **/
-    rankValue: null/**/
+var TbFiveDaysTarget = "uw_fivedays_rank"
+
+type FiveDaysTargetEntity struct {
+	/** 主键 **/
+	Id int32 /**/
+	/** 用户id **/
+	UserId uint64 /**/
+	/** 用户名称 **/
+	UserName string /**/
+	/** 用户头像 **/
+	IconId int32 /**/
+	/** 用户等级 **/
+	UserLvl int32 /**/
+	/** 英雄等级 **/
+	PkWinCount int32 /**/
+	/** 战力 **/
+	Combat int32 /**/
+	/** 排名类型 **/
+	RankType int8 /**/
+	/** 排名数值 **/
+	RankValue int32 /**/
 
 }
-_Class.tableName: 'uw_fivedays_rank'

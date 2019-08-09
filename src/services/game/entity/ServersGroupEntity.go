@@ -2,20 +2,22 @@
 主-服务器分组表(ServersGroupEntity)
 服务器分组表
 **/
+package table
 
-type AccountEntity struct {
-    /** 序号 **/
-    id: null/*序号*/
-    /** 分组类型 **/
-    type: null/*分组类型*/
-    /** 组名 **/
-    name: null/*组名*/
-    /** 服务器组 **/
-    serverArr: null/*服务器组*/
-    /** 是否删除 **/
-    isDelete: null/*是否删除*/
-    /** 分组方案 **/
-    case: null/*分组方案*/
+var TbServersGroup = "uw_servers_group"
+
+type ServersGroupEntity struct {
+	/** 序号 **/
+	Id int32 /*序号*/
+	/** 分组类型 **/
+	Type int32 /*分组类型*/
+	/** 组名 **/
+	Name string /*组名*/
+	/** 服务器组 **/
+	ServerArr string /*服务器组*/
+	/** 是否删除 **/
+	IsDelete int8 /*是否删除*/
+	/** 分组方案 **/
+	Case string /*分组方案*/
 
 }
-_Class.tableName: 'uw_servers_group'
