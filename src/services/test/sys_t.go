@@ -7,7 +7,7 @@ import (
 	"services/fx/config"
 
 	"core/dict"
-	"core/log"
+	"core/logs"
 	"core/system"
 )
 

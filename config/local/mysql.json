@@ -3,16 +3,24 @@
 		 "host": "localhost",
 		 "port": "3306",
 		 "user": "root",
-		 "password": "123456",
-		 "db": "mm",
+		 "pwd": "123456",
+		 "db": "memory",
 		 "charset": "utf8mb4"
 	},
 	"h5": {
 		 "host": "localhost",
 		 "port": "3306",
 		 "user": "root",
-		 "password": "123456",
+		 "pwd": "123456",
 		 "db": "mm_h5",
+		 "charset": "utf8mb4"
+	},
+	"test": {
+		 "host": "localhost",
+		 "port": "3306",
+		 "user": "root",
+		 "pwd": "123456",
+		 "db": "test",
 		 "charset": "utf8mb4"
 	}
 }

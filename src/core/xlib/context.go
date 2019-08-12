@@ -1,7 +1,7 @@
 package lib
 
 import (
-	"core/log"
+	"core/logs"
 
 	"reflect"
 	"sync"

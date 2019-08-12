@@ -2,7 +2,7 @@ package rpc
 
 import (
 	"core/codec"
-	"core/log"
+	"core/logs"
 	"core/xlib"
 )
 

@@ -3,7 +3,7 @@ package main
 import (
 	"services/msg/proto"
 
-	"core/log"
+	"core/logs"
 	"core/util"
 	"core/xlib"
 )

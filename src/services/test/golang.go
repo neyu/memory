@@ -8,6 +8,12 @@ import (
 )
 
 func main() {
+	testTcpAcceptor()
+
+	testSessionId()
+}
+
+func testTcpAcceptor() {
 	p := golang.NewAcceptor()
 	// var p tcpAcceptor
 	// a := new(golang.SessionManager) //接口可以初化变量
@@ -42,13 +48,23 @@ func main() {
 	// // var hits embededLock
 	// fmt.Printf("struct hits:%+v\n", p.embededLock)
 
+	pInst := p.(*golang.TcpAcceptor)
 	// // hits.Mutex = sync.Mutex{}
-	p.Mutex.Lock()
+	pInst.Lock()
 	// hits.Lock()
-	p.n++
-	p.n++
-	p.n++
-	p.Mutex.Unlock()
+	pInst.N++
+	pInst.N++
+	pInst.N++
+	pInst.Unlock()
 	// hits.Unlock()
-	fmt.Println("hit.n:", p.n)
+	fmt.Println("hit.n:", pInst.N)
+}
+
+func testSessionId() {
+	ses_mgr := golang.CreateSessionMgr()
+	fmt.Println("session id bytes 008位[01]:", ses_mgr.GenSessionId(1))
+	fmt.Println("session id bytes 016位[02]:", ses_mgr.GenSessionId(2))
+	fmt.Println("session id bytes 032位[04]:", ses_mgr.GenSessionId(4))
+	fmt.Println("session id bytes 064位[08]:", ses_mgr.GenSessionId(8))
+	fmt.Println("session id bytes 128位[16]:", ses_mgr.GenSessionId(16))
 }

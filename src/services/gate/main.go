@@ -10,7 +10,7 @@ import (
 	"syscall"
 	"time"
 
-	"core/log"
+	"core/logs"
 	"core/xlib"
 	"core/xnet/tcp"
 )

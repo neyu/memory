@@ -1,7 +1,7 @@
 package tcp
 
 import (
-	"core/log"
+	"core/logs"
 	"core/util"
 	"core/xlib"
 

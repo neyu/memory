@@ -5,7 +5,7 @@ import (
 	"services/msg/proto"
 
 	"core/codec"
-	"core/log"
+	"core/logs"
 	"core/xlib"
 
 	"fmt"
@@ -119,7 +119,7 @@ func (this *ClientList) Broadcast(msg interface{}) {
 			})
 
 		} else {
-			//log.Warnf("Agent not ready, ignore msg, svcid: '%s' msg: '%+v'", agentSvcId, msg)
+			//logs.Warnf("Agent not ready, ignore msg, svcid: '%s' msg: '%+v'", agentSvcId, msg)
 			fmt.Printf("Agent not ready, ignore msg, svcid: '%s' msg: '%+v'\n", gateSvcId, msg)
 		}
 	}

@@ -1,7 +1,7 @@
 package main
 
 import (
-	"core/log"
+	"core/logs"
 	"core/xlib"
 
 	"reflect"

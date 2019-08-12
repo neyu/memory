@@ -1,35 +1,55 @@
 package main
 
 import (
-	//_ "crud/routers"
-	"database/sql"
-	"fmt"
+	"services/fx/config"
+	"services/fx/service"
+
+	"core/logs"
 
 	_ "github.com/go-sql-driver/mysql"
+
+	"database/sql"
+	"fmt"
 )
 
 func main() {
-	fmt.Println("向user_t表添加一组数据")
-	insert("yuxj", 34, 1)
-	insert("zby", 20, 1)
-	insert("zsq", 25, 2)
-	insert("Mary", 20, 0)
+	config.Init("local")
+
+	// testNakedSql()
+
+	testSqlClient()
+}
+
+func testNakedSql(db *sql.DB) {
+	db, err := sql.Open("mysql", "root:123456@/test")
+	checkErr(err)
+
+	dbOperation(db)
+}
+func dbOperation(db *sql.DB) {
+	fmt.Println("向user表添加一组数据")
+	insert(db, "yuxj", 34, 1)
+	insert(db, "zby", 20, 1)
+	insert(db, "zsq", 25, 2)
+	insert(db, "Mary", 20, 0)
+	query(db)
 
 	fmt.Println("准备删掉id=1的数据")
-	remove()
+	remove(db)
+	query(db)
 
 	fmt.Println("更新id=2的数据")
-	update()
+	update(db)
 
-	query()
+	query(db)
 }
 
 //增加数据
-func insert(name string, age int, gender int) {
-	db, err := sql.Open("mysql", "root@/xx_zt?charset=utf8")
-	checkErr(err)
+func insert(db *sql.DB, name string, age int, gender int) {
+	// db, err := sql.Open("mysql", "root:123456@/mm_h5")
+	// checkErr(err)
 
-	stmt, err := db.Prepare(`INSERT user_t (userid,username,userage,usersex) values (?,?,?,?)`)
+	stmt, err := db.Prepare(`INSERT user (id,name,age,sex) values (?,?,?,?)`)
 	checkErr(err)
 	res, err := stmt.Exec(0, name, age, gender)
 	checkErr(err)
@@ -39,11 +59,11 @@ func insert(name string, age int, gender int) {
 }
 
 //删除数据
-func remove() {
-	db, err := sql.Open("mysql", "root@/xx_zt?charset=utf8")
-	checkErr(err)
+func remove(db *sql.DB) {
+	// db, err := sql.Open("mysql", "root:123456@/test")
+	// checkErr(err)
 
-	stmt, err := db.Prepare(`DELETE FROM user_t WHERE userid=?`)
+	stmt, err := db.Prepare(`DELETE FROM user WHERE id=?`)
 	checkErr(err)
 	res, err := stmt.Exec(1)
 	checkErr(err)
@@ -53,11 +73,11 @@ func remove() {
 }
 
 //更新数据
-func update() {
-	db, err := sql.Open("mysql", "root@/xx_zt?charset=utf8")
-	checkErr(err)
+func update(db *sql.DB) {
+	// db, err := sql.Open("mysql", "root:123456@/test")
+	// checkErr(err)
 
-	stmt, err := db.Prepare(`UPDATE user_t SET userage=?,usersex=? WHERE userid=?`)
+	stmt, err := db.Prepare(`UPDATE user SET age=?,sex=? WHERE id=?`)
 	checkErr(err)
 	res, err := stmt.Exec(21, 2, 2)
 	checkErr(err)
@@ -67,11 +87,11 @@ func update() {
 }
 
 //查询数据
-func query() {
-	db, err := sql.Open("mysql", "root@/xx_zt?charset=utf8")
-	checkErr(err)
+func query(db *sql.DB) {
+	// db, err := sql.Open("mysql", "root:123456@/test")
+	// checkErr(err)
 
-	rows, err := db.Query("SELECT * FROM user_t")
+	rows, err := db.Query("SELECT * FROM user")
 	checkErr(err)
 
 	//    //普通demo
@@ -97,5 +117,15 @@ func checkErr(err error) {
 	if err != nil {
 		panic(err)
 	}
+}
 
+func testSqlClient() {
+	logs.Notice("test connection to mysql")
+	service.StartMysql()
+
+	_ = service.Db("mm").Raw()
+	// _ = service.Db("h5").Raw()
+	db3 := service.Db("test").Raw()
+
+	dbOperation(db3.(*sql.DB))
 }
