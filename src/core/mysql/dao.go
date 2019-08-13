@@ -18,7 +18,7 @@ func Insert(client *Client, args string, cb func()) {
 			var value = tempData[key];
 			if(value && typeof value != "string") {
 				tempData[key] = JSON.stringify(value);
-			}	
+			}
 		}
 	}
 	client.insert.apply(client, arr);
@@ -38,7 +38,7 @@ func Update(client *Client, values string, cnd string, args string, cb func()){
 	if(typeof values == "object" && castCols){
 		var tempData = arr[1] = {};
 		for (var key in data) {
-			tempData[key] = data[key];	
+			tempData[key] = data[key];
 		}
 		for (var key in castCols) {
 			var value = tempData[key];
@@ -54,7 +54,7 @@ func Select(client *Client, cnd string, args string, cb func()) {
 	var self = this;
 	var arr = Array.prototype.slice.apply(arguments);
 	var cb = arr[arr.length -1];
-	arr[arr.length -1] = function(err, data){
+	arr[arr.length -1] = func(err, data){
 		if(err) return cb(err);
 		var castCols = self.castCols;
 		if(data && castCols){
@@ -88,7 +88,7 @@ func Query(client *Client, cnd string, args string, cb func()) {
 	var self = this;
 	var arr = Array.prototype.slice.apply(arguments);
 	var cb = arr[arr.length -1];
-	arr[arr.length -1] = function(err, dataList){
+	arr[arr.length -1] = func(err, dataList){
 		if(err) return cb(err);
 		var castCols = self.castCols;
 		if(castCols){
@@ -119,7 +119,7 @@ func List(client *Client, cnd string, args string, cb func()) {
 	var self = this;
 	var arr = Array.prototype.slice.apply(arguments);
 	var cb = arr[arr.length -1];
-	arr[arr.length -1] = function(err, dataList){
+	arr[arr.length -1] = func(err, dataList){
 		if(err) return cb(err);
 		var castCols = self.castCols;
 		if(castCols){
@@ -152,12 +152,11 @@ func Del(client, cnd, args, cb) {
 	client.del.apply(client, arr);
 }
 
-
 func SelectCols(client *Client, cols string, cnd string, args string, cb func()) {
 	var self = this;
 	var arr = Array.prototype.slice.apply(arguments);
 	var cb = arr[arr.length -1];
-	arr[arr.length -1] = function(err, data){
+	arr[arr.length -1] = func(err, data){
 		if(err) return cb(err);
 		var castCols = self.castCols;
 		if(data && castCols){
@@ -185,7 +184,7 @@ func ListCols(client *Client, cols string, cnd string, args string, cb func()) {
 	var self = this;
 	var arr = Array.prototype.slice.apply(arguments);
 	var cb = arr[arr.length -1];
-	arr[arr.length -1] = function(err, dataList){
+	arr[arr.length -1] = func(err, dataList){
 		if(err) return cb(err);
 		var castCols = self.castCols;
 		if(castCols){

@@ -101,7 +101,13 @@ func query(db *sql.DB) {
 		var userage int
 		var usersex int
 
-		rows.Columns()
+		cols, err := rows.Columns()
+		if err != nil {
+			fmt.Println("cols err:", err)
+			continue
+		}
+		fmt.Println("cols:", cols)
+
 		err = rows.Scan(&userid, &username, &userage, &usersex)
 		checkErr(err)
 
