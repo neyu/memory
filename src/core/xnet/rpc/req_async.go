@@ -1,7 +1,7 @@
 package rpc
 
 import (
-	"core/log"
+	"core/logs"
 	"core/xlib"
 
 	"time"

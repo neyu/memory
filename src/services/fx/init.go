@@ -1,7 +1,7 @@
 package fx
 
 import (
-	"core/log"
+	"core/logs"
 	"core/util"
 
 	"os"

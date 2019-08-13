@@ -1,7 +1,7 @@
 package service
 
 import (
-	"core/log"
+	"core/logs"
 	"core/xlib"
 
 	"sync"

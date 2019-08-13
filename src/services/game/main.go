@@ -4,7 +4,7 @@ import (
 	"services/fx/service"
 	"services/gate/backend"
 
-	"core/log"
+	"core/logs"
 	"core/xlib"
 	"core/xnet/tcp"
 

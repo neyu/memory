@@ -5,7 +5,7 @@ import (
 	"services/msg/proto"
 
 	"core/codec"
-	"core/log"
+	"core/logs"
 	"core/xlib"
 
 	"fmt"
@@ -72,7 +72,7 @@ func ProcFrontendPacket(msgId int, msgData []byte, ses lib.Session) (msg interfa
 
 			// 透传到后台
 			if err = u.TransmitToBackend(u.GetBackend("game"), msgId, msgData); err != nil {
-				// log.Warnf("TransmitToBackend %s, msg: '%s' svc: %s", err, rule.MsgName, rule.SvcName)
+				// logs.Warnf("TransmitToBackend %s, msg: '%s' svc: %s", err, rule.MsgName, rule.SvcName)
 				// fmt.Printf("TransmitToBackend %s, msg: '%s' svc: %s\n", err, rule.MsgName, rule.SvcName)
 			}
 

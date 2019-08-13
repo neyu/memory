@@ -2,7 +2,7 @@ package relay
 
 import (
 	"core/codec"
-	"core/log"
+	"core/logs"
 	"core/xlib"
 
 	"errors"

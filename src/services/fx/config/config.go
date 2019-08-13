@@ -1,6 +1,7 @@
 package config
 
 import (
+	"core/logs"
 	"core/system"
 
 	"encoding/json"
@@ -67,7 +68,11 @@ func getConfPath(confFile string) string {
 }
 
 func loadConf(data *map[string]interface{}, filePath string) {
-	rawData, _ := ioutil.ReadFile(filePath)
+	rawData, err := ioutil.ReadFile(filePath)
+	if err != nil {
+		logs.Error("load conf [%s] err:%s", filePath, err)
+		return
+	}
 	json.Unmarshal(rawData, data)
 
 	// fmt.Printf("load config %s %+v\n", filePath, *data)

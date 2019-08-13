@@ -1,7 +1,7 @@
 package tcp
 
 import (
-	"core/log"
+	"core/logs"
 	"core/xlib"
 	"core/xnet/relay"
 	"core/xnet/rpc"

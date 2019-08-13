@@ -1,7 +1,7 @@
 package util
 
 import (
-	"core/log"
+	"core/logs"
 	"core/xlib"
 
 	"errors"

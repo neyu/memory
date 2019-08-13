@@ -2,7 +2,7 @@ package msgProto
 
 import (
 	"core/codec"
-	"core/log"
+	"core/logs"
 
 	"core/xnet/relay"
 	"core/xnet/rpc"

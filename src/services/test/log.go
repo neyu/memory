@@ -1,7 +1,7 @@
 package main
 
 import (
-	"core/log"
+	"core/logs"
 	// "core/utils"
 	// "time"
 )
@@ -38,7 +38,7 @@ func test_beego() {
 	log.Alert("Alert %d", logs.LevelAlert)
 	log.Critical("Critical %d", logs.LevelCritical)
 	logs.Error("Error %d", logs.LevelError)
-	log.Warning("Warning %d", logs.LevelWarning)
+	logs.Warning("Warning %d", logs.LevelWarning)
 	log.Notice("Notice %d", logs.LevelNotice)
 	log.Informational("Informational %d", logs.LevelInformational)
 	logs.Debug("Debug %d", logs.LevelDebug)

@@ -3,7 +3,7 @@ package service
 import (
 	"services/msg/proto"
 
-	"core/log"
+	"core/logs"
 	"core/xlib"
 )
 

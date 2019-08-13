@@ -2,7 +2,7 @@ package tcp
 
 import (
 	"core/codec"
-	"core/log"
+	"core/logs"
 	"core/util"
 
 	"encoding/binary"
