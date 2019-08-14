@@ -4,7 +4,13 @@
 **/
 package table
 
+import (
+	"core/mysql"
+)
+
 var TbAccount = "uw_account"
+
+type AccountDao mysql.DaoSource
 
 type AccountEntity struct {
 	/** 序号 **/
@@ -45,5 +51,52 @@ type AccountEntity struct {
 	BendExpireAt int64 /*禁言过期时间*/
 	/** 禁言类型，第一位为普通聊天，第二位客服聊天 **/
 	BendType int8 /*禁言类型，第一位为普通聊天，第二位客服聊天*/
+
+}
+
+func (this *AccountEntity) NewAccountEntity() {
+	//
+}
+
+func (this *AccountEntity) Insert() {
+	// var sqlStr = "insert into " + tableName + " set ? ";
+
+}
+
+func (this *AccountEntity) InsertList() {
+	// var sqlStr = "insert into "+Entity.tableName+" ("+strCols+") values "+values+" ";
+}
+
+func (this *AccountEntity) Update() {
+	// var sqlStr = "update " + tableName + " set " + cols + cnd.where;
+}
+
+func (this *AccountEntity) Select() {
+	// var strSql = "select * from " + tableName + cnd.where +" limit 1";
+}
+
+func (this *AccountEntity) SelectCols() {
+	// var strSql = "select "+strCols+" from " + tableName + cnd.where +" limit 1";
+}
+
+func (this *AccountEntity) Del() {
+	// var sql = "delete from " + tableName + cnd.where;
+}
+
+func (this *AccountEntity) List() {
+	// var strSql = "select * from	" + tableName + cnd.where;
+}
+
+func (this *AccountEntity) ListCols() {
+	// var strSql = "select "+strCols+" from " + tableName + cnd.where;
+}
+
+func (this *AccountEntity) Count() {
+	// var strSql = "select count(1) as count from " + tableName + cnd.where +" limit 1";
+}
+
+var accountInsertStmt = "insert into " + TbAccount + "set "
+
+func (dao *AccountDao) Save(acc *AccountEntity) error {
 
 }
