@@ -2,7 +2,7 @@
 游戏-排位赛记录(ArenaRecordEntity)
 排位赛挑战记录
 **/
-package table
+package tb
 
 var TbArenaRecord = "uw_arena_record"
 

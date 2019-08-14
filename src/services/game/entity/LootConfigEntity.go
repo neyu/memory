@@ -2,7 +2,7 @@
 主-掉落配置(LootConfigEntity)
 主-掉落配置
 **/
-package table
+package tb
 
 var TbLootConfig = "uw_loot_config"
 

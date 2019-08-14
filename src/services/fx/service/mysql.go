@@ -10,6 +10,8 @@ import (
 var sqlClients map[string]*mysql.Client
 
 func StartMysql() {
+	config.Init("local")
+
 	sqlClients = make(map[string]*mysql.Client)
 
 	confs := config.GetMysql()

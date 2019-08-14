@@ -2,7 +2,7 @@
 主-协议内容(ProtocolContentEntity)
 协议内容
 **/
-package table
+package tb
 
 var TbProtocolContent = "uw_protocol_content"
 

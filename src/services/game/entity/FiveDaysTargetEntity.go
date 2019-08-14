@@ -2,7 +2,7 @@
 五日目标(FiveDaysTargetEntity)
 五日目标历史排行榜
 **/
-package table
+package tb
 
 var TbFiveDaysTarget = "uw_fivedays_rank"
 

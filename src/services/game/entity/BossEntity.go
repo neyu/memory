@@ -2,7 +2,7 @@
 游戏-世界BOSS(BossEntity)
 世界BOSS
 **/
-package table
+package tb
 
 var TbBossEntity = "uw_boss"
 

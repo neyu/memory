@@ -2,7 +2,7 @@
 游戏-传奇之路(ExpeditionEntity)
 传奇之路
 **/
-package table
+package tb
 
 var TbExpedition = "uw_expedition"
 

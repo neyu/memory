@@ -2,7 +2,7 @@
 游戏-心法神功(HeartStuntEntity)
 心法神功
 **/
-package table
+package tb
 
 var TbHeartStunt = "uw_heart_stunt"
 

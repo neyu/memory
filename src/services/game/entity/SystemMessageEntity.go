@@ -2,7 +2,7 @@
 主-系统信息表(SystemMessageEntity)
 
 **/
-package table
+package tb
 
 var TbSystemMessage = "uw_system_message"
 

@@ -2,7 +2,7 @@
 游戏-聚灵妖莲(DemonLotusEntity)
 聚灵妖莲
 **/
-package table
+package tb
 
 var TbDemonLotus = "uw_demon_lotus"
 

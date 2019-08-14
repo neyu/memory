@@ -2,7 +2,7 @@
 王城擂主数据排行(ChallengeCupRankEntity)
 
 **/
-package table
+package tb
 
 var TbChallengeCupRank = "uw_challengeCup_rank"
 

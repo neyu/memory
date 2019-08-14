@@ -2,7 +2,7 @@
 游戏-世界BOSS备份(BossBakEntity)
 世界BOSS
 **/
-package table
+package tb
 
 var TbBossBak = "uw_boss_bak"
 

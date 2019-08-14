@@ -2,7 +2,7 @@
 镜像世界排行榜视图(MirrorRankViewEntity)
 
 **/
-package table
+package tb
 
 var TbMirrorRankView = "uw_mirror_rank_view"
 

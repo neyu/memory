@@ -2,7 +2,7 @@
 游戏-任务表(TaskEntity)
 任务表
 **/
-package table
+package tb
 
 var TbTask = "uw_task"
 

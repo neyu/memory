@@ -1,7 +1,7 @@
 /**
 游戏-活动(ActivityEntity)
 **/
-package table
+package tb
 
 var TbActivity = "uw_activity"
 

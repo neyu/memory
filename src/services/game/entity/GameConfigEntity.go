@@ -2,7 +2,7 @@
 主-游戏配置(GameConfigEntity)
 主-游戏配置(GameConfigEntity)
 **/
-package table
+package tb
 
 var TbGameConfig = "uw_game_config"
 

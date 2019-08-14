@@ -2,7 +2,7 @@
 游戏-邮件(MailEntity)
 邮件
 **/
-package table
+package tb
 
 var TbMail = "uw_mail"
 

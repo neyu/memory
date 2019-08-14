@@ -2,7 +2,7 @@
 游戏-竞技场(ArenaEntity)
 
 **/
-package table
+package tb
 
 var TbArena = "uw_arena"
 

@@ -2,7 +2,7 @@
 后台-全服数据分析(AllRunwatEntity)
 数据分析
 **/
-package table
+package tb
 
 var TbAllRunwat = "uw_allrunwat"
 

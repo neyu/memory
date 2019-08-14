@@ -2,7 +2,7 @@
 红包个人信息(RedEnvelopePersonalEntity)
 红包个人信息
 **/
-package table
+package tb
 
 var TbRedEnvelopePersonal = "uw_red_envelope_personal"
 

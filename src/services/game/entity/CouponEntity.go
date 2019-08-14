@@ -2,7 +2,7 @@
 主-兑换码(CouponEntity)
 兑换码
 **/
-package table
+package tb
 
 var TbCoupon = "uw_coupon"
 

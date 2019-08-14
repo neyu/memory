@@ -2,7 +2,7 @@
 游戏-公会(GuildEntity)
 公会。
 **/
-package table
+package tb
 
 var TbGuild = "uw_guild"
 

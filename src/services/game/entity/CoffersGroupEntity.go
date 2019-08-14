@@ -2,7 +2,7 @@
 主-国库分组(CoffersGroupEntity)
 主-国库分组(CoffersGroupEntity)
 **/
-package table
+package tb
 
 var TbCoffersGroup = "uw_coffers_group"
 

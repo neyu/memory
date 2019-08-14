@@ -1,8 +1,6 @@
 package mysql
 
-import (
-	"core/logs"
-)
+// "core/logs"
 
 // func getCnd(cnd string, args string, cb func()){
 //     if(arguments.length > 3) return null;

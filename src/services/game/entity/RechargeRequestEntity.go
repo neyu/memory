@@ -2,7 +2,7 @@
 主-充值请求记录(RechargeRequestEntity)
 充值请求记录
 **/
-package table
+package tb
 
 var TbRechargeRequest = "uw_recharge_request"
 

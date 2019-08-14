@@ -2,7 +2,7 @@
 游戏-公用(GameCommonEntity)
 游戏-公用(GameCommonEntity)
 **/
-package table
+package tb
 
 var TbGameCommon = "uw_game_common"
 

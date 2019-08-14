@@ -2,7 +2,7 @@
 秘宝争夺记录(TreasureRecordEntity)
 秘宝争夺记录
 **/
-package table
+package tb
 
 var TbTreasureRecord = "uw_treasureRecord"
 

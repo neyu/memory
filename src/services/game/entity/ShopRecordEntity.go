@@ -2,7 +2,7 @@
 游戏-商店购买记录(ShopRecordEntity)
 游戏-商店购买记录
 **/
-package table
+package tb
 
 var TbShopRecord = "uw_shop_record"
 

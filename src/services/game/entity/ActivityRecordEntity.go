@@ -2,7 +2,7 @@
 游戏-活动记录(ActivityRecordEntity)
 游戏-活动记录
 **/
-package table
+package tb
 
 var TbActivityRecord = "uw_activity_record"
 

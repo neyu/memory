@@ -2,7 +2,7 @@
 游戏-商店(ShopEntity)
 商店，包括普通商店、竞技场商店和神秘商店等
 **/
-package table
+package tb
 
 var TbShop = "uw_shop"
 

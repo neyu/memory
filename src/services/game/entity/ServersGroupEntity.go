@@ -2,7 +2,7 @@
 主-服务器分组表(ServersGroupEntity)
 服务器分组表
 **/
-package table
+package tb
 
 var TbServersGroup = "uw_servers_group"
 

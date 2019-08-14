@@ -2,7 +2,7 @@
 主-服务器信息表(ServerInfoEntity)
 服务器信息表。用于管理服务器信息。
 **/
-package table
+package tb
 
 var TbServerInfo = "uw_server_info"
 

@@ -2,7 +2,7 @@
 新四日目标(NewFourDaysEntity)
 新四日目标历史排行榜
 **/
-package table
+package tb
 
 var TbNewFourDays = "uw_newfourdays_rank"
 

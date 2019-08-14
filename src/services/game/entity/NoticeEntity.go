@@ -2,7 +2,7 @@
 主-公告(NoticeEntity)
 公告
 **/
-package table
+package tb
 
 var TbNotice = "uw_notice"
 

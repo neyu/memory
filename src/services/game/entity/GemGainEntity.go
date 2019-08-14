@@ -2,7 +2,7 @@
 后台-获取钻石(GemGainEntity)
 后台-获取钻石
 **/
-package table
+package tb
 
 var TbGemGain = "uw_gem_gain"
 

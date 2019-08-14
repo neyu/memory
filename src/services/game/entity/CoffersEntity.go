@@ -2,7 +2,7 @@
 游戏-国库信息(CoffersEntity)
 游戏-国库信息(CoffersEntity)
 **/
-package table
+package tb
 
 var TbCoffers = "uw_coffers"
 

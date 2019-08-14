@@ -2,7 +2,7 @@
 游戏-远征英雄备份(ExpHeroEntity)
 游戏-远征英雄备份
 **/
-package table
+package tb
 
 var TbExpHero = "uw_expedition_hero"
 

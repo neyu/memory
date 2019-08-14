@@ -1,6 +1,8 @@
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
 
+
+
 create database if not exists `memory` character set utf8mb4 collate utf8mb4_unicode_ci;
 use `memory`;
 
@@ -53,35 +55,35 @@ CREATE TABLE `customer_game_roles`  (
 DROP TABLE IF EXISTS `uw_account`;
 CREATE TABLE `uw_account`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '账号名',
-  `email` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '邮箱',
-  `pwd` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码',
-  `deviceId` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '机器码，设备唯一号',
-  `status` int(2) NULL DEFAULT 0 COMMENT '账号状态  0正常 ，1普通封号，2设备封号',
-  `channelId` int(11) NULL DEFAULT 0 COMMENT '渠道id',
-  `sdkData` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT 'sdk数据',
-  `exData` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '扩展数据',
-  `createTime` datetime NULL DEFAULT NULL COMMENT '创建时间',
-  `createIP` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '创建ip',
-  `lastUpdateTime` datetime NULL DEFAULT NULL COMMENT '最后修改时间',
-  `loginCount` int(11) NULL DEFAULT 0,
-  `loginKey` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '登陆值',
-  `userServers` text CHARACTER SET utf8 COLLATE utf8_general_ci NULL COMMENT '有角色的服务器组',
-  `rechargeCom` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '充值补偿',
-  `sdkChannelId` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT 'sdk渠道号',
-  `bendExpireAt` datetime NULL DEFAULT NULL COMMENT '禁言过期时间',
-  `bendType` int(11) NULL DEFAULT 0 COMMENT '禁言类型，第一位为普通',
+  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL default '' COMMENT '账号名',
+  `email` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT '邮箱',
+  `pwd` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT '密码',
+  `deviceId` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT '机器码，设备唯一号',
+  `status` int(2) NOT NULL default 0 COMMENT '账号状态  0正常 ，1普通封号，2设备封号',
+  `channelId` int(11) NOT NULL DEFAULT 0 COMMENT '渠道id',
+  `sdkData` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'sdk数据',
+  `exData` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '扩展数据',
+  `createTime` int(11) NOT NULL default 0 COMMENT '创建时间',
+  `createIP` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT '创建ip',
+  `lastUpdateTime` int(11) NOT NULL default 0 COMMENT '最后修改时间',
+  `loginCount` int(11) NOT NULL default 0 DEFAULT 0,
+  `loginKey` varchar(500) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT '登陆值',
+  `userServers` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '有角色的服务器组',
+  `rechargeCom` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT '充值补偿',
+  `sdkChannelId` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT 'sdk渠道号',
+  `bendExpireAt` int(11) NOT NULL default 0 COMMENT '禁言过期时间',
+  `bendType` int(11) NOT NULL DEFAULT 0 COMMENT '禁言类型，第一位为普通',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uw_account_name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10515 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '游戏-账号' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 10515 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '游戏-账号' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of uw_account
 -- ----------------------------
-INSERT INTO `uw_account` VALUES (10511, 'aazyw.com', NULL, 'aazyw.com', 'device1477253203301', 0, 99999, '{}', '{\"1\":1}', '2016-10-24 04:06:51', NULL, '2016-10-24 04:06:51', 7, '[\"rlfdxqdaxkhoaphy\",\"iwxprzhxqbmlaeeg\",\"inscqudjekkfwmom\"]', '[\"1\"]', '[]', NULL, NULL, 0);
-INSERT INTO `uw_account` VALUES (10512, 'qq479484001', NULL, '123456', 'device1477295980199', 0, 99999, '{}', '{\"1\":1}', '2016-10-24 16:03:55', NULL, '2016-10-24 16:03:55', 2, '[\"glnabuzblddkrreg\",\"vgeprcomzrgbwjsh\"]', '[\"1\"]', '[]', NULL, NULL, 0);
-INSERT INTO `uw_account` VALUES (10513, 'neyuerr', NULL, '123456', 'device1527933751767', 0, 99999, '{}', '{\"1\":1}', '2018-06-02 18:02:31', NULL, '2018-06-02 18:02:31', 1, '[\"bafoxgkxxeztjpek\"]', '[\"1\"]', '[]', NULL, NULL, 0);
-INSERT INTO `uw_account` VALUES (10514, 'huoguo', NULL, '123456', 'device1547124051992', 0, 99999, '{}', '{\"1\":1}', '2019-01-10 20:41:41', NULL, '2019-01-10 20:41:41', 1, '[\"tcutswikudltmotn\"]', '[\"1\"]', '[]', NULL, NULL, 0);
+INSERT INTO `uw_account` VALUES (10511, 'aazyw.com', '', 'aazyw.com', 'device1477253203301', 0, 99999, '{}', '{\"1\":1}', 1477253211, '', 1477253211, 7, '[\"rlfdxqdaxkhoaphy\",\"iwxprzhxqbmlaeeg\",\"inscqudjekkfwmom\"]', '[\"1\"]', '[]', '', 1577253211, 0);
+INSERT INTO `uw_account` VALUES (10512, 'qq479484001', '', '123456', 'device1477295980199', 0, 99999, '{}', '{\"1\":1}', 1577253211, '', 1577253211, 2, '[\"glnabuzblddkrreg\",\"vgeprcomzrgbwjsh\"]', '[\"1\"]', '[]', '', 1597253211, 0);
+INSERT INTO `uw_account` VALUES (10513, 'neyuerr', '', '123456', 'device1527933751767', 0, 99999, '{}', '{\"1\":1}', 1597253211, '', 1597253211, 1, '[\"bafoxgkxxeztjpek\"]', '[\"1\"]', '[]', '', 1577253211, 0);
+INSERT INTO `uw_account` VALUES (10514, 'huoguo', '', '123456', 'device1547124051992', 0, 99999, '{}', '{\"1\":1}', 1677253211, '', 1677253211, 1, '[\"tcutswikudltmotn\"]', '[\"1\"]', '[]', '', 1677253211, 0);
 
 -- ----------------------------
 -- Table structure for uw_activity

@@ -2,7 +2,7 @@
 主-行会战报名(GuildWarSignEntity)
 主-行会战报名(GuildWarSignEntity)
 **/
-package table
+package tb
 
 var TbGuildWarSign = "uw_guild_war_sign"
 

@@ -2,7 +2,7 @@
 游戏-野外pk备份(PkOutBakEntity)
 游戏-野外pk
 **/
-package table
+package tb
 
 var TbPkOutBak = "uw_pkout_bak"
 

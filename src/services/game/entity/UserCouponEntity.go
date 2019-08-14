@@ -2,7 +2,7 @@
 游戏-用户兑换码(UserCouponEntity)
 游戏-用户兑换码(UserCouponEntity)
 **/
-package table
+package tb
 
 var TbUserCoupon = "uw_user_coupon"
 

@@ -2,7 +2,7 @@
 游戏-隐姓埋名玩家列表(IncognitoEntity)
 游戏-隐姓埋名玩家列表
 **/
-package table
+package tb
 
 var TbIncognito = "uw_incognito"
 

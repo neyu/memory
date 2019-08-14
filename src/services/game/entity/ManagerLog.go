@@ -2,7 +2,7 @@
 后台-操作日志(ManagerLog)
 后台操作日志
 **/
-package table
+package tb
 
 var TbManagerLog = "uw_manager_log"
 

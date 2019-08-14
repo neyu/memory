@@ -2,7 +2,7 @@
 游戏-竞技场备份(ArenaBakEntity)
 
 **/
-package table
+package tb
 
 var TbArenaBak = "uw_arena_bak"
 

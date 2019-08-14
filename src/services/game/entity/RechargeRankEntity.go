@@ -2,7 +2,7 @@
 后台-充值排行(RechargeRankEntity)
 后台-充值排行
 **/
-package table
+package tb
 
 var TbRechargeRank = "uw_recharge_rank"
 

@@ -2,7 +2,7 @@
 游戏-用户每日记录(GameRecordEntity)
 用户每日数据记录
 **/
-package table
+package tb
 
 var TbGameRecord = "uw_game_record"
 

@@ -2,7 +2,7 @@
 游戏-国库备份信息(CoffersBakEntity)
 游戏-国库备份信息(CoffersBakEntity)
 **/
-package table
+package tb
 
 var TbCoffersBak = "uw_coffers_bak"
 

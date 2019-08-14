@@ -2,7 +2,7 @@
 游戏-充值记录表(RechargeEntity)
 游戏-充值记录表
 **/
-package table
+package tb
 
 var TbRecharge = "uw_recharge"
 

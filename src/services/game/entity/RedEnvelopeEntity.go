@@ -2,7 +2,7 @@
 红包(RedEnvelopeEntity)
 红包
 **/
-package table
+package tb
 
 var TbRedEnvelope = "uw_red_envelope"
 

@@ -2,7 +2,7 @@
 主-行会战分组(GuildGroupEntity)
 主-行会战分组(GuildGroupEntity)
 **/
-package table
+package tb
 
 var TbGuildGroup = "uw_guild_group"
 

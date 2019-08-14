@@ -2,7 +2,7 @@
 游戏-公会个人信息(GuildPersonalEntity)
 公会个人信息
 **/
-package table
+package tb
 
 var TbGuildPersonal = "uw_guild_personal"
 

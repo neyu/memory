@@ -2,7 +2,7 @@
 后台-账号(ManagerEntity)
 后台-账号
 **/
-package table
+package tb
 
 var TbManager = "uw_manager"
 

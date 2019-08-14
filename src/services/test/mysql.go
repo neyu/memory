@@ -1,7 +1,6 @@
 package main
 
 import (
-	"services/fx/config"
 	"services/fx/service"
 
 	"core/logs"
@@ -13,7 +12,6 @@ import (
 )
 
 func main() {
-	config.Init("local")
 
 	// testNakedSql()
 

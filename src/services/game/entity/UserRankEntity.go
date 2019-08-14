@@ -2,7 +2,7 @@
 游戏-用户排行榜(UserRankEntity)
 用户排行榜
 **/
-package table
+package tb
 
 var TbUserRank = "uw_user_rank"
 

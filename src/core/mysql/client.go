@@ -113,7 +113,7 @@ func NewClient(dbAlias string, conf map[string]interface{}) (*Client, error) {
 
 	cli := &Client{
 		addr:        dbSrcName,
-		poolConnCnt: 1,
+		poolConnCnt: 30,
 	}
 	cli.Start()
 

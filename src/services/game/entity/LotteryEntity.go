@@ -2,7 +2,7 @@
 游戏-抽奖(LotteryEntity)
 抽奖
 **/
-package table
+package tb
 
 var TbLottery = "uw_lottery"
 

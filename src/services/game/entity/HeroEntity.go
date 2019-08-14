@@ -2,7 +2,7 @@
 游戏-英雄(HeroEntity)
 英雄
 **/
-package table
+package tb
 
 var TbHero = "uw_hero"
 

@@ -2,7 +2,7 @@
 秘宝信息表(TreasureEntity)
 秘宝信息表
 **/
-package table
+package tb
 
 var TbTreasure = "uw_treasure"
 

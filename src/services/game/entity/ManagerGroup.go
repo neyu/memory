@@ -2,7 +2,7 @@
 后台-账号组(ManagerGroup)
 后台-账号组
 **/
-package table
+package tb
 
 var TbManagerGroup = "uw_manager_group"
 

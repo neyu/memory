@@ -2,7 +2,7 @@
 游戏-数据分析(RunwatEntity)
 数据分析
 **/
-package table
+package tb
 
 var TbRunwat = "uw_runwat"
 

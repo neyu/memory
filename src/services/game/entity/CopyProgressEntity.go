@@ -2,7 +2,7 @@
 游戏-副本进度(CopyProgressEntity)
 副本进度
 **/
-package table
+package tb
 
 var TbCopyProgress = "uw_copy_progress"
 

@@ -2,7 +2,7 @@
 游戏-角色(UserEntity)
 角色，账号进入到每个服中扮演的角色。
 **/
-package table
+package tb
 
 var TbUser = "uw_user"
 

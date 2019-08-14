@@ -2,7 +2,7 @@
 主-用户调研(UserSurveyEntity)
 主-用户调研(UserSurveyEntity)
 **/
-package table
+package tb
 
 var TbUserSurvey = "uw_usersurvey_record"
 

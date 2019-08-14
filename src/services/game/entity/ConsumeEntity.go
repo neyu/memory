@@ -2,7 +2,7 @@
 后台-消耗钻石(ConsumeEntity)
 后台-消耗钻石
 **/
-package table
+package tb
 
 var TbConsume = "uw_consume"
 

@@ -7,15 +7,15 @@ import (
 
 type SqlExecer interface {
 	Exec(query string, args ...interface{}) (sql.Result, error)
-	Prepare(query string, args ...interface{}) (*sql.Stmt, error)
+	Prepare(query string) (*sql.Stmt, error)
 	Query(query string, args ...interface{}) (*sql.Rows, error)
-	QueryRow(query string, args ...interface) *sql.Row
+	QueryRow(query string, args ...interface{}) *sql.Row
 }
 
 type DaoSource struct {
 	SqlExecer
+	Db *sql.DB
 }
-
 
 // func Insert(client *Client, args string, cb func()) {
 // 	var arr = Array.prototype.slice.apply(arguments);

@@ -2,7 +2,7 @@
 王城擂主(ChallengeCupEntity)
 王城擂主(ChallengeCupEntity)
 **/
-package table
+package tb
 
 var TbChallengeCup = "uw_challengeCup"
 

@@ -2,7 +2,7 @@
 游戏-公会战记录(GuildWarRecordEntity)
 游戏-公会战记录(GuildWarRecordEntity)
 **/
-package table
+package tb
 
 var TbGuildWarRecord = "uw_guildwar_record"
 

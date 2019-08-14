@@ -2,7 +2,7 @@
 游戏-系统红包(SysRedEnvelopeEntity)
 游戏触发（或后台发送的）的发送给玩家的红包
 **/
-package table
+package tb
 
 var TbSysRedEnvelope = "uw_sys_red_envelope"
 
