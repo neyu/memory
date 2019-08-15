@@ -4,7 +4,7 @@ import (
 	"services/msg/proto"
 
 	"core/logs"
-	"core/util"
+	// "core/util"
 	"core/xlib"
 )
 
@@ -39,7 +39,7 @@ func handleLoginReq(ev lib.Event) {
 	// gateWAN := basefx.GetRemoteServiceWANAddress("gate", gateSvcId)
 	gateWAN := ":8301"
 
-	host, port, err := util.SpliteAddress(gateWAN)
+	host, port, err := lib.SpliteAddress(gateWAN)
 	if err != nil {
 		//log.Errorf("invalid address: '%s' %s", agentWAN, err.Error())
 		logs.Error("invalid address: '%s' %s\n", gateWAN, err.Error())

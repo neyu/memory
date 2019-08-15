@@ -2,7 +2,7 @@ package ws
 
 import (
 	"core/logs"
-	"core/util"
+	// "core/util"
 	"core/xlib"
 
 	"github.com/gorilla/websocket"
@@ -34,17 +34,21 @@ type wsConnector struct {
 	reconDur time.Duration
 }
 
+func (self *wsConnector) Prop() *lib.PeerProp {
+	return self.GetProp()
+}
+
 func (self *wsConnector) Start() {
 
 	self.WaitStopFinished()
 
 	if self.IsRunning() {
-		return self
+		return
 	}
 
 	go self.connect(self.Address())
 
-	return self
+	return
 }
 
 func (self *wsConnector) Session() lib.Session {
@@ -60,7 +64,7 @@ func (self *wsConnector) Port() int {
 }
 
 func (self *wsConnector) SetSessionManager(raw interface{}) {
-	self.CoreSessionManager = raw.(lib.CoreSessionManager)
+	self.SessionManager = raw.(lib.SessionManager)
 }
 
 func (self *wsConnector) Stop() {
@@ -104,9 +108,9 @@ func (self *wsConnector) connect(address string) {
 		dialer.Proxy = http.ProxyFromEnvironment
 		dialer.HandshakeTimeout = 45 * time.Second
 
-		addrObj, err := util.ParseAddress(address)
+		addrObj, err := lib.ParseAddress(address)
 		if err != nil {
-			logs.Errorf("invalid address: %s", address)
+			logs.Error("invalid address: %s", address)
 			break
 		}
 
@@ -186,7 +190,7 @@ func NewConnector() lib.Peer {
 		this.sesEndSignal.Done()
 	})
 
-	return self
+	return this
 }
 
 // func init() {

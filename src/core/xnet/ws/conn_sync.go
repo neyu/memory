@@ -26,6 +26,10 @@ type wsSyncConnector struct {
 	defaultSes *wsSession
 }
 
+func (self *wsSyncConnector) Prop() *lib.PeerProp {
+	return self.GetProp()
+}
+
 func (self *wsSyncConnector) Port() int {
 	if self.defaultSes.conn == nil {
 		return 0
@@ -50,10 +54,10 @@ func (self *wsSyncConnector) Start() {
 	// 发生错误时退出
 	if err != nil {
 
-		logs.Debug("#ws.connect failed(%s)@%d address: %s", self.Name(), self.defaultSes.ID(), self.Address())
+		logs.Debug("#ws.connect failed(%s)@%d address: %s", self.Name(), self.defaultSes.Id(), self.Address())
 
 		self.ProcEvent(&lib.RecvMsgEvent{Ses: self.defaultSes, Msg: &lib.SessionConnectError{}})
-		return self
+		return
 	}
 
 	self.defaultSes.conn = conn
@@ -62,7 +66,7 @@ func (self *wsSyncConnector) Start() {
 
 	self.ProcEvent(&lib.RecvMsgEvent{Ses: self.defaultSes, Msg: &lib.SessionConnected{}})
 
-	return self
+	return
 }
 
 func (self *wsSyncConnector) Session() lib.Session {
@@ -98,7 +102,7 @@ func (self *wsSyncConnector) TypeName() string {
 	return "gorillaws.SyncConnector"
 }
 
-func NewSyncConnector() {
+func NewSyncConnector() lib.Peer {
 	this := &wsSyncConnector{
 		SessionManager: lib.NewSessionManager(),
 	}

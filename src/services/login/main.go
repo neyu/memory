@@ -56,7 +56,7 @@ func createAcceptorWs() {
 
 	acceptor := ws.NewAcceptor()
 	acceptor.SetName("login_ws_svr")
-	acceptor.Address(":8400")
+	acceptor.SetAddress(":8400")
 	acceptor.SetQueue(queue)
 
 	acceptor.Prop().SetTransmitter(new(ws.WSMessageTransmitter))

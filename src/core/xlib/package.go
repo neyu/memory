@@ -1,4 +1,4 @@
-package tcp
+package lib
 
 import (
 	"core/codec"

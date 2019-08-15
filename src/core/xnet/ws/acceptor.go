@@ -2,7 +2,7 @@ package ws
 
 import (
 	"core/logs"
-	"core/util"
+	// "core/util"
 	"core/xlib"
 
 	"github.com/gorilla/websocket"
@@ -32,6 +32,10 @@ type wsAcceptor struct {
 	sv *http.Server
 }
 
+func (self *wsAcceptor) Prop() *lib.PeerProp {
+	return self.GetProp()
+}
+
 func (self *wsAcceptor) SetUpgrader(upgrader interface{}) {
 	self.upgrader = upgrader.(websocket.Upgrader)
 }
@@ -54,12 +58,12 @@ func (self *wsAcceptor) SetTls(certfile, keyfile string) {
 	self.keyfile = keyfile
 }
 
-func (self *wsAcceptor) Start() lib.Peer {
+func (self *wsAcceptor) Start() {
 
 	var (
-		addrObj *util.Address
-		err     error
-		raw     interface{}
+		// addrObj *lib.Address
+		err error
+		// raw     interface{}
 	)
 
 	// raw, err = util.DetectPort(self.Address(), func(a *util.Address, port int) (interface{}, error) {
@@ -74,7 +78,7 @@ func (self *wsAcceptor) Start() lib.Peer {
 	ln, err := net.Listen("tcp", addr)
 	if err != nil {
 		logs.Error("#ws.listen failed(%s) %v", self.Name(), err.Error())
-		return self
+		return
 	}
 
 	// self.listener = raw.(net.Listener)
@@ -108,18 +112,18 @@ func (self *wsAcceptor) Start() lib.Peer {
 
 	}()
 
-	return self
+	return
 }
 
 func (self *wsAcceptor) wsHandler(w http.ResponseWriter, r *http.Request) {
 	c, err := self.upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Debugln(err)
+		logs.Debug(err)
 		return
 	}
 
 	ses := newSession(c, self, nil)
-	ses.SetContext("request", r)
+	// ses.SetContext("request", r)
 	ses.Start()
 
 	self.ProcEvent(&lib.RecvMsgEvent{Ses: ses, Msg: &lib.SessionAccepted{}})

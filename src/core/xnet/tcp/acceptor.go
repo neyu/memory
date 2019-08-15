@@ -2,7 +2,7 @@ package tcp
 
 import (
 	"core/logs"
-	"core/util"
+	// "core/util"
 	"core/xlib"
 
 	"net"
@@ -53,7 +53,7 @@ func (self *tcpAcceptor) Start() {
 		return
 	}
 
-	ln, err := util.DetectPort(self.Address(), func(a *util.Address, port int) (interface{}, error) {
+	ln, err := lib.DetectPort(self.Address(), func(a *lib.Address, port int) (interface{}, error) {
 		return net.Listen("tcp", a.HostPortString(port))
 	})
 
@@ -84,7 +84,7 @@ func (self *tcpAcceptor) ListenAddress() string {
 
 	host := self.Address()[:pos]
 
-	return util.JoinAddress(host, self.Port())
+	return lib.JoinAddress(host, self.Port())
 }
 
 func (self *tcpAcceptor) accept() {

@@ -2,6 +2,7 @@ package ws
 
 import (
 	"core/logs"
+	"core/util"
 	"core/xlib"
 
 	"github.com/gorilla/websocket"
@@ -16,6 +17,9 @@ type wsSession struct {
 	// *peer.CoreProcBundle
 
 	lib.Peer
+	lib.ContextSet
+
+	id int64
 
 	conn *websocket.Conn
 
@@ -30,9 +34,17 @@ type wsSession struct {
 	endNotify func()
 }
 
-// func (self *wsSession) GetPeer() lib.Peer {
-// 	return self.Peer
-// }
+func (this *wsSession) Id() int64 {
+	return this.id
+}
+
+func (this *wsSession) SetId(id int64) {
+	this.id = id
+}
+
+func (self *wsSession) GetPeer() lib.Peer {
+	return self.Peer
+}
 
 // 取原始连接
 func (self *wsSession) Raw() interface{} {
@@ -57,7 +69,7 @@ func (self *wsSession) recvLoop() {
 
 	for self.conn != nil {
 
-		msg, err := self.ReadMessage(self)
+		msg, err := self.Prop().ReadMessage(self)
 
 		if err != nil {
 
@@ -67,11 +79,11 @@ func (self *wsSession) recvLoop() {
 				logs.Error("session closed:", err)
 			}
 
-			self.ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: &lib.SessionClosed{}})
+			self.Prop().ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: &lib.SessionClosed{}})
 			break
 		}
 
-		self.ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: msg})
+		self.Prop().ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: msg})
 	}
 
 	self.Close()
@@ -93,7 +105,7 @@ func (self *wsSession) sendLoop() {
 		for _, msg := range writeList {
 
 			// TODO SendMsgEvent并不是很有意义
-			self.SendMessage(&lib.SendMsgEvent{Ses: self, Msg: msg})
+			self.Prop().SendMessage(&lib.SendMsgEvent{Ses: self, Msg: msg})
 		}
 
 		if exit {

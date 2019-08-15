@@ -1,8 +1,7 @@
-package util
+package lib
 
 import (
 	"core/logs"
-	"core/xlib"
 
 	"errors"
 	"fmt"
@@ -34,7 +33,7 @@ type RemoteAddr interface {
 	RemoteAddr() net.Addr
 }
 
-func GetRemoteAddress(ses lib.Session) (string, bool) {
+func GetRemoteAddress(ses Session) (string, bool) {
 	if c, ok := ses.Raw().(RemoteAddr); ok {
 		return c.RemoteAddr().String(), true
 	}

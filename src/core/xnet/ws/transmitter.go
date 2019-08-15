@@ -2,7 +2,9 @@ package ws
 
 import (
 	"core/codec"
-	"core/logs"
+	// "core/util"
+
+	// "core/logs"
 	"core/xlib"
 
 	"github.com/gorilla/websocket"
@@ -11,7 +13,7 @@ import (
 )
 
 const (
-	MsgIDSize = 2 // uint16
+	MsgIdSize = 2 // uint16
 )
 
 type WSMessageTransmitter struct {
@@ -34,14 +36,14 @@ func (WSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err
 		return
 	}
 
-	if len(raw) < MsgIDSize {
-		return nil, util.ErrMinPacket
+	if len(raw) < MsgIdSize {
+		return nil, lib.ErrMinPacket
 	}
 
 	switch messageType {
 	case websocket.BinaryMessage:
 		msgID := binary.LittleEndian.Uint16(raw)
-		msgData := raw[MsgIDSize:]
+		msgData := raw[MsgIdSize:]
 
 		msg, _, err = codec.DecodeMessage(int(msgID), msgData)
 	}
@@ -60,30 +62,30 @@ func (WSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}) erro
 
 	var (
 		msgData []byte
-		msgID   int
+		msgId   int
 	)
 
 	switch m := msg.(type) {
-	case *lib.RawPacket: // 发裸包
+	case *codec.RawPacket: // 发裸包
 		msgData = m.MsgData
-		msgID = m.MsgID
+		msgId = m.MsgId
 	default: // 发普通编码包
 		var err error
-		var meta *lib.MessageMeta
+		var meta *codec.MessageMeta
 
 		// 将用户数据转换为字节数组和消息ID
-		msgData, meta, err = codec.EncodeMessage(msg, nil)
+		msgData, meta, err = codec.EncodeMessage(msg)
 
 		if err != nil {
 			return err
 		}
 
-		msgID = meta.ID
+		msgId = meta.Id
 	}
 
-	pkt := make([]byte, MsgIDSize+len(msgData))
-	binary.LittleEndian.PutUint16(pkt, uint16(msgID))
-	copy(pkt[MsgIDSize:], msgData)
+	pkt := make([]byte, MsgIdSize+len(msgData))
+	binary.LittleEndian.PutUint16(pkt, uint16(msgId))
+	copy(pkt[MsgIdSize:], msgData)
 
 	conn.WriteMessage(websocket.BinaryMessage, pkt)
 

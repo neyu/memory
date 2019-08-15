@@ -1,9 +1,15 @@
 package ws
 
 import (
+	"core/codec"
 	"core/logs"
 	"core/xlib"
 )
+
+// 萃取消息中的消息
+type PacketMessagePeeker interface {
+	Message() interface{}
+}
 
 // 带有RPC和relay功能
 type MsgHooker struct {
@@ -19,15 +25,15 @@ func (self MsgHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Even
 	}
 
 	// if IsMsgLogValid(cellnet.MessageToID(msg)) {
-	peerInfo := ses.Peer.Prop()
+	peerInfo := ses.GetPeer().Prop()
 
 	logs.Debug("#%s.recv(%s)@%d len: %d %s | %s",
 		"ws",
 		peerInfo.Name(),
-		ses.ID(),
-		lib.MessageSize(msg),
-		lib.MessageToName(msg),
-		lib.MessageToString(msg))
+		ses.Id(),
+		codec.MessageSize(msg),
+		codec.MessageToName(msg),
+		codec.MessageToString(msg))
 	// }
 	// }
 
@@ -44,15 +50,15 @@ func (self MsgHooker) OnOutboundEvent(inputEvent lib.Event) (outputEvent lib.Eve
 	}
 
 	// if IsMsgLogValid(lib.MessageToID(msg)) {
-	peerInfo := ses.Peer.Prop()
+	peerInfo := ses.GetPeer().Prop()
 
 	logs.Debug("#%s.send(%s)@%d len: %d %s | %s",
 		"ws",
 		peerInfo.Name(),
-		ses.ID(),
-		lib.MessageSize(msg),
-		lib.MessageToName(msg),
-		lib.MessageToString(msg))
+		ses.Id(),
+		codec.MessageSize(msg),
+		codec.MessageToName(msg),
+		codec.MessageToString(msg))
 	// }
 	// }
 

@@ -29,7 +29,7 @@ func (TCPMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, er
 	opt := ses.GetPeer().Prop() //.(socketOpt)
 	if conn, ok := reader.(net.Conn); ok {
 		opt.ApplySocketReadTimeout(conn, func() {
-			msg, err = RecvLTVPacket(reader, opt.MaxPacketSize())
+			msg, err = lib.RecvLTVPacket(reader, opt.MaxPacketSize())
 		})
 	}
 	return
@@ -44,7 +44,7 @@ func (TCPMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}) (er
 
 	opt := ses.GetPeer().Prop() //.(socketOpt)
 	opt.ApplySocketWriteTimeout(writer.(net.Conn), func() {
-		err = SendLTVPacket(writer, msg) //, ses.(lib.ContextSet)
+		err = lib.SendLTVPacket(writer, msg) //, ses.(lib.ContextSet)
 	})
 	return
 }
