@@ -17,6 +17,21 @@ func init() {
 func main() {
 	logs.Info("login server entry")
 
+	// createAcceptor()
+	createAcceptorWs()
+
+	waitExitSignal()
+	logs.Info("main exit!")
+}
+
+func waitExitSignal() {
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)
+
+	logs.Info("receive system signal: %d", <-ch)
+}
+
+func createAcceptor() {
 	queue := lib.NewEventQueue()
 	queue.StartLoop()
 
@@ -32,14 +47,8 @@ func main() {
 	acceptor.Prop().SetCallback(lib.NewQueuedEventCallback(messageHandler))
 
 	acceptor.Start()
-
-	waitExitSignal()
-	logs.Info("main exit!")
 }
 
-func waitExitSignal() {
-	ch := make(chan os.Signal, 1)
-	signal.Notify(ch, syscall.SIGTERM, syscall.SIGINT, syscall.SIGQUIT)
+func createAcceptorWs() {
 
-	logs.Info("receive system signal: %d", <-ch)
 }

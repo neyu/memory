@@ -20,11 +20,19 @@ func main() {
 
 	connectToGame()
 
-	createAcceptor()
+	// createAcceptor()
+	createAcceptorWs()
 
 	waitExitSignal()
 
 	stop()
+}
+
+func stop() {
+	if model.FrontendSessionManager != nil {
+		model.FrontendSessionManager.(lib.Peer).Stop()
+		// discovery.Default.Deregister(model.GateSvcId)
+	}
 }
 
 func waitExitSignal() {
@@ -79,9 +87,6 @@ func createAcceptor() {
 	model.FrontendSessionManager = acceptor.(lib.SessionManager)
 }
 
-func stop() {
-	if model.FrontendSessionManager != nil {
-		model.FrontendSessionManager.(lib.Peer).Stop()
-		// discovery.Default.Deregister(model.GateSvcId)
-	}
+func createAcceptorWs() {
+
 }
