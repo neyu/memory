@@ -40,6 +40,6 @@ func init() {
 		Id:    1235,
 	}
 	fmt.Println("json.regMsg:", reqMsg.FullName())
-	lib.RegisterMessageMeta(&reqMsg)
+	codec.RegisterMessageMeta(&reqMsg)
 
 }

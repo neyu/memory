@@ -138,7 +138,7 @@ func (this *tcpConnector) TypeName() string {
 	return "tcp.Connector"
 }
 
-func CreateConnector() lib.Peer {
+func NewConnector() lib.Peer {
 	this := &tcpConnector{
 		// SessionManager: new(lib.CoreSessionManager),
 		SessionManager: lib.NewSessionManager(),

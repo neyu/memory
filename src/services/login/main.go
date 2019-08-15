@@ -4,6 +4,7 @@ import (
 	"core/logs"
 	"core/xlib"
 	"core/xnet/tcp"
+	"core/xnet/ws"
 
 	"os"
 	"os/signal"
@@ -38,7 +39,7 @@ func createAcceptor() {
 	// queue.Wait()
 
 	acceptor := tcp.NewAcceptor()
-	acceptor.SetName("login_svr")
+	acceptor.SetName("login_tcp_svr")
 	acceptor.SetAddress(":8300")
 	acceptor.SetQueue(queue)
 
@@ -50,5 +51,17 @@ func createAcceptor() {
 }
 
 func createAcceptorWs() {
+	queue := lib.NewEventQueue()
+	queue.StartLoop()
 
+	acceptor := ws.NewAcceptor()
+	acceptor.SetName("login_ws_svr")
+	acceptor.Address(":8400")
+	acceptor.SetQueue(queue)
+
+	acceptor.Prop().SetTransmitter(new(ws.WSMessageTransmitter))
+	acceptor.Prop().SetHooker(new(ws.MsgHooker))
+	acceptor.Prop().SetCallback(lib.NewQueuedEventCallback(messageHandler))
+
+	acceptor.Start()
 }

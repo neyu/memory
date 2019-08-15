@@ -92,7 +92,7 @@ func (this *tcpSyncConnector) TypeName() string {
 	return "tcp.SyncConnector"
 }
 
-func CreateSyncConnector() lib.Peer {
+func NewSyncConnector() lib.Peer {
 	this := &tcpSyncConnector{
 		SessionManager: lib.NewSessionManager(),
 	}
