@@ -84,6 +84,7 @@ func (self *wsSession) recvLoop() {
 		}
 
 		self.Prop().ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: msg})
+		logs.Debug("proc msg:", msg)
 	}
 
 	self.Close()
@@ -126,18 +127,18 @@ func (self *wsSession) sendLoop() {
 // 启动会话的各种资源
 func (self *wsSession) Start() {
 
-	// 将会话添加到管理器
-	self.Peer.(lib.SessionManager).Add(self)
-
 	// 需要接收和发送线程同时完成时才算真正的完成
 	self.exitSync.Add(2)
+
+	// 将会话添加到管理器
+	self.GetPeer().(lib.SessionManager).Add(self)
 
 	go func() {
 		// 等待2个任务结束
 		self.exitSync.Wait()
 
 		// 将会话从管理器移除
-		self.Peer.(lib.SessionManager).Remove(self)
+		self.GetPeer().(lib.SessionManager).Remove(self)
 
 		if self.endNotify != nil {
 			self.endNotify()

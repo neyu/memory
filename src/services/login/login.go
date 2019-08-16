@@ -37,7 +37,7 @@ func handleLoginReq(ev lib.Event) {
 	// }
 
 	// gateWAN := basefx.GetRemoteServiceWANAddress("gate", gateSvcId)
-	gateWAN := ":8301"
+	gateWAN := ":8401" //":8301"
 
 	host, port, err := lib.SpliteAddress(gateWAN)
 	if err != nil {

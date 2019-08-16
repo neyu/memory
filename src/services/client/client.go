@@ -26,7 +26,8 @@ func connectToLogin() (ret lib.Session) {
 	done := make(chan struct{})
 
 	go func() {
-		syncConn := tcp.CreateSyncConnector()
+		syncConn := tcp.NewSyncConnector()
+
 		syncConn.SetName("client-to-login")
 		syncConn.SetAddress(":8300")
 
@@ -54,7 +55,7 @@ func connectToLogin() (ret lib.Session) {
 func connectToGate(addr string, onReady func(lib.Session), onClose func()) {
 	var stop sync.WaitGroup
 
-	syncConn := tcp.CreateSyncConnector()
+	syncConn := tcp.NewSyncConnector()
 	syncConn.SetName("gate")
 	syncConn.SetAddress(addr)
 

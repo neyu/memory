@@ -38,7 +38,8 @@ func main() {
 func login() (gateAddr, svcId string) {
 	logs.Info("ready to connect to login server")
 
-	loginSes := connectToLogin()
+	// loginSes := connectToLogin()
+	loginSes := connectToLoginWs()
 	if loginSes == nil {
 		logs.Error("connect to login error")
 		return
@@ -62,7 +63,7 @@ func login() (gateAddr, svcId string) {
 func getGateSession(addr string) (ret lib.Session) {
 	done := make(chan struct{})
 
-	go connectToGate(addr, func(ses lib.Session) {
+	go connectToGateWs(addr, func(ses lib.Session) {
 		ret = ses
 		done <- struct{}{}
 	}, func() {

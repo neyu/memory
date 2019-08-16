@@ -1,18 +1,20 @@
 package main
 
 import (
-	"os"
-	"os/signal"
 	"services/fx/service"
 	"services/gate/backend"
 	"services/gate/frontend"
 	"services/gate/model"
-	"syscall"
-	"time"
 
 	"core/logs"
 	"core/xlib"
 	"core/xnet/tcp"
+	"core/xnet/ws"
+
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 )
 
 func main() {
@@ -50,7 +52,7 @@ func connectToGame() {
 	queue := lib.NewEventQueue()
 	queue.StartLoop()
 
-	connector := tcp.CreateConnector()
+	connector := tcp.NewConnector()
 	connector.SetName("game")
 	connector.SetAddress(":8302")
 	connector.SetQueue(queue)
@@ -88,5 +90,20 @@ func createAcceptor() {
 }
 
 func createAcceptorWs() {
+	acceptor := ws.NewAcceptor()
+	acceptor.SetName("gate")
+	acceptor.SetAddress(":8401")
 
+	acceptor.Prop().SetTransmitter(new(frontend.DirectWSMessageTransmitter))
+	acceptor.Prop().SetHooker(lib.NewMultiHooker(
+		new(ws.MsgHooker),                 //  WS基础消息及日志
+		new(frontend.FrontendEventHooker), // 内部消息处理
+	))
+
+	acceptor.Prop().SetSocketBuffer(2048, 2048, true)
+	acceptor.Prop().SetSocketDeadline(time.Second*40, time.Second*20)
+
+	acceptor.Start()
+
+	model.FrontendSessionManager = acceptor.(lib.SessionManager)
 }

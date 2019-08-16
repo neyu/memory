@@ -140,6 +140,7 @@ func (self *wsAcceptor) TypeName() string {
 
 func NewAcceptor() lib.Peer {
 	this := &wsAcceptor{
+		SessionManager: lib.NewSessionManager(),
 		upgrader: websocket.Upgrader{
 			ReadBufferSize:   10 * 1024,
 			WriteBufferSize:  10 * 1024,

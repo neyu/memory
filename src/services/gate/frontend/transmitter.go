@@ -3,7 +3,8 @@ package frontend
 import (
 	"core/codec"
 	"core/xlib"
-	"core/xnet/tcp"
+
+	// "core/xnet/tcp"
 
 	"github.com/gorilla/websocket"
 
@@ -81,7 +82,7 @@ func (DirectTCPTransmitter) OnSendMessage(ses lib.Session, msg interface{}) (err
 	// 有写超时时，设置超时
 	opt.ApplySocketWriteTimeout(writer.(net.Conn), func() {
 
-		err = tcp.SendLTVPacket(writer, msg)
+		err = lib.SendLTVPacket(writer, msg)
 
 	})
 
@@ -92,10 +93,10 @@ const (
 	MsgIdSize = 2 // uint16
 )
 
-type directWSMessageTransmitter struct {
+type DirectWSMessageTransmitter struct {
 }
 
-func (directWSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err error) {
+func (DirectWSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err error) {
 
 	conn, ok := ses.Raw().(*websocket.Conn)
 
@@ -137,7 +138,7 @@ func (directWSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{
 
 }
 
-func (directWSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}) error {
+func (DirectWSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}) error {
 
 	conn, ok := ses.Raw().(*websocket.Conn)
 
