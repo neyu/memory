@@ -176,6 +176,7 @@ func (DirectWSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}
 	binary.BigEndian.PutUint16(pkt, uint16(msgId))
 	copy(pkt[MsgIdSize:], msgData)
 
+	// fmt.Println("msg send raw:", msgId, pkt)
 	conn.WriteMessage(websocket.BinaryMessage, pkt)
 
 	return nil

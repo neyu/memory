@@ -6,6 +6,7 @@ import (
 	"core/logs"
 	// "core/util"
 	"core/xlib"
+	// "fmt"
 )
 
 // 消息处理
@@ -13,6 +14,8 @@ var handleLoginDefault func(ev lib.Event)
 
 func messageHandler(ev lib.Event) {
 	switch ev.Message().(type) {
+	case *msgProto.PingAck:
+		// fmt.Println("ping msg, do nothing...")
 	case *msgProto.LoginReq:
 		handleLoginReq(ev)
 	default:
@@ -23,7 +26,7 @@ func messageHandler(ev lib.Event) {
 }
 
 func handleLoginReq(ev lib.Event) {
-	//msg := ev.Message().(*gameProto.LoginREQ)
+	// msg := ev.Message().(*msgProto.LoginReq)
 	// TODO 第三方请求验证及信息拉取
 
 	var ack msgProto.LoginAck

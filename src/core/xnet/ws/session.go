@@ -1,6 +1,7 @@
 package ws
 
 import (
+	"core/codec"
 	"core/logs"
 	"core/util"
 	"core/xlib"
@@ -84,7 +85,7 @@ func (self *wsSession) recvLoop() {
 		}
 
 		self.Prop().ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: msg})
-		logs.Debug("proc msg:", msg)
+		logs.Debug("proc msg:", codec.MessageToId(msg), msg)
 	}
 
 	self.Close()
