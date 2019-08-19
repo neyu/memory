@@ -13,3 +13,4 @@
 /src/services/client/client
 /src/services/client/client.debug
 /src/services/client/*.debug
+/bin
