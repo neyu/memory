@@ -37,5 +37,6 @@ func initRootPath() {
 	// fmt.Println("abs.binaryPath:", binaryPath)
 
 	// ROOT = filepath.Dir(filepath.Dir(binaryPath))
-	ROOT = "D:/rpgGame2/memory"
+	// ROOT = "D:/rpgGame2/memory"
+	ROOT = "/work/cqh1"
 }

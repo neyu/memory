@@ -9,12 +9,12 @@ export GOPATH := $(NEW_GOPATH)
 
 all:
 	@echo "GOPATH="$(GOPATH)
-	$(GO) build -o bin/login_t services/login
-	$(GO) build -o bin/gate_t services/gate
-	$(GO) build -o bin/game_t services/game
-#	$(GO) build -o bin/hub_t services/hub
-#	$(GO) build -o bin/web_t services/web
-	$(GO) build -o bin/client services/client
+	$(GO) build -o bin/xlogin services/login
+	$(GO) build -o bin/xgate services/gate
+	$(GO) build -o bin/xgame services/game
+#	$(GO) build -o bin/xhub services/hub
+#	$(GO) build -o bin/xweb services/web
+	$(GO) build -o bin/xclient services/client
 
 fmt:
 	$(GO) fmt $(SRC_DIR)/...
