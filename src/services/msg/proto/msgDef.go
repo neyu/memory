@@ -16,32 +16,32 @@ const (
 
 	ID_RelayAck = 600
 
-	ID_ContentReq_c2s = 1001
-	ID_ContentAck_s2c = 1002
+	// game.proto
+	ID_ContentReq = 1001
+	ID_ContentAck = 1002
 
-	ID_PingAck = 1003
-
-	ID_LoginReq = 1004
-	ID_LoginAck = 1005
-
+	// login.proto
+	ID_PingAck   = 1003
+	ID_LoginReq  = 1004
+	ID_LoginAck  = 1005
 	ID_VerifyReq = 1006
 	ID_VerifyAck = 1007
 
+	// chat.proto
 	ID_ChatReq = 1008
 	ID_ChatAck = 1009
-
 	ID_TestAck = 1010
 
+	// router.proto
 	ID_CloseClientAck  = 1011
 	ID_ClientClosedAck = 1012
+	ID_TransmitAck     = 1013
 
-	ID_TransmitAck = 1013
-
+	// hub.proto
 	ID_SubscribeChannelReq = 1014
 	ID_SubscribeChannelAck = 1015
 	ID_SvcStatusAck        = 1016
-
-	ID_ServiceIdentifyAck = 1017
+	ID_ServiceIdentifyAck  = 1017
 )
 
 func init() {
@@ -52,25 +52,26 @@ func init() {
 
 	RegMsg(ID_RelayAck, relay.RelayAck{})
 
-	RegMsg(ID_ContentReq_c2s, ContentReq{})
-	RegMsg(ID_ContentAck_s2c, ContentAck{})
+	RegMsg(ID_ContentReq, ContentReq{})
+	RegMsg(ID_ContentAck, ContentAck{})
+
 	RegMsg(ID_PingAck, PingAck{})
 	RegMsg(ID_LoginReq, LoginReq{})
 	RegMsg(ID_LoginAck, LoginAck{})
 	RegMsg(ID_VerifyReq, VerifyReq{})
 	RegMsg(ID_VerifyAck, VerifyAck{})
+
 	RegMsg(ID_ChatReq, ChatReq{})
 	RegMsg(ID_ChatAck, ChatAck{})
 	RegMsg(ID_TestAck, TestAck{})
 
 	RegMsg(ID_CloseClientAck, CloseClientAck{})
 	RegMsg(ID_ClientClosedAck, ClientClosedAck{})
-
 	RegMsg(ID_TransmitAck, TransmitAck{})
+
 	RegMsg(ID_SubscribeChannelReq, SubscribeChannelReq{})
 	RegMsg(ID_SubscribeChannelAck, SubscribeChannelAck{})
 	RegMsg(ID_SvcStatusAck, SvcStatusAck{})
-
 	RegMsg(ID_ServiceIdentifyAck, ServiceIdentifyAck{})
 }
 

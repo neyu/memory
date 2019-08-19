@@ -37,7 +37,8 @@ func RecvLTVPacketData(reader io.Reader, maxPacketSize int) (msgId int, msgData 
 	}
 
 	// 用小端格式读取Size
-	size := binary.LittleEndian.Uint16(sizeBuffer)
+	// size := binary.LittleEndian.Uint16(sizeBuffer)
+	size := binary.BigEndian.Uint16(sizeBuffer)
 
 	if maxPacketSize > 0 && size >= uint16(maxPacketSize) {
 		err = ErrMaxPacket
@@ -61,7 +62,8 @@ func RecvLTVPacketData(reader io.Reader, maxPacketSize int) (msgId int, msgData 
 		return
 	}
 
-	msgId = int(binary.LittleEndian.Uint16(body))
+	// msgId = int(binary.LittleEndian.Uint16(body))
+	msgId = int(binary.BigEndian.Uint16(body))
 
 	msgData = body[msgIdSize:]
 

@@ -12,9 +12,10 @@ import (
 )
 
 var (
-	ErrMaxPacket  = errors.New("packet over size")
-	ErrMinPacket  = errors.New("packet short size")
-	ErrShortMsgId = errors.New("short msgid")
+	ErrMaxPacket   = errors.New("packet over size")
+	ErrMinPacket   = errors.New("packet short size")
+	ErrShortPacket = errors.New("packet short length")
+	ErrShortMsgId  = errors.New("short msgid")
 )
 
 const (
@@ -33,7 +34,8 @@ func RecvLTVPacket(reader io.Reader, maxPacketSize int) (msg interface{}, err er
 	if len(sizeBuffer) < bodySize {
 		return nil, ErrMinPacket
 	}
-	size := binary.LittleEndian.Uint16(sizeBuffer)
+	// size := binary.LittleEndian.Uint16(sizeBuffer)
+	size := binary.BigEndian.Uint16(sizeBuffer)
 	if maxPacketSize > 0 && size >= uint16(maxPacketSize) {
 		return nil, ErrMaxPacket
 	}
@@ -46,7 +48,8 @@ func RecvLTVPacket(reader io.Reader, maxPacketSize int) (msg interface{}, err er
 	if len(body) < msgIdSize {
 		return nil, ErrShortMsgId
 	}
-	msgid := binary.LittleEndian.Uint16(body)
+	// msgid := binary.LittleEndian.Uint16(body)
+	msgid := binary.BigEndian.Uint16(body)
 	msgData := body[msgIdSize:]
 
 	msg, _, err = codec.DecodeMessage(int(msgid), msgData)
@@ -77,8 +80,10 @@ func SendLTVPacket(writer io.Writer, data interface{}) error { //, ctx lib.Conte
 	}
 
 	pkt := make([]byte, bodySize+msgIdSize+len(msgData))
-	binary.LittleEndian.PutUint16(pkt, uint16(msgIdSize+len(msgData)))
-	binary.LittleEndian.PutUint16(pkt[bodySize:], uint16(msgId))
+	// binary.LittleEndian.PutUint16(pkt, uint16(msgIdSize+len(msgData)))
+	binary.BigEndian.PutUint16(pkt, uint16(msgIdSize+len(msgData)))
+	// binary.LittleEndian.PutUint16(pkt[bodySize:], uint16(msgId))
+	binary.BigEndian.PutUint16(pkt[bodySize:], uint16(msgId))
 	copy(pkt[(bodySize+msgIdSize):], msgData)
 
 	err := util.WriteFull(writer, pkt)

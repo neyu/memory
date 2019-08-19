@@ -3,17 +3,19 @@ package ws
 import (
 	"core/codec"
 	// "core/util"
-
 	// "core/logs"
 	"core/xlib"
 
 	"github.com/gorilla/websocket"
 
 	"encoding/binary"
+	// "fmt"
 )
 
 const (
-	MsgIdSize = 2 // uint16
+	MsgLenSize  = 2 // uint16
+	MsgIdSize   = 2 // uint16
+	MsgHeadSize = 4 // 2 + 2
 )
 
 type WSMessageTransmitter struct {
@@ -35,17 +37,25 @@ func (WSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err
 	if err != nil {
 		return
 	}
+	// fmt.Println("msg recv raw:", messageType, raw)
 
 	if len(raw) < MsgIdSize {
 		return nil, lib.ErrMinPacket
 	}
+	// msgLen := binary.BigEndian.Uint16(raw)
+	// if len(raw) < int(msgLen) {
+	// 	return nil, lib.ErrShortPacket
+	// }
 
 	switch messageType {
 	case websocket.BinaryMessage:
-		msgID := binary.LittleEndian.Uint16(raw)
+		// msgID := binary.LittleEndian.Uint16(raw)
+		msgID := binary.BigEndian.Uint16(raw) //[MsgLenSize:]
 		msgData := raw[MsgIdSize:]
 
 		msg, _, err = codec.DecodeMessage(int(msgID), msgData)
+	case websocket.TextMessage:
+		//
 	}
 
 	return
@@ -82,11 +92,14 @@ func (WSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}) erro
 
 		msgId = meta.Id
 	}
-
-	pkt := make([]byte, MsgIdSize+len(msgData))
-	binary.LittleEndian.PutUint16(pkt, uint16(msgId))
+	msgLen := MsgIdSize + len(msgData)
+	pkt := make([]byte, msgLen)
+	// binary.LittleEndian.PutUint16(pkt, uint16(msgId))
+	// binary.BigEndian.PutUint16(pkt, uint16(msgLen))
+	binary.BigEndian.PutUint16(pkt, uint16(msgId))
 	copy(pkt[MsgIdSize:], msgData)
 
+	// fmt.Println("msg send raw:", msgId, pkt)
 	conn.WriteMessage(websocket.BinaryMessage, pkt)
 
 	return nil

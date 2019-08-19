@@ -119,7 +119,8 @@ func (DirectWSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{
 
 		switch messageType {
 		case websocket.BinaryMessage:
-			msgId := binary.LittleEndian.Uint16(raw)
+			// msgId := binary.LittleEndian.Uint16(raw)
+			msgId := binary.BigEndian.Uint16(raw)
 			msgData := raw[MsgIdSize:]
 
 			// 尝试透传到后台或者解析
@@ -171,7 +172,8 @@ func (DirectWSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}
 	}
 
 	pkt := make([]byte, MsgIdSize+len(msgData))
-	binary.LittleEndian.PutUint16(pkt, uint16(msgId))
+	// binary.LittleEndian.PutUint16(pkt, uint16(msgId))
+	binary.BigEndian.PutUint16(pkt, uint16(msgId))
 	copy(pkt[MsgIdSize:], msgData)
 
 	conn.WriteMessage(websocket.BinaryMessage, pkt)
