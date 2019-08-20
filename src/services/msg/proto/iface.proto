@@ -1,0 +1,1839 @@
+syntax = "proto3";
+
+package msgProto;
+
+
+// 神秘商店购买礼包
+message ActivityBuyMysterShop {
+    int32 activityId = 1; //活动id
+    int32 index = 2; //栏目项
+}
+
+// 获取活动列表
+message ActivityGetList {
+	//
+}
+
+// 领取精彩活动
+message ActivityReceive {
+    int32 activityId = 1; //活动id
+    int32 index = 2; //栏目项
+}
+
+// 获取是否需要操作，即前端所谓的红点，注意：外面的大红点的id为-1
+// @returns {"活动id":"是否需要操作(0|1)",.....}
+message ActivityGetIsNeedOperate {
+	//
+}
+
+// 补签
+message activity_patchSign {
+    int32 activityId = 1; //活动id
+}
+
+// 上报用户调研数据
+message ActivityReport {
+    int32 ActivityId = 1; //活动id
+    string report = 2; //上报数据
+}
+
+// 获取竞技场信息
+message ArenaGetInfo {
+	//
+}
+
+// 重置竞技场挑战对手
+message ArenaResetFightRanks {
+	//
+}
+
+// 挑战开始
+message ArenaFightStart {
+    string rank = 1; //挑战排行
+}
+
+// 挑战结束
+message ArenaFightEnd {
+    string rank = 1; //挑战排行
+    int32 isWin = 2; //是否胜利
+    string fightData = 3; //战斗数据
+}
+
+// 获取对手列表
+message ArenaGetFightUserList {
+	//
+}
+
+// 购买挑战次数
+message ArenaBuyPKNum {
+	//
+}
+
+// 获取巅峰赛记录实例
+message ArenaGetRecordList {
+    int32 index = 1; //索引id
+    int32 coun = 2; //总数
+}
+
+// 设置阅读
+message ArenaSetRead {
+	//
+}
+
+// 领取排行奖励
+message ArenaPickRankAward {
+	//
+}
+
+// 购买挑战次数
+message ArenaRefreshCD {
+	//
+}
+
+// 获取排行榜列表
+message ArenaGetRankList {
+	//
+}
+
+// 获取下次刷新剩余时间
+message ArenaGetRefreshRemainTime {
+	//
+}
+
+// 获取分红信息
+message BonusGetInfo {
+    int32 lastId = 1; //分页id
+}
+
+// 解散关系
+message BonusBreakRelation {
+    uint64 inviteeUserId = 1; //解散的用户ID
+}
+
+// 上家分享
+message BonusShare {
+    int32 serverIndexId = 1; //服务器ID
+}
+
+// 上家提取返利
+message BonusDraw {
+	//
+}
+
+// 上家首次分享发奖
+message BonusSendShareGift {
+	//
+}
+
+// 获取行会boss列表
+message BossGetGuildBossList {
+	//
+}
+
+// 获取世界boss列表
+message BossGetWorldBossList {
+	//
+}
+
+// 开启boss
+message BossOpenBoss {
+    int32 bossId = 1; //bossId
+    int32 isLock = 2; //是否上锁
+}
+
+// 进入boss系统
+message BossEnter {
+    int32 bossId = 1; //bossId
+}
+
+// 开始战斗
+message BossStartFight {
+    int32 bossId = 1; //bossId
+}
+
+// 造成伤害
+message BossHurt {
+    int32 bossId = 1; //bossId
+    string hurtDic = 2; //{英雄id：伤害}
+    int32 isEnd = 3; //是否最后
+    string mData = 4; //加密
+    string hurtArr = 5; //伤害长度，用于验证
+}
+
+// 退出战斗
+message BossExitFight {
+    int32 bossId = 1; //bossId
+}
+
+// 清除退出cd
+message BossClearFightCd {
+	//
+}
+
+// 鼓舞
+message BossInspire {
+    int32 bossId = 1; //bossId
+}
+
+// 获取鼓舞记录列表
+message BossGetInspireRecordArr {
+    int32 bossId = 1; //bossId
+}
+
+// 同步鼓舞
+message BossSyncInspire {
+    int32 bossId = 1; //bossId
+}
+
+// 获取前20伤害排名
+message BossGetHurtRankList {
+    int32 bossId = 1; //bossId
+}
+
+// 获取第一名
+message BossGetFirstHurtRank {
+    int32 bossId = 1; //bossId
+}
+
+// 获取boss战斗结果
+message BossGetBossResult {
+    int32 bossId = 1; //bossId
+    int32 originBossId = 2; //originBossId
+}
+
+// 获取boss结果
+message BossGetResultData {
+    int32 originBossId = 1; //originBossId
+}
+
+// 获取聚灵妖莲数据
+message DemonLotusGetInfo {
+	//
+}
+
+// 升级聚灵妖莲
+message DemonLotusUpLotus {
+	//
+}
+
+// 领取收益
+message DemonLotusGetRevenue {
+	//
+}
+
+// 开光
+message DemonLotusOpening {
+	//
+}
+
+// 妖莲进阶
+message DemonLotusLotusAdvance {
+	//
+}
+
+// 妖莲进阶
+message DemonLotusTreasureTrain {
+	//
+}
+
+// 获取邮件列表
+message MailGetList {
+	//
+}
+
+// 提取邮件物品
+message mail_pickItems {
+    int32 mailId = 1; //邮件id
+}
+
+// 一键领取
+message MailPickAllItems {
+	//
+}
+
+// 设置阅读邮件
+message MailSetRead {
+    int32 mailId = 1; //邮件id
+}
+
+// 获取是否存在需要阅读或者提取物品的邮件
+// @returns 1|0
+message MailGetIsNeedOperate {
+    int32 mailId = 1; //邮件id
+}
+
+// 随机事件购买
+message EventEventBuy {
+    int32 eventId = 1; //随机事件id
+}
+
+// 装备
+message EquipChangeEquip {
+    int32 tempId = 1; //英雄id
+    int32 index = 2; //装备位置
+    int32 equipId = 3; //装备id
+}
+
+// 传承装备
+message EquipInheritedEquip {
+    int32 equipId = 1; //装备id
+    int32 tempId = 2; //英雄id
+}
+
+// 定制武器
+message EquipCustomization {
+    int32 certificate = 1; //凭证id
+    int32 job = 2; //职业
+    string name = 3; //装备名
+    int32 lvl = 4; //装备等级
+    string abilityIndex = 5; //属性下标数组
+    int32 equipType = 6; //部位
+}
+
+// 定制武器升级
+message EquipUpCustomization {
+    int32 equipId = 1; //装备id
+}
+
+// 锁定装备
+message EquipUpdateEquipItemLockStatus {
+    int32 equipId = 1; //装备id
+    int32 isLocked = 2; //1
+}
+
+// 出售装备
+message EquipSellEquipItems {
+    string equipIdArr = 1; //id,id,id
+}
+
+// 获取用户信息
+message UserGetInfo {
+	//
+}
+
+// 改名
+message UserChangeName {
+    string name = 1; //名字
+    int32 heroTempId = 2; //模板id 
+}
+
+// 升级
+message UserUpLvl {
+	//
+}
+
+// 同步信息
+message UserSyncData {
+    string sendData = 1; //战斗数据是数组[最新聊天id]
+}
+
+// 同步信息2
+message UserSyncData2 {
+	//
+}
+
+// 打开背包宝箱
+message UserGetBagChest {
+    int32 chestId = 1; //宝箱id
+    int32 count = 2; //宝箱数量
+}
+
+// 购买金币
+message UserBuyGold {
+	//
+}
+
+// 购买凌云石
+message UserBuyLingyun {
+	//
+}
+
+// 红点提示
+message UserGetRedPoint {
+	//
+}
+
+// 更新引导
+message UserUpdateGuide {
+    int32 guideId = 1; //引导id
+}
+
+// 获取掠夺小弟记录
+message UserGetWinRecord {
+	//
+}
+
+// 获取被抢小弟记录
+message UserGetLoseRecord {
+	//
+}
+
+// 购买金币
+message UserBuyToUpLvl {
+	//
+}
+
+// 保存桌面成功
+message UserSaveDeskSuccess {
+    int32 type = 1; //c_prop.userRecordTypeKey
+}
+
+// 设置布阵
+message UserSetHeroEmbattle {
+    string heroEmbattle = 1; //布阵信息
+}
+
+// 购买背包格子
+message UserBuyBagGrid {
+	//
+}
+
+// 更新战斗力
+message UserUpdateCombat {
+	//
+}
+
+// 设置自动战斗
+message UserSetAutoFight {
+    int32 isAuto = 1;//是否自动
+}
+
+// 设置报错次数
+message UserSetTimeError {
+    int32 errorNum = 1; //异常次数
+}
+
+// 设置杀戮排名挑战
+message UserSetTodayRankWin {
+    uint64 eid = 1; //对手userId
+}
+
+// 获取战印榜
+message UserGetWarPrintedList {
+	//
+}
+
+// 战印强化
+message UserWarPrintedStrength {
+    int32 warPrintedId = 1; //战印id
+}
+
+// 修改战印榜
+message UserSetMedalTitle {
+    int32 warPrintedId = 1; //战印id
+}
+
+// 获取真气数据
+message UserGetGenuineQi {
+	//
+}
+
+// 激活战印
+message UserActiveMedal {
+    int32 warPrintedId = 1; //战印id
+}
+
+// 获取绑定手机url
+message UserGetBindPhoneUrl {
+	//
+}
+
+// 领取玩吧礼包
+message UserGetWanbagift {
+    string os = 1; //ios
+    int32 giftId = 2; //901
+}
+
+// 更新设置数据
+message UserUpdateSetting {
+    bool catNoVipChat = 1; //true
+    bool autoBuyLittleHorn = 2; //true
+}
+
+// 更新背包某样物品
+message UserUpdateItems4Bag {
+    int32 itemId = 1; //itemId
+}
+
+// 获取用户好友信息
+message FriendGetInfo {
+	//
+}
+
+// 请求添加好友
+message FriendRequestFriend {
+    uint64 requestedId = 1; //被请求用户id
+}
+
+// 处理好友请求
+message FriendDisposeFriendRequest {
+    uint64 requestId = 1; //请求用户id
+    bool isTake = 2; //是否接受请求  0：不接受  1：接受
+}
+
+// 随机获取助阵好友/陌生人
+message FriendEventCheer {
+	//
+}
+
+// 获取请求列表
+message FriendGetRequestInfo {
+	//
+}
+
+// 捡取掉落，得到金币，装备
+message FightPickLoot {
+    int32 copyId = 1; //副本id
+    string uidArr = 2; //掉落唯一id组
+    string fightData = 3; //战斗数据
+}
+
+// 复活
+message FightRevive {
+	//
+}
+
+// 获取和预掉落数据
+// @returns {"唯一id":[[物品id,物品数量],..]}
+message FightGetAndInitNextLoot {
+    int32 copyId = 1; //副本id
+    bool isBoss = 2; //是否boss关卡
+    int32 lvl = 3; //用户等级
+}
+
+// 五日目标请求
+message FiveDaysTargetGetInfo {
+	//
+}
+
+// 新四日目标请求
+message FiveDaysTargetGetInfo1 {
+	//
+}
+
+// 获取公会数据
+message GuildGetInfo {
+	//
+}
+
+// 创建公会
+message GuildEstablishGuild {
+    string name = 1; //公会名称
+}
+
+// 搜索公会
+message GuildSeekGuild {
+    int32 guildId = 1; //公会id
+}
+
+// 申请加入公会
+message GuildJoinGuild {
+    int32 guildId = 1; //公会id
+}
+
+// 获取申请列表
+message GuildGetAppliedMembers {
+	//
+}
+
+// 申请列表管理
+message GuildAppliedMembersSet {
+    uint64 tUserId = 1; //要设置用户id
+    bool isConsent = 2; //是否同意
+}
+
+// 工会设置
+message GuildGuildSetting {
+    string joinCon = 1; //加入条件
+    int32 joinLvl = 2; //加入最低等级
+}
+
+// 退会
+message GuildExitGuild {
+	//
+}
+
+// 修改公告
+message GuildSetNotice {
+    string notice = 1; //公告
+}
+
+// 抽奖
+message GuildLottery {
+    int32 count = 1; //次数
+}
+
+// 爵位
+message GuildSetEnnoble {
+    uint32 targetUserId = 1; //成员id
+    int32 ennobleType = 2; //爵位类型
+}
+
+// 贡献
+message GuildPersonPickAct {
+    int32 actId = 1; //贡献id
+}
+
+// 获取成员列表
+message GuildPersonGetMemberList {
+	//
+}
+
+// 操作会员
+message GuildPersonOpMember {
+    uint64 targetUserId = 1; //对方userId
+    int32 op = 2; //操作类型
+}
+
+// 获取个人数据
+message GuildWarGetInfo {
+	//
+}
+
+// 获取行会列表
+message GuildWarGetGuildList {
+    int32 guildId = 1; //公会id
+}
+
+// 获取战斗攻击数据
+message GuildWarGetWarAttackData {
+    int32 serverId = 1; //服务器id
+    int32 guildId = 2; //公会id
+}
+
+// 获取战斗防守数据
+message GuildWarGetWarDefenceData {
+    int32 guildId = 1; //公会id
+}
+
+// 获取己方防守记录
+message GuildWarGetDefenceRecordList {
+	//
+}
+
+// 获取战况记录
+message GuildWarGetAttackRecordList {
+	//
+}
+
+// 获取所有排名
+message GuildWarGetGuildWarAllRank {
+	//
+}
+
+// 获取上次排行
+message GuildWarGetLastRankList {
+    int32 groupId = 1; //组别id
+}
+
+// 获取报名信息
+message GuildWarGetSignUpData {
+    int32 guildId = 1; //行会id
+}
+
+// 获取报名信息
+message GuildWarSignUp {
+    int32 groupId = 1; //组别id
+}
+
+// 战斗开始
+message GuildWarFightStartDoor {
+    int32 serverId = 1; //服务器id
+    int32 guildId = 2; //guildId
+    int32 door = 3; //door
+}
+
+// 战斗结束
+message GuildWarFightEndDoor {
+    int32 serverId = 1; //服务器id
+    int32 guildId = 2; //guildId
+    int32 door = 3; //door
+    bool isWin = 4; //isWin
+}
+
+// 上阵
+message GuildWarUpDoor {
+    int32 door = 1; //door
+}
+
+// 下阵
+message GuildWarDownDoor {
+    int32 door = 1; //door
+}
+
+// 进入行会战
+message GuildWarEnter {
+	//
+}
+
+// 清除cd
+message GuildWarClearCd {
+	//
+}
+
+// 鼓舞
+message GuildWarInspire {
+	//
+}
+
+// 同步数据
+message GuildWarSyncData {
+    int32 sceneType = 1; //场景
+    string attackData = 2; //[服务器id ，行会id]
+}
+
+// 获取用户成就信息
+message HonorGetInfo {
+	//
+}
+
+// 用户领取成就奖励
+message HonorGetAward {
+    int32 honorId = 1; //成就id
+}
+
+// 结算百分比类效果扣除时照成的收益加成错误修改
+message HonorBugAlter {
+	//
+}
+
+// 获取心法神功数据
+message HeartStuntGetInfo {
+	//
+}
+
+// 选择心法
+message HeartStuntChoMenCulMethods {
+    int32 index = 1; //槽位下标
+    int32 heartStuntId = 2; //选择心法id
+}
+
+// 心法加点
+message HeartStuntStuMenCulMethods {
+    int32 index = 1; //槽位下标
+}
+
+// 更换心法
+message HeartStuntChaMenCulMethods {
+    int32 index = 1; //槽位下标
+    int32 heartStuntId = 2; //选择心法id
+}
+
+// 召唤英雄
+message HeroCallHero {
+    int32 tempId = 1; //英雄模板id
+    int32 sex = 2; //性别
+}
+
+// 技能升级
+message HeroUpSkill {
+    int32 tempId = 1; //英雄模板id
+    int32 index = 2; //技能下标
+}
+
+// 清除技能CD
+message HeroClearSkillCd {
+	//
+}
+
+// 装备符文块
+message HeroWearRune {
+    int32 tempId = 1; //英雄模板id
+    int32 index = 2; //技能下标
+}
+
+// 升级境界
+message HeroUpRealm {
+    int32 tempId = 1; //英雄模板id
+}
+
+// 强化
+message HeroStrength {
+    int32 tempId = 1; //英雄模板id
+    int32 index = 2; //对应装备位置下标
+}
+
+// 强化精炼
+message HeroEquipRefine {
+    int32 tempId = 1; //英雄模板id
+    int32 index = 2; //装备下标
+}
+
+// 升星
+message HeroUpStar {
+    int32 tempId = 1;//英雄模板id
+    int32 index = 2; //对应装备位置下标
+}
+
+// 升星突破
+message HeroStarTop {
+    int32 tempId = 1; //英雄模板id
+    int32 index = 2; //对应装备位置下标
+}
+
+// 宝石升级
+message heroUpGem {
+    int32 tempId = 1; //英雄模板id
+    int32 index = 2; //对应装备位置下标
+}
+
+// 翅膀培养
+message heroWingFos {
+    int32 tempId = 1; //英雄模板id
+    int32 fosType = 2; //培养类型
+}
+
+// 翅膀强化
+message Hero_wingStrength {
+    int32 tempId = 1; //英雄模板id
+    int32 part = 2; //部位
+    bool isReplace = 3; //是否元宝替代
+}
+
+// 翅膀一键培养
+message HeroWingFos2Top {
+    int32 tempId = 1; //英雄模板id
+    int32 fosType = 2; //培养类型
+    bool isUseDiamond = 3; //是否使用元宝
+}
+
+// 翅膀升级
+message HeroUpWing {
+    int32 tempId = 1; //英雄模板id
+}
+
+// 翅膀激活
+message HeroWingActivate {
+    int32 tempId = 1; //英雄模板id
+}
+
+// 重新计算属性和战力
+message HeroCalPropAndCombat {
+	//
+}
+
+// 获取主英雄外观数据
+// @returns [装备显示id,武器显示id,翅膀id,性别]
+message HeroGetMainHeroDisplay {
+    uint64 userId = 1; //用户id
+}
+
+// 获取主英雄外观数据
+// @returns [装备显示id,武器显示id,翅膀id,性别]
+message HeroGetHeroDisplayByTempId {
+    uint64 userId = 1; //用户id
+    int32 tempId = 2; //英雄模板id
+}
+
+// 重新计算属性和战力
+message HeroGetShowHeroData {
+    uint64 userId = 1; //用户id
+}
+
+// 装备符文块
+message HeroWearAllRune {
+    int32 tempId = 1; //英雄模板id
+}
+
+// 开启自动注入
+message HeroAutoInfuseSwitch {
+    bool isOpenIn = 1; //是否开启
+}
+
+// 额外注入
+message HeroExtraInfuse {
+    int32 type = 1; //类型
+}
+
+// 保存出战列表
+message HeroSaveFightList {
+    string fightArr = 1; //顺序数组
+}
+
+// 抽奖
+message LotteryLottery {
+    int32 type = 1; //抽奖类型
+    int32 count = 2; //抽奖次数
+}
+
+// 领取探宝值宝箱
+message LotteryGetTreasureChest {
+	//
+}
+
+// 初始化数据
+message LotteryGetInfo {
+	//
+}
+
+// 初始化数据
+message TaskGetInfo {
+	//
+}
+
+// 任务奖励领取
+message TaskTaskAward {
+    int32 taskId = 1; //任务id
+}
+
+// 领取活跃度宝箱
+message TaskGetVitalityChest {
+    int32 index = 1; //宝箱下标
+}
+
+// 购买挑战次数
+message PkBuyPKNum {
+	//
+}
+
+// 获取对手列表
+message PkGetPKUserList {
+	//
+}
+
+// 获取对手信息
+message PkGetPKUserData {
+    uint64 userId = 1; //用户id
+}
+
+// 战斗
+message PkFight {
+    uint64 enemyId = 1; //对手id
+    bool isNPC = 2; //是否npc 0|1
+    int32 fightType = 3; //1、排位赛 2、仇人榜
+}
+
+// 获取仇人列表
+message PkGetEnemyList {
+	//
+}
+
+// 获取排行榜
+message PkGetUserRanks {
+	//
+}
+
+// 获取自己的排名
+message PkGetRank {
+	//
+}
+
+// 改签名
+message PkChangeSign {
+    string sign = 1; //签名
+}
+
+// 设置阅读
+message PkSetRead {
+	//
+}
+
+// 跳过战斗
+message PkSkip {
+	//
+}
+
+// 领取排行奖励
+message PkPickRankAward {
+	//
+}
+
+// 获取仇人pk记录
+message PkGetEnemyRecord {
+    uint64 enemyId = 1; //敌人id
+}
+
+// 获取野外仇人列表
+message PkGetList {
+	//
+}
+
+// 开启pk
+message PkOutOpen {
+	//
+}
+
+// 获取对手列表
+message PkOutGetEnemyList {
+	//
+}
+
+// 获取未报仇仇人列表
+message PkOutGetRevengeEnemyList {
+	//
+}
+
+// 刷新对手
+message PkOutRefreshEnemy {
+	//
+}
+
+// 请求开始战斗
+message PkOutStart {
+    uint64 enemyId = 1; //对手id
+    int32 fightType = 2; //战斗类型 c_prop.fightTypeKey
+    bool isRevenge = 3; //是否复仇
+}
+
+// 结束战斗
+message PkOutEnd {
+    bool isWin = 1; //是否胜利
+    uint64 enemyId = 2; //对手的userId
+    string fightData = 3; //战斗数据
+    int32 fightType = 4; //战斗类型 c_prop.fightTypeKey
+    bool isRevenge = 5; //是否复仇
+}
+
+// 获取排行列表，返回50名数据
+message PkOutGetRankList {
+	//
+}
+
+// 获取个人排名
+message PkOutGetMyRank {
+	//
+}
+
+// 获取个人战斗记录，最多20条
+message PkOutGetPkRecordList {
+	//
+}
+
+// 获取个人战斗记录，最多20条
+message PkOutGetRankPkRecordList {
+	//
+}
+
+// 设置阅读
+message PkOutSetPkRecordRead {
+	//
+}
+
+// 处理被抢
+message PkOutDealRecord {
+    int32 fightType = 1; //战斗类型 c_prop.fightTypeKey
+}
+
+// 清除pk值
+message PkOutClearPkValue {
+	//
+}
+
+// 设置去掉红点
+message PkOutResetBePkKill {
+	//
+}
+
+// 隐姓埋名
+message PkOutIncognito {
+	//
+}
+
+// 获取个人战斗记录，最多20条
+message PkOutGetTreasurePkRecordList {
+	//
+}
+
+// 获取商店数据
+message ShopGetInfo {
+    int32 type = 1; //商店类型c_prop.shopTypeKey.normal
+}
+
+// 刷新商店
+message ShopRefreshExShop {
+    int32 type = 1; //类型
+    bool lvlRefresh = 2; //是否等级刷新
+}
+
+// 商店购买
+message ShopBuy {
+    int32 index = 1; //用户选择的items下标
+    int32 type = 2; //商店类型c_prop.shopTypeKey.normal
+    int32 num = 3; //购买数量
+}
+
+// 购买所有（装备商店）
+message ShopBuyAll {
+    int32 type = 1; //商店类型c_prop.shopTypeKey.normal
+}
+
+// 获取副本列表
+message CopyGetInfo {
+    int32 type = 1; //副本类型
+}
+
+// 购买挑战次数
+message CopyBuyCopyCount {
+    int32 type = 1; //副本类型
+    int32 copyId = 2; //副本id
+}
+
+// 购买装备入场卷
+message CopyBuyEquipTessera {
+	//
+}
+
+// 购买境界入场卷
+message CopyBuyRealmTessera {
+	//
+}
+
+// 扫荡
+message CopyCopyWipe {
+    int32 copyId = 1; //副本id
+}
+
+// 副本开始
+message Copy_start {
+    int32 copyId = 1; //副本id
+    string biCost = 2; //消耗log
+}
+
+// 副本结束
+message CopyEnd {
+    int32 copyId = 1; //副本id
+    string fightData = 2; //战斗验证数据
+    bool isWin = 3; //是否胜利
+}
+
+// 更新连胜
+message CopyUpdateWinningStreak {
+    int32 copyId = 1; //副本id
+}
+
+// 查看
+message CopySetRead {
+    int32 copyId = 1; //副本id
+}
+
+// 行会副本开始
+message CopyGuildStart {
+    int32 copyId = 1; //章节id
+    int32 bossId = 2; //bossid
+}
+
+// 行会副本结束
+message CopyGuildEnd {
+    int32 copyId = 1; //章节id
+    int32 bossId = 2; //bossid
+    bool isWin = 3; //结果
+}
+
+// 行会副本领取奖励
+message CopyGuildCopyAward {
+    int32 type = 1; //boss或章节
+    int32 typeId = 2; //bossId或章节id
+}
+
+// 行会副本重置
+message CopyGuildCopyReset {
+	//
+}
+
+// 公会副本清除CD
+message CopyClearGuildCopy {
+    int32 bossId = 1; //bossID
+}
+
+// 爬塔领取奖励
+message CopyPaTaAward {
+    int32 copyId = 1; //副本id
+}
+
+// 爬塔宝库抽奖
+message CopyPaTaTreasury {
+	//
+}
+
+// 取得王城擂主信息
+message ChallengeCupGetInfo {
+	//
+}
+
+// 开始挑战擂主
+message ChallengeCupStartFight {
+    uint64 championUserId = 1; //挑战擂主的userId
+}
+
+// 结束战斗
+message ChallengeCupEndFight {
+    bool isWin = 1; //是否战斗胜利
+}
+
+// 消除cd
+message ChallengeCupClearCd {
+	//
+}
+
+// 登台，成为第一位擂主
+message ChallengeCupToBeChampion {
+	//
+}
+
+// 获取伤害排行榜
+message ChallengeCupGetDurationTimeRankList {
+	//
+}
+
+// 取得王城擂主活动是否开启
+message ChallengeCupGetIsOpen {
+	//
+}
+
+// 操作，顶，踩
+message ChallengeCupOp {
+    int32 op = 1; //0：踩 1 ：顶
+}
+
+// 获取数据
+message CrystalGetInfo {
+	//
+}
+
+// 保存数据
+message CrystalSaveProgress {
+    int32 hp = 1; //剩余血量
+    int32 hpNum = 2; //剩余血量条
+    int32 nextReplayTime = 3; //下一次回满时间
+}
+
+// 完成某个关卡
+message CrystalFinish {
+    int32 crystalId = 1; //当前id
+}
+
+// 领取奖励
+message CrystalPickAward {
+    int32 crystalId = 1; //当前id
+}
+
+// 使用技能
+message CrystalUseSkill {
+    int32 index = 1; //技能下标
+}
+
+// 刷新技能cd
+message CrystalRefreshSkillCd {
+    int32 index = 1; //技能下标
+}
+
+// 获取排行榜
+message RankGetRankList {
+    int32 rankType = 1; //排行类型
+}
+
+// 获取个人排行榜
+message RankGetUserRank {
+    int32 rankType = 1; //排行类型
+}
+
+// 获取排行榜数据
+// @returns 【个人排名，个人排行数据，所有排行数据】
+message RankAllRankArr {
+    int32 rankType = 1; //排行类型
+}
+
+// 获取公会相关排行榜数据
+message RankGetGuildRank {
+	int32 rankType = 1; //排行类型
+}
+
+// 转生
+message RebirthRebirth {
+	//
+}
+
+// 购买转生丹
+message RebirthBuyRebirth {
+    int32 index = 1; //转生丹index
+    int32 num = 2; //转生丹数量
+}
+
+// 获取充值记录信息
+message RechargeGetInfo {
+	//
+}
+
+// 充值
+message RechargeRecharge {
+    int32 rechargeId = 1; //充值项ID
+    int32 channelId = 2; //渠道号
+    string receiptData = 3; //苹果验证数据
+}
+
+// 获取今天累计充值
+message RechargeGetTodayCount {
+	//
+}
+
+// 获取所有累计充值
+message RechargeGetAllCount {
+	//
+}
+
+// 请求充值
+// @returns [请求id,服务器id,支付数据]
+message RechargeGetRequest {
+    int32 rechargeId = 1; //充值项ID
+    int32 goodsId = 2; //渠道物品id
+}
+
+// 处理支付请求
+message RechargeHandleRequest {
+	//
+}
+
+// 获取红包列表
+message RedEnvelopeGetList {
+	//
+}
+
+// 发送红包
+message RedEnvelopeSendRedEnvelope {
+    int32 type = 1; //红包类型
+    int32 spItemId = 2; //红包物品
+    int32 amount = 3; //红包金额
+    int32 personNum = 4; //红包领取份数
+    string wish = 5; //祝福文本
+}
+
+// 同步红包
+message RedEnvelopeSyncRedEnvelope {
+	//
+}
+
+// 获取最新的红包记录
+message RedEnvelopeGetNewList {
+    int32 lastId = 1; //最后一条的唯一id
+}
+
+// 抢红包
+message RedEnvelopeReceiveBonus {
+    int32 redEnvelopeId = 1; //红包id
+}
+
+// 获取个人红包数据
+message RedEnvelopePersonalGetInfo {
+	//
+}
+
+// 获取最新的聊天记录
+message ChatGetNewList {
+    int32 lastId = 1; //最后一条的唯一id
+    int32 guildId = 2; //公会id
+    int32 guildLastId = 3; //最后一条公会的唯一id
+}
+
+// 获取最新的系统消息记录
+message ChatGetNewSysMsgList {
+    int32 lastId = 1; //最后一条的唯一id
+}
+
+// 发送聊天
+message ChatSendData {
+    string content = 1; //聊天内容
+    int32 lastId = 2; //最后一条的唯一id
+    int32 type = 3; //聊天类型
+    int32 guildId = 4; //公会id
+    int32 guildLastId = 5; //公会最后一条的唯一id
+    bool isLittleHorn = 6; //true
+}
+
+// 使用兑换码
+message CouponUse {
+    string code = 1; //兑换码
+}
+
+// 获取数据
+message CoffersGetInfo {
+	//
+}
+
+// 建设国库
+message CoffersBuild {
+	//
+}
+
+// 激励
+message CoffersAddBuff {
+	//
+}
+
+// 获取英雄记录掠夺记录
+message CoffersGetLootRecordArr {
+	//
+}
+
+// 获取防守记录
+message CoffersGetDefeseRecord {
+	//
+}
+
+// 获取己方守卫数据
+message CoffersGetDefeseData {
+	//
+}
+
+// 获取敌方守卫数据
+message CoffersGetEnemyDefeseData {
+    int32 serverId = 1; //服务器id
+}
+
+// 获取服务器列表状态
+message CoffersGetServerArr {
+	//
+}
+
+// 战斗开始
+message CoffersFightStart {
+    int32 serverId = 1; //服务器id
+    int32 door = 2; //门类型
+}
+
+// 挑战结束
+message CoffersFightEnd {
+    int32 serverId = 1; //服务器id
+    int32 door = 2; //门类型
+    bool isWin = 3; //是否胜利
+    string fightData = 4; //战斗数据
+}
+
+// 战斗开始
+message CoffersFightCoffersStart {
+    int32 serverId = 1; //服务器id
+}
+
+// 挑战结束
+message CoffersFightCoffersEnd {
+    int32 hurt = 1; //伤害数据
+    int32 serverId = 2; //serverId
+    string fightData = 3; //战斗数据
+}
+
+// 获取vip
+message SdkGetVip {
+	//
+}
+
+// 装备熔炼
+message SmeltSmelt {
+    string equipArr = 1; //所要熔炼的装备id数组
+    int32 choColor = 2; //质量
+}
+
+// 装备合成
+message SmeltCompound {
+    int32 compoundId = 1; //所要合成物品的Id
+}
+
+// 装备特戒
+message SmeltWearParRing {
+    int32 tempId = 1; //英雄id
+    int32 breakId = 2; //所要装备特戒的Id
+}
+
+// 特戒突破
+message SmeltRingBreak {
+    int32 tempId = 1; //英雄id
+    int32 breakId = 2; //所要装备特戒的Id
+}
+
+// 获取数据
+message KingGetInfo {
+	//
+}
+
+// 膜拜
+message KingWorship {
+	//
+}
+
+// 领取福利
+message KingReceiveWelfare {
+	//
+}
+
+// 开启buff
+message KingOpenBuff {
+	//
+}
+
+// 出售物品
+message ItemSellItems {
+    int32 itemId = 1; //id
+    int32 itemNum = 2; //num
+}
+
+// 江湖探秘
+message TreasureSpies {
+	//
+}
+
+// 获取新pk额外信息
+message TreasureGetExPkOutInfo {
+	//
+}
+
+// 开启秘宝
+message TreasureOpen {
+    int32 id = 1; //id
+}
+
+// 开启秘宝
+message TreasureCompose {
+    int32 itemId = 1; //id
+}
+
+// 使用法宝道具
+message TalismanUseTrumpItem {
+    int32 itemId = 1; //法宝id
+}
+
+// 穿戴装备
+message TalismanWearTrump {
+    int32 tempId = 1; //英雄id
+    int32 trumpId = 2; //法宝id
+}
+
+// 法宝升级
+message TalismanUpTrumpLvl {
+    int32 tempId = 1; //英雄id
+    int32 trumpId = 2; //法宝id
+}
+
+// 法宝升星
+message TalismanUpTrumpStar {
+    int32 tempId = 1; //英雄id
+    int32 trumpId = 2; //法宝id
+}
+
+// 重铸法宝
+message TalismanRecastTrump {
+    int32 tempId = 1; //英雄id
+    int32 trumpId = 2; //法宝id
+}
+
+// 法宝合成
+message TalismanCompoundTrump {
+    int32 tempId = 1; //英雄id
+    int32 trumpId = 2; //法宝id
+}
+
+// 法宝洗炼
+message TalismanBaptizeTrump {
+    int32 tempId = 1; //英雄id
+    int32 trumpId = 2; //法宝id
+    bool isCheck = 3; //是否开启保险
+}
+
+// 确认洗炼
+message TalismanConfirmBaptizeTrump {
+    int32 tempId = 1; //英雄id
+    int32 trumpId = 2; //法宝id
+}
+
+// 取消洗炼
+message TalismanCancelBaptizeTrump {
+    int32 tempId = 1; //英雄id
+    int32 trumpId = 2; //法宝id
+}
+
+// 远征
+message ExpeditionGetInfo {
+	//
+}
+
+message ExpeditionWearSoul {
+    int32 tempId = 1; //
+    int32 soulId = 2; //
+}
+
+message ExpeditionStartBattle {
+    int32 stageId = 1;
+}
+
+message ExpeditionEndBattle {
+    bool isWin = 1; //
+    int32 herosHp = 2; //
+}
+
+message ExpeditionBuyBlackItem {
+    int32 itemId = 1; //
+}
+
+// 验证常规登录,成功返回null
+message AccountEnterGame {
+    string accountId = 1; //账号id
+    string loginKey = 2; //登录key
+    int32 serverIndexId = 3; //登录key
+}
+
+// 创建用户
+message AccountCreateUser {
+    string name = 1; //名字
+    int32 heroTempId = 2; //模板id 
+    int32 sex = 3; //性别 
+    int32 serverIndexId = 4; //登录key
+    string shareKey = 5; //可能的分红模块的分享key
+}
+
+// 获取第三方用户信息
+message AccountGetThirdUserInfo {
+	//
+}
+
+// 链接
+message NetConnect {
+	//
+}
+
+// 断开链接
+message NetDisconnect {
+    string sessionId = 1; // sessionId
+}
+
+// 获取服务器当前时间
+message NetGetServerDate {
+	//
+}
+
+// 验证常规登录,成功返回null
+message AccountLogin {
+    string name = 1; //用户名
+    string pwd = 2; //密码
+    string channelId = 3; //渠道id
+}
+message LoginResponse {
+	int32 msgCode = 1; //消息Id
+
+	uint64 Id = 2; /*序号*/
+	string Name = 3; /*账号名*/
+	string Email = 4; /*邮箱*/
+	string DeviceId = 5; /*机器码，设备唯一号*/
+	int32 Status = 6; /*账号状态  0正常 ，1普通封号，2设备封号*/
+	int32 ChannelId = 7; /*渠道id*/
+	string SdkData = 8; /*sdk数据*/
+	string ExData = 9; /*扩展数据*/
+	int32 LoginCount = 10; /**/
+	string LoginKey = 11; /*登陆key*/
+	string UserServers = 12; /*拥有角色的服务器*/
+	string RechargeCom = 13; /*充值补偿  [充值元宝数量,是否发送奖励]*/
+	string SdkChannelId = 14; /*sdk渠道号*/
+	int64 BendExpireAt = 15; /*禁言过期时间*/
+	int32 BendType = 16; /*禁言类型，第一位为普通聊天，第二位客服聊天*/
+}
+
+// 验证sdk平台登陆,成功返回null
+// sdkData的数据说明：
+// egret: [token,login_type]
+// xiaomi: [uid,sessionId]
+message AccountLoginBySdk {
+    string channelId = 1; //渠道号id
+    string sdkData = 2; //sdk的数据，是一个数组[]
+    string deviceId = 3; //机器码
+}
+
+// 注册账号
+message AccountRegister {
+    string name = 1; //账号
+    string pwd = 2; //密码
+    string channelId = 3; //渠道号id
+    string deviceId = 4; //机器码
+}
+
+// 获取一条新的公告
+message NoticeGetNewOne {
+	//
+}
+
+// 获取公告列表
+message NoticeGetList {
+	//
+}
+
+// 获取协议内容
+message ProtocolContentGetInfo {
+	//
+}
+
+// 获取所有服务器列表
+message ServerInfoGetServerList {
+    bool isTest = 1; //是否测试
+}
+
+// 获取服务器实例数据
+message ServerInfoGetServerInfo {
+    int32 id = 1; //服务器id
+}
+
+// 获取服务器当前时间
+message ServerInfoGetServerDate {
+	//
+}
+
+// 获取拥有角色的服务器
+// @returns [ServerInfoEntity..]
+message ServerInfoGetUserServers {
+    string accountId = 1; //账号id
+}
+
+// 获取账户服务器信息
+message ServerInfoGetaccountServers {
+    string openId = 1; //openId
+    string appId = 2; //wanba
+    bool isTest = 3; //1
+}
+
+// 获取最新客服系统聊天记录
+message KefuGetList {
+    int32 lastId = 1; //最后一条的唯一id
+    string openId = 2; //openId
+}
+
+// 发送客服聊天记录聊天
+message KefuSendData {
+    int32 lastId = 1; //最后一条的唯一id
+    string content = 2; //聊天内容
+    string openId = 3; //openId
+    string nickname = 4; //nickname
+    int32 vipLevel = 5; //vip_level
+}
+
+// 掠夺守卫门
+// @returns [状态，个人资源，国库资源]
+message AdminCoffersLootDefense {
+    string attackData = 1; //[攻击玩家id,攻击玩家名，服务器id,服务器名称,是否胜利]
+    int32 door = 2; //攻击哪个门
+}
+
+// 掠夺国库
+// @returns [状态，个人资源，国库资源]
+message AdminCoffersLootCoffersDefense {
+    int32 hurt = 1; //伤害
+    int32 breakNum = 2; //攻破门数
+}
+
+// 获取缓存信息
+message AdminCoffersGetCache {
+	//
+}
+
+// 重置积分累计积分
+message AdminCoffersResetPoints {
+	//
+}
+
+// 更新缓存
+message AdminCoffersUpdateCache {
+    string data = 1; //[[key,value],[key,value]]
+}
+
+// 获取缓存信息
+message AdminGuildGetCache {
+	//
+}
+
+// 获取某个行会数据
+message AdminGuildGetGuildById {
+    int32 id = 1; //id
+}
+
+// 获取某个公会
+message Admin_guild_updateCache {
+    int32 id = 1; //id
+    string data = 2; //[[key,value],[key,value]]
+}
+
+// 获取僵尸公会
+message AdminGuildGetZombieGuild {
+	//
+}
+
+// 清除僵尸公会
+message AdminGuildClearZombieGuild {
+    int32 id = 1; //id
+    string data = 2; //[[],[],[],...]
+}
+
+// 会长弹劾
+message AdminGuildChairmanImpeach {
+	//
+}
+
+// 获取boss缓存信息
+message AdminBossGetBossData {
+    int32 bossId = 1; //bossId
+}
+
+// 获取用户缓存信息
+message AdminBossGetUserCache {
+    int32 bossId = 1; //bossId
+}
+
+// 获取某个用户数据
+message AdminBossGetGuildById {
+    int32 id = 1; //id
+}
+
+// 更新boss缓存
+message AdminBossUpdateBossCache {
+    string data = 1; //[[key,value],[key,value]]
+}
+
+// 更新某个用户数据
+message AdminBossUpdateUserCache {
+    int32 id = 1; //id
+    string data = 2; //[[key,value],[key,value]]
+}
+
+message AdminChatServersChat {
+    string nickName = 1; //
+    int32 vip = 2; //
+    string content = 3; //
+    bool isGM = 4; //
+    string guildName = 5; //
+    string medalTitle = 6; //
+    bool isLittleHorn = 7; //
+}
+
+// 攻击城门
+message AdminGuildWarLootDefense {
+    string attackData = 1; //[攻击玩家id,攻击玩家名，服务器id,服务器名称,是否直接击破]
+    bool isWin = 2; //是否胜利
+    string defenceData = 3; //[行会id,攻击哪个门,防守者名字]
+}
+
+// 增加被攻打消息
+message AdminGuildWarPushBeFightRecord {
+    int32 guildId = 1; //被打行会id
+    string data = 2; //[门，服务器名,行会名,玩家名]
+}
+
+// 获取当前服务器行会信息
+message AdminGuildWarGetCurServerGuildWarObj {
+	//
+}
+
+// 插入100条用户，用于压测
+message AdminGuildWarEnter100User {
+	//
+}
+
+// 添加服务器
+message AdminGuildWarSyncGetSyncServer {
+    string curServerData = 1; //[serverGroupId,serverId,serverHost,serverPort]
+}
+
+// 获取缓存信息
+message AdminTreasureGetTreasureCash {
+	//
+}
+
+// 获取玩家秘宝信息
+message AdminTreasureGetTreasureByUserId {
+	//
+}
+
+message AdminTreasureSetTreasureByUserId {
+    uint64 userId = 1; //123
+}
