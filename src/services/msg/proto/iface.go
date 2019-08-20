@@ -2,348 +2,241 @@ syntax = "proto3";
 
 package msgProto;
 
-/**
- * 神秘商店购买礼包
- * @args {activityId:"活动id",index:"栏目项"}
- * @isWorker 1
- * @returns [ds.ExActivity]
- */
-message activity_buyMysterShop : "a.ac.a"
-,a_activity_buyMysterShop_args : {
-    activityId : "_0"//活动id
-    ,index : "_1"//栏目项
+
+// 神秘商店购买礼包
+message ActivityBuyMysterShop {
+    int32 activityId = 1; //活动id
+    int32 index = 2; //栏目项
 }
-,/**
- * 获取活动列表
- * @args
- * @isWorker 1
- * @returns [ds.ExActivity]
- */
-message activity_getList : "a.ac.e"
-,/**
- * 领取精彩活动
- * @args {activityId:"活动id",index:"栏目项"}
- * @returns [ds.UserEntity]
- */
-a_activity_receive : "a.ac.f"
-message activity_receive_args : {
-    activityId : "_0"//活动id
-    ,index : "_1"//栏目项
+
+// 获取活动列表
+message ActivityGetList {
+	//
 }
-,/**
- * 获取是否需要操作，即前端所谓的红点，注意：外面的大红点的id为-1
- * @args
- * @isWorker 1
- * @returns {"活动id":"是否需要操作(0|1)",.....}
- */
-message activity_getIsNeedOperate : "a.ac.h"
-,/**
- * 补签
- * @args {activityId:"活动id"}
- * @isWorker 1
- * @returns [ds.UserEntity]
- */
-a_activity_patchSign : "a.ac.i"
+
+// 领取精彩活动
+message ActivityReceive {
+    int32 activityId = 1; //活动id
+    int32 index = 2; //栏目项
+}
+
+// 获取是否需要操作，即前端所谓的红点，注意：外面的大红点的id为-1
+// @returns {"活动id":"是否需要操作(0|1)",.....}
+message ActivityGetIsNeedOperate {
+	//
+}
+
+// 补签
 message activity_patchSign_args : {
-    activityId : "_0"//活动id
+    int32 activityId = 1; //活动id
 }
-,/**
- * 上报用户调研数据
- * @args {activityId:"活动id",report:"上报数据"}
- * @isWorker 1
- * @returns [ds.UserEntity]
- */
-a_activity_report : "a.ac.j"
-message activity_report_args : {
-    activityId : "_0"//活动id
-    ,report : "_1"//上报数据
+
+// 上报用户调研数据
+message ActivityReport {
+    int32 ActivityId = 1; //活动id
+    string report = 2; //上报数据
 }
-,/**
- * 获取竞技场信息
- * @args
- * @returns ds.ArenaRecordEntity
- */
-message arena_getInfo : "a.ar.a"
-,/**
- * 重置竞技场挑战对手
- * @args
- * @returns ds.ArenaRecordEntity
- */
-message arena_resetFightRanks : "a.ar.d"
-,/**
- * 挑战开始
- * @args {rank:"挑战排行"}
- * @returns ds.ExArena
- */
-a_arena_fightStart : "a.ar.h1"
-message arena_fightStart_args : {
-    rank : "_0"//挑战排行
+
+// 获取竞技场信息
+message ArenaGetInfo {
+	//
 }
-,/**
- * 挑战结束
- * @args {rank:"挑战排行",isWin:"是否胜利",fightData:"战斗数据"}
- * @returns ds.FightResult
- */
-a_arena_fightEnd : "a.ar.h2"
-message arena_fightEnd_args : {
-    rank : "_0"//挑战排行
-    ,isWin : "_1"//是否胜利
-    ,fightData : "_2"//战斗数据
+
+// 重置竞技场挑战对手
+message ArenaResetFightRanks {
+	//
 }
-,/**
- * 获取对手列表
- * @args
- * @returns ds.PKUserData
- */
-message arena_getFightUserList : "a.ar.l"
-,/**
- * 购买挑战次数
- * @args
- * @isWorker 1
- * @returns ds.ExUserData
- */
-message arena_buyPKNum : "a.ar.m"
-,/**
- * 获取巅峰赛记录实例
- * @args {index:"索引id",count:"总数"}
- * @isWorker 1
- * @returns [ArenaRecordEntity]
- */
-a_arena_getRecordList : "a.ar.n"
-message arena_getRecordList_args : {
-    index : "_0"//索引id
-    ,count : "_1"//总数
+
+// 挑战开始
+message ArenaFightStart {
+    string rank = 1; //挑战排行
 }
-,/**
- * 设置阅读
- * @args
- * @isWorker 1
- */
-message arena_setRead : "a.ar.o"
-,/**
- * 领取排行奖励
- * @args
- * @returns ds.ExUserData
- */
-message arena_pickRankAward : "a.ar.p"
-,/**
- * 购买挑战次数
- * @args
- * @isWorker 1
- * @returns ds.ExUserData
- */
-message arena_refreshCD : "a.ar.q"
-,/**
- * 获取排行榜列表
- * @args
- * @isWorker 1
- * @returns [ds.Rank]
- */
-message arena_getRankList : "a.ar.r"
-,/**
- * 获取下次刷新剩余时间
- * @args
- * @isWorker 1
- */
-message arena_getRefreshRemainTime : "a.ar.rt"
-,/**
- * 获取分红信息
- * @args {lastId:"分页id"}
- * @returns
- */
-a_bonus_getInfo : "a.bs.a"
-message bonus_getInfo_args : {
-    lastId : "_0"//分页id
+
+// 挑战结束
+message ArenaFightEnd {
+    string rank = 1; //挑战排行
+    int32 isWin = 2; //是否胜利
+    string fightData = 3; //战斗数据
 }
-,/**
- * 解散关系
- * @args {inviteeUserId:"解散的用户ID"}
- * @returns
- */
-a_bonus_breakRelation : "a.bs.b"
-message bonus_breakRelation_args : {
-    inviteeUserId : "_0"//解散的用户ID
+
+// 获取对手列表
+message ArenaGetFightUserList {
+	//
 }
-,/**
- * 上家分享
- * @args {serverIndexId:"服务器ID"}
- * @returns
- */
-a_bonus_share : "a.bs.c"
-message bonus_share_args : {
-    serverIndexId : "_0"//服务器ID
+
+// 购买挑战次数
+message ArenaBuyPKNum {
+	//
 }
-,/**
- * 上家提取返利
- * @args
- * @returns
- */
-message bonus_draw : "a.bs.d"
-,/**
- * 上家首次分享发奖
- * @args
- * @returns
- */
-message bonus_sendShareGift : "a.bs.e"
-,/**
- * 获取行会boss列表
- * @args
- * @returns ds.BossEntity
- */
-message boss_getGuildBossList : "a.bo.a"
-,/**
- * 获取世界boss列表
- * @args
- * @returns ds.BossEntity
- */
-message boss_getWorldBossList : "a.bo.a1"
-,/**
- * 开启boss
- * @args {bossId:"bossId",isLock:"是否上锁"}
- */
-a_boss_openBoss : "a.bo.b1"
-message boss_openBoss_args : {
-    bossId : "_0"//bossId
-    ,isLock : "_1"//是否上锁
+
+// 获取巅峰赛记录实例
+message ArenaGetRecordList {
+    int32 index = 1; //索引id
+    int32 coun = 2; //总数
 }
-,/**
- * 进入boss系统
- * @args {bossId:"bossId"}
- * @returns ds.BossData
- */
-a_boss_enter : "a.bo.b"
-message boss_enter_args : {
-    bossId : "_0"//bossId
+
+// 设置阅读
+message ArenaSetRead {
+	//
 }
-,/**
- * 开始战斗
- * @args {bossId:"bossId"}
- * @returns ds.ExBossData
- */
-a_boss_startFight : "a.bo.c"
-message boss_startFight_args : {
-    bossId : "_0"//bossId
+
+// 领取排行奖励
+message ArenaPickRankAward {
+	//
 }
-,/**
- * 造成伤害
- * @args {bossId:"bossId",hurtDic:"{英雄id：伤害}",isEnd:"是否最后",mData:"加密",hurtArr:"伤害长度，用于验证"}
- * @returns ds.ExTreasureBossData
- */
-a_boss_hurt : "a.bo.d"
-message boss_hurt_args : {
-    bossId : "_0"//bossId
-    ,hurtDic : "_1"//{英雄id：伤害}
-    ,isEnd : "_2"//是否最后
-    ,mData : "_3"//加密
-    ,hurtArr : "_4"//伤害长度，用于验证
+
+// 购买挑战次数
+message ArenaRefreshCD {
+	//
 }
-,/**
- * 退出战斗
- * @args {bossId:"bossId"}
- * @returns ds.ExUserData
- */
-a_boss_exitFight : "a.bo.e"
-message boss_exitFight_args : {
-    bossId : "_0"//bossId
+
+// 获取排行榜列表
+message ArenaGetRankList {
+	//
 }
-,/**
- * 清除退出cd
- * @args
- * @returns ds.UserEntity
- */
-message boss_clearFightCd : "a.bo.e1"
-,/**
- * 鼓舞
- * @args {bossId:"bossId"}
- * @returns ds.ExBossData
- */
-a_boss_inspire : "a.bo.f"
-message boss_inspire_args : {
-    bossId : "_0"//bossId
+
+// 获取下次刷新剩余时间
+message ArenaGetRefreshRemainTime {
+	//
 }
-,/**
- * 获取鼓舞记录列表
- * @args {bossId:"bossId"}
- * @returns [名字,....]
- */
+
+// 获取分红信息
+message BonusGetInfo {
+    int32 lastId = 1; //分页id
+}
+
+// 解散关系
+message BonusBreakRelation {
+    uint64 inviteeUserId : "_0"//解散的用户ID
+}
+
+// 上家分享
+message BonusShare {
+    int32 serverIndexId = 1; //服务器ID
+}
+
+// 上家提取返利
+message BonusDraw {
+	//
+}
+
+// 上家首次分享发奖
+message BonusSendShareGift {
+	//
+}
+
+// 获取行会boss列表
+message BossGetGuildBossList {
+	//
+}
+
+// 获取世界boss列表
+message BossGetWorldBossList {
+	//
+}
+
+// 开启boss
+message BossOpenBoss {
+    int32 bossId = 1; //bossId
+    int32 isLock = 2; //是否上锁
+}
+
+// 进入boss系统
+message BossEnter {
+    int32 bossId = 1; //bossId
+}
+
+// 开始战斗
+message BossStartFight {
+    int32 bossId = 1; //bossId
+}
+
+// 造成伤害
+message BossHurt {
+    int32 bossId = 1; //bossId
+    string hurtDic = 2; //{英雄id：伤害}
+    int32 isEnd = 3; //是否最后
+    string mData = 4; //加密
+    string hurtArr = 5; //伤害长度，用于验证
+}
+
+// 退出战斗
+message BossExitFight {
+    int32 bossId = 1; //bossId
+}
+
+// 清除退出cd
+message BossClearFightCd {
+	//
+}
+
+// 鼓舞
+message BossInspire {
+    int32 bossId = 1; //bossId
+}
+
+// 获取鼓舞记录列表
 a_boss_getInspireRecordArr : "a.bo.g"
-message boss_getInspireRecordArr_args : {
-    bossId : "_0"//bossId
+message BossGetInspireRecordArr {
+    int32 bossId = 1; //bossId
 }
-,/**
- * 同步鼓舞
- * @args {bossId:"bossId"}
- * @returns ds.BossData
- */
-a_boss_syncInspire : "a.bo.h"
-message boss_syncInspire_args : {
-    bossId : "_0"//bossId
+
+// 同步鼓舞
+message BossSyncInspire {
+    int32 bossId = 1; //bossId
 }
-,/**
- * 获取前20伤害排名
- * @args {bossId:"bossId"}
- */
-a_boss_getHurtRankList : "a.bo.i"
-message boss_getHurtRankList_args : {
-    bossId : "_0"//bossId
+
+// 获取前20伤害排名
+message BossGetHurtRankList {
+    int32 bossId = 1; //bossId
 }
-,/**
- * 获取第一名
- * @args {bossId:"bossId"}
- */
-a_boss_getFirstHurtRank : "a.bo.i1"
-message boss_getFirstHurtRank_args : {
-    bossId : "_0"//bossId
+
+// 获取第一名
+message BossGetFirstHurtRank {
+    int32 bossId = 1; //bossId
 }
-,/**
- * 获取boss战斗结果
- * @args {bossId:"bossId",originBossId:"originBossId"}
- */
-a_boss_getBossResult : "a.bo.j"
-message boss_getBossResult_args : {
-    bossId : "_0"//bossId
-    ,originBossId : "_1"//originBossId
+
+// 获取boss战斗结果
+message BossGetBossResult {
+    int32 bossId = 1; //bossId
+    int32 originBossId = 2; //originBossId
 }
-,/**
- * 获取boss结果
- * @args {originBossId:"originBossId"}
- */
-a_boss_getResultData : "a.bo.j1"
-message boss_getResultData_args : {
-    originBossId : "_0"//originBossId
+
+// 获取boss结果
+message BossGetResultData {
+    int32 originBossId = 1; //originBossId
 }
-,/**
- * 获取聚灵妖莲数据
- * @args
- */
-message demonLotus_getInfo : "a.de.a"
-,/**
- * 升级聚灵妖莲
- * @args
- */
-message demonLotus_upLotus : "a.de.b"
-,/**
- * 领取收益
- * @args
- */
-message demonLotus_getRevenue : "a.de.c"
-,/**
- * 开光
- * @args
- * @return ds.Opening
- */
-message demonLotus_opening : "a.de.d"
-,/**
- * 妖莲进阶
- * @args
- */
-message demonLotus_lotusAdvance : "a.de.e"
-,/**
- * 妖莲进阶
- * @args
- */
-message demonLotus_treasureTrain : "a.de.f"
-,/**
+
+// 获取聚灵妖莲数据
+message DemonLotusGetInfo {
+	//
+}
+
+// 升级聚灵妖莲
+message DemonLotusUpLotus {
+	//
+}
+
+// 领取收益
+message DemonLotusGetRevenue {
+	//
+}
+
+// 开光
+message DemonLotusOpening {
+	//
+}
+
+// 妖莲进阶
+message DemonLotusLotusAdvance {
+	//
+}
+
+// 妖莲进阶
+message DemonLotusTreasureTrain {
+	//
+}
+
  * 获取邮件列表
  * @args
  * @isWorker 1
