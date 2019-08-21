@@ -146,7 +146,7 @@ func (self *tcpSession) recvLoop() {
 
 		if err != nil {
 			if !util.IsEOFOrNetReadError(err) {
-				logs.Error("session closed, sesid: %d, err: %s", self.Id(), err)
+				logs.Alert("session closed, sesid: %d, err: %s", self.Id(), err)
 			}
 
 			self.sendQueue.Add(nil)

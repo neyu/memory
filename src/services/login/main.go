@@ -1,6 +1,8 @@
 package main
 
 import (
+	"services/fx/service"
+
 	"core/logs"
 	"core/xlib"
 	"core/xnet/tcp"
@@ -17,6 +19,9 @@ func init() {
 
 func main() {
 	logs.Info("login server entry")
+
+	service.StartMysql()
+	laodDao()
 
 	// createAcceptor()
 	createAcceptorWs()

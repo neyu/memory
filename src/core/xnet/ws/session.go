@@ -74,10 +74,10 @@ func (self *wsSession) recvLoop() {
 
 		if err != nil {
 
-			logs.Error(err)
-
 			if !util.IsEOFOrNetReadError(err) {
-				logs.Error("session closed:", err)
+				logs.Alert("session closed:", err)
+			} else {
+				logs.Error(err)
 			}
 
 			self.Prop().ProcEvent(&lib.RecvMsgEvent{Ses: self, Msg: &lib.SessionClosed{}})

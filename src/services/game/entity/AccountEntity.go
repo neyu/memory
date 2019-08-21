@@ -7,6 +7,7 @@ package tb
 import (
 	"core/logs"
 	"core/mysql"
+	"errors"
 
 	"database/sql"
 )
@@ -230,29 +231,48 @@ func (dao *AccountDao) FindAll() []*AccountEntity {
 	return accList
 }
 
-var accountQuery = `select id,name,email,pwd,createTime from ` + TbAccount + ` where id=?`
+func (dao *AccountDao) FindById(inCols []string, outCols []interface{}, id uint64) error {
+	return dao.Find(inCols, outCols, ` where id=?`, id)
+}
 
-func (dao *AccountDao) Find(id uint64) *AccountEntity {
-	stmt, err := dao.Prepare(accountQuery)
+func (dao *AccountDao) FindByAcc(inCols []string, outCols []interface{}, acc string) error {
+	return dao.Find(inCols, outCols, ` where name=?`, acc)
+}
+
+func (dao *AccountDao) Find(inCols []string, outCols []interface{}, cond string, param interface{}) error {
+	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols) {
+		err := errors.New("account dao Find() param length diff")
+		logs.Debug(err)
+		return err
+	}
+	query := `select `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item
+	}
+	query += ` from ` + TbAccount + cond
+	logs.Debug("query/param:", query, param)
+
+	stmt, err := dao.Prepare(query)
 	if err != nil {
 		logs.Error("account find err0:", err)
-		return nil
+		return err
 	}
 	defer stmt.Close()
 
-	acc := &AccountEntity{}
-
-	err = stmt.QueryRow(id).Scan(&acc.Id, &acc.Name, &acc.Email, &acc.Pwd, &acc.CreateTime)
+	err = stmt.QueryRow(param).Scan(outCols...)
 	switch {
 	case err == sql.ErrNoRows:
 		logs.Debug("account find err1:", err)
-		return nil
+		return err
 	case err != nil:
 		logs.Error("account find err2:", err)
-		return nil
+		return err
 	default:
 		//
 	}
 
-	return acc
+	return nil
 }

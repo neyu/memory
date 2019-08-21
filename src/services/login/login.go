@@ -1,10 +1,11 @@
 package main
 
 import (
+	"services/game/entity"
 	"services/msg/proto"
 
 	"core/logs"
-	// "core/util"
+	"core/util"
 	"core/xlib"
 	// "fmt"
 )
@@ -13,6 +14,8 @@ import (
 var handleLoginDefault func(ev lib.Event)
 
 func messageHandler(ev lib.Event) {
+	defer util.PrintPanicStackError()
+
 	switch ev.Message().(type) {
 	case *msgProto.PingAck:
 		// fmt.Println("ping msg, do nothing...")
@@ -78,26 +81,39 @@ func handleLoginReq(ev lib.Event) {
 }
 
 func handleAccountLogin(ev lib.Event) {
-	// msg := ev.Message().(*msgProto.AccountLogin)
+	msg := ev.Message().(*msgProto.AccountLogin)
+	logs.Alert("account login:", msg.GetName())
 
 	var ack msgProto.LoginResponse
-	ack.MsgCode = 17
 
-	ack.Id = 1314
-	ack.Name = "weTest"
-	ack.Email = "test@xx.com"
-	ack.DeviceId = "device123456"
-	ack.Status = 3
-	ack.SdkData = "sdkData"
-	ack.ExData = "exData"
-	ack.LoginCount = 999
-	ack.LoginKey = "loginKey..."
-	ack.UserServers = "A1,B2,C2"
-	ack.RechargeCom = "123"
-	ack.SdkChannelId = "sdk channel id"
-	ack.BendExpireAt = 1555444333
-	ack.BendType = 0
+	ent := tb.AccountEntity{}
+	ent.Name = msg.GetName()
 
+	err := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"}, []interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
+	if err != nil {
+		ack.RetCode = 4 // 账号为空
+	} else {
+		if ent.Pwd != msg.GetPwd() {
+			ack.RetCode = 17 // 密码不正确
+		} else {
+			ack.RetCode = 0 // 返回账号信息
+
+			ack.Id = ent.Id
+			ack.Name = ent.Name
+			ack.Email = ent.Email
+			ack.DeviceId = ent.DeviceId
+			ack.Status = int32(ent.Status)
+			ack.SdkData = ent.SdkData
+			ack.ExData = ent.ExData
+			ack.LoginCount = ent.LoginCount
+			ack.LoginKey = ent.LoginKey
+			ack.UserServers = ent.UserServers
+			ack.RechargeCom = ent.RechargeCom
+			ack.SdkChannelId = ent.SdkChannelId
+			ack.BendExpireAt = ent.BendExpireAt
+			ack.BendType = int32(ent.BendType)
+		}
+	}
 	logs.Debug("handleAccountLogin:%+v", ack)
 	ev.Session().Send(&ack)
 }

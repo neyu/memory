@@ -3,13 +3,18 @@ package ws
 import (
 	"core/codec"
 	// "core/util"
-	// "core/logs"
+	"core/logs"
 	"core/xlib"
 
 	"github.com/gorilla/websocket"
 
 	"encoding/binary"
 	// "fmt"
+)
+
+var (
+	TotalRecv = 0
+	TotalSend = 0
 )
 
 const (
@@ -33,6 +38,9 @@ func (WSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err
 	var messageType int
 	var raw []byte
 	messageType, raw, err = conn.ReadMessage()
+
+	TotalRecv += len(raw)
+	logs.Notice("total recv bytes:", TotalRecv)
 
 	if err != nil {
 		return
@@ -100,6 +108,9 @@ func (WSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}) erro
 	copy(pkt[MsgIdSize:], msgData)
 
 	// fmt.Println("msg send raw:", msgId, pkt)
+	TotalSend += msgLen
+	logs.Notice("total send bytes:", TotalSend)
+
 	conn.WriteMessage(websocket.BinaryMessage, pkt)
 
 	return nil
