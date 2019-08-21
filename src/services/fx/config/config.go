@@ -24,6 +24,8 @@ var (
 	mysqlConf map[string]interface{}
 	redisConf map[string]interface{}
 	mongoConf map[string]interface{}
+
+	msgCode map[string]interface{}
 )
 
 func Init(_env string) {
@@ -45,6 +47,8 @@ func load() {
 	redisConfPath := getConfPath("redis.json")
 	mongoConfPath := getConfPath("mongo.json")
 
+	codeConfPath := getConfPath("c_msgCode.json")
+
 	loadConf(&clientConf, clientConfPath)
 
 	loadConf(&loginConf, loginConfPath)
@@ -57,6 +61,8 @@ func load() {
 	loadConf(&mysqlConf, mysqlConfPath)
 	loadConf(&redisConf, redisConfPath)
 	loadConf(&mongoConf, mongoConfPath)
+
+	loadConf(&msgCode, codeConfPath)
 }
 
 func Reload() {
@@ -116,4 +122,8 @@ func GetRedis() map[string]interface{} {
 
 func GetMongo() map[string]interface{} {
 	return mongoConf
+}
+
+func GetCode() map[string]interface{} {
+	return msgCode
 }

@@ -4,30 +4,60 @@ import (
 	"services/game/entity"
 	"services/msg/proto"
 
+	"core/codec"
 	"core/logs"
 	"core/util"
 	"core/xlib"
 	// "fmt"
 )
 
+type svrMsgHandler func(ev lib.Event)
+
 // 消息处理
-var handleLoginDefault func(ev lib.Event)
+var (
+	handleLoginDefault func(ev lib.Event)
+	msgHandlers        = make(map[int32]svrMsgHandler)
+)
+
+func regMsgHandler(msgId int32, handler svrMsgHandler) {
+	msgHandlers[msgId] = handler
+}
+
+func initMsgHandler() {
+	regMsgHandler(msgProto.ID_LoginReq, handleLoginReq)
+
+	regMsgHandler(msgProto.ID_AccountLogin, handleAccountLogin)
+	regMsgHandler(msgProto.ID_AccountRegister, handleAccountRegist)
+	regMsgHandler(msgProto.ID_ServerInfoGetServerList, handleServerListGet)
+	regMsgHandler(msgProto.ID_ServerInfoGetUserServers, handleUserServersGet)
+
+}
 
 func messageHandler(ev lib.Event) {
 	defer util.PrintPanicStackError()
 
-	switch ev.Message().(type) {
-	case *msgProto.PingAck:
-		// fmt.Println("ping msg, do nothing...")
-	case *msgProto.LoginReq:
-		handleLoginReq(ev)
-	case *msgProto.AccountLogin:
-		handleAccountLogin(ev)
-	default:
+	msgId := codec.MessageToId(ev.Message())
+	if handler, ok := msgHandlers[msgId]; ok {
+		handler(ev)
+	} else {
+		logs.Debug("msg handler not found:", msgId)
 		if handleLoginDefault != nil {
 			handleLoginDefault(ev)
 		}
 	}
+
+	// switch ev.Message().(type) {
+	// case *msgProto.PingAck:
+	// 	// fmt.Println("ping msg, do nothing...")
+	// case *msgProto.LoginReq:
+	// 	handleLoginReq(ev)
+	// case *msgProto.AccountLogin:
+	// 	handleAccountLogin(ev)
+	// default:
+	// 	if handleLoginDefault != nil {
+	// 		handleLoginDefault(ev)
+	// 	}
+	// }
 }
 
 func handleLoginReq(ev lib.Event) {
@@ -82,19 +112,21 @@ func handleLoginReq(ev lib.Event) {
 
 func handleAccountLogin(ev lib.Event) {
 	msg := ev.Message().(*msgProto.AccountLogin)
-	logs.Alert("account login:", msg.GetName())
+	logs.Alert("account login:", msg)
 
 	var ack msgProto.LoginResponse
 
 	ent := tb.AccountEntity{}
 	ent.Name = msg.GetName()
 
-	err := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"}, []interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
+	err := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
+		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount,
+			&ent.Pwd}, ent.Name)
 	if err != nil {
-		ack.RetCode = 4 // 账号为空
+		ack.RetCode = msgCode("loginNoUser")
 	} else {
 		if ent.Pwd != msg.GetPwd() {
-			ack.RetCode = 17 // 密码不正确
+			ack.RetCode = msgCode("loginWordWrong")
 		} else {
 			ack.RetCode = 0 // 返回账号信息
 
@@ -116,4 +148,30 @@ func handleAccountLogin(ev lib.Event) {
 	}
 	logs.Debug("handleAccountLogin:%+v", ack)
 	ev.Session().Send(&ack)
+}
+
+func handleAccountRegist(ev lib.Event) {
+	msg := ev.Message().(*msgProto.AccountRegister)
+	logs.Alert("account register:", msg.GetName())
+}
+
+func handleServerListGet(ev lib.Event) {
+	msg := ev.Message().(*msgProto.ServerInfoGetServerList)
+	logs.Alert("server list get:", msg)
+
+	type outCol struct {
+		id       int32
+		name     string
+		area     string
+		host     string
+		port     int32
+		serverId int32
+	}
+	outCols := []interface{}{&outCol.id, &outCol.name, &outCol.area, &outCol.host, &outCol.host, &outCol.serverId}
+	svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, outCols)
+}
+
+func handleUserServersGet(ev lib.Event) {
+	msg := ev.Message().(*msgProto.ServerInfoGetUserServers)
+	logs.Alert("user servers get:", msg)
 }

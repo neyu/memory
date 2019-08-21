@@ -6,6 +6,8 @@ package tb
 
 var TbServerInfo = "uw_server_info"
 
+type ServerInfoDao mysql.DaoSource
+
 type ServerInfoEntity struct {
 	/** id **/
 	Id int32 /*id*/
@@ -42,4 +44,51 @@ type ServerInfoEntity struct {
 	/** 外部数据库链接 **/
 	OutLink string /*外部数据库链接*/
 
+}
+
+func (dao *ServerInfoDao) FindAll(inCols []string, outCols [][]interface{}) error {
+	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols[0]) {
+		err := errors.New("server info dao FindAll() param length differ")
+		logs.Debug(err)
+		return err
+	}
+	query := `select `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item
+	}
+	query += ` from ` + TbServerInfo
+	logs.Debug("query:", query)
+
+	stmt, err := dao.Prepare(query)
+	if err != nil {
+		logs.Error("server info find all err0:", err)
+		return err
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query()
+	if err != nil {
+		logs.Error("server info find all err0:", err)
+		return err
+	}
+	defer rows.Close()
+
+	// _, err = rows.Columns()
+	var idx int = 0
+	for rows.Next() {
+		err := rows.Scan(outCols[idx]...)
+		if err != nil {
+			logs.Error("server info find all err1:", err)
+			continue
+		}
+		++idx
+	}
+	if err := rows.Err(); err != nil {
+		logs.Error("server info find all err2:", err)
+		return err
+	}
+	return nil
 }

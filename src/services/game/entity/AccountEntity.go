@@ -241,7 +241,7 @@ func (dao *AccountDao) FindByAcc(inCols []string, outCols []interface{}, acc str
 
 func (dao *AccountDao) Find(inCols []string, outCols []interface{}, cond string, param interface{}) error {
 	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols) {
-		err := errors.New("account dao Find() param length diff")
+		err := errors.New("account dao Find() param length differ")
 		logs.Debug(err)
 		return err
 	}

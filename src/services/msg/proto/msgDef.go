@@ -43,8 +43,11 @@ const (
 	ID_SvcStatusAck        = 1016
 	ID_ServiceIdentifyAck  = 1017
 
-	ID_AccountLogin  = 2000
-	ID_LoginResponse = 2001
+	// iface.proto
+	ID_AccountLogin             = 2000
+	ID_LoginResponse            = 2001
+	ID_ServerInfoGetServerList  = 2002
+	ID_ServerInfoGetUserServers = 2003
 )
 
 func init() {
@@ -87,6 +90,11 @@ func init() {
 	// iface.proto
 	RegMsg(ID_AccountLogin, AccountLogin{})
 	RegMsg(ID_LoginResponse, LoginResponse{})
+
+	RegMsg(ID_AccountRegister, AccountRegister{})
+	RegMsg(ID_ServerInfoGetServerList, ServerInfoGetServerList{})
+	RegMsg(ID_ServerInfoGetUserServers, ServerInfoGetUserServers{})
+
 }
 
 func RegMsg(msgId int, msg interface{}) {

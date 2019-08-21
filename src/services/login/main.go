@@ -1,6 +1,7 @@
 package main
 
 import (
+	"services/fx/config"
 	"services/fx/service"
 
 	"core/logs"
@@ -19,6 +20,10 @@ func init() {
 
 func main() {
 	logs.Info("login server entry")
+
+	config.Init("local")
+
+	initMsgHandler()
 
 	service.StartMysql()
 	laodDao()

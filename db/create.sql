@@ -74,7 +74,7 @@ CREATE TABLE `uw_account`  (
   `bendExpireAt` int(11) NOT NULL default 0 COMMENT '禁言过期时间',
   `bendType` int(11) NOT NULL DEFAULT 0 COMMENT '禁言类型，第一位为普通',
   PRIMARY KEY (`id`) USING BTREE,
-  INDEX `uw_account_name`(`name`) USING BTREE
+  unique key `uw_account_name`(`name`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 10515 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '游戏-账号' ROW_FORMAT = Compact;
 
 -- ----------------------------
