@@ -42,37 +42,51 @@ const (
 	ID_SubscribeChannelAck = 1015
 	ID_SvcStatusAck        = 1016
 	ID_ServiceIdentifyAck  = 1017
+
+	ID_AccountLogin  = 2000
+	ID_LoginResponse = 2001
 )
 
 func init() {
 	logs.Info("register msg meta")
 
+	// rpc.proto
 	RegMsg(ID_RemoteCallReq, rpc.RemoteCallReq{})
 	RegMsg(ID_RemoteCallAck, rpc.RemoteCallAck{})
 
+	// relay.proto
 	RegMsg(ID_RelayAck, relay.RelayAck{})
 
+	// game.proto
 	RegMsg(ID_ContentReq, ContentReq{})
 	RegMsg(ID_ContentAck, ContentAck{})
 
+	// login.proto
 	RegMsg(ID_PingAck, PingAck{})
 	RegMsg(ID_LoginReq, LoginReq{})
 	RegMsg(ID_LoginAck, LoginAck{})
 	RegMsg(ID_VerifyReq, VerifyReq{})
 	RegMsg(ID_VerifyAck, VerifyAck{})
 
+	// chat.proto
 	RegMsg(ID_ChatReq, ChatReq{})
 	RegMsg(ID_ChatAck, ChatAck{})
 	RegMsg(ID_TestAck, TestAck{})
 
+	// route.proto
 	RegMsg(ID_CloseClientAck, CloseClientAck{})
 	RegMsg(ID_ClientClosedAck, ClientClosedAck{})
 	RegMsg(ID_TransmitAck, TransmitAck{})
 
+	// hub.proto
 	RegMsg(ID_SubscribeChannelReq, SubscribeChannelReq{})
 	RegMsg(ID_SubscribeChannelAck, SubscribeChannelAck{})
 	RegMsg(ID_SvcStatusAck, SvcStatusAck{})
 	RegMsg(ID_ServiceIdentifyAck, ServiceIdentifyAck{})
+
+	// iface.proto
+	RegMsg(ID_AccountLogin, AccountLogin{})
+	RegMsg(ID_LoginResponse, LoginResponse{})
 }
 
 func RegMsg(msgId int, msg interface{}) {

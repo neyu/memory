@@ -242,7 +242,7 @@ message MailGetList {
 }
 
 // 提取邮件物品
-message mail_pickItems {
+message mailPickItems {
     int32 mailId = 1; //邮件id
 }
 
@@ -1601,7 +1601,7 @@ message NetGetServerDate {
 message AccountLogin {
     string name = 1; //用户名
     string pwd = 2; //密码
-    string channelId = 3; //渠道id
+    int32 channelId = 3; //渠道id
 }
 message LoginResponse {
 	int32 msgCode = 1; //消息Id
@@ -1611,7 +1611,6 @@ message LoginResponse {
 	string Email = 4; /*邮箱*/
 	string DeviceId = 5; /*机器码，设备唯一号*/
 	int32 Status = 6; /*账号状态  0正常 ，1普通封号，2设备封号*/
-	int32 ChannelId = 7; /*渠道id*/
 	string SdkData = 8; /*sdk数据*/
 	string ExData = 9; /*扩展数据*/
 	int32 LoginCount = 10; /**/

@@ -18,6 +18,8 @@ func messageHandler(ev lib.Event) {
 		// fmt.Println("ping msg, do nothing...")
 	case *msgProto.LoginReq:
 		handleLoginReq(ev)
+	case *msgProto.AccountLogin:
+		handleAccountLogin(ev)
 	default:
 		if handleLoginDefault != nil {
 			handleLoginDefault(ev)
@@ -72,5 +74,30 @@ func handleLoginReq(ev lib.Event) {
 
 	// service.Reply(ev, &ack)
 	logs.Debug("handleLoginReq:%+v", ack)
+	ev.Session().Send(&ack)
+}
+
+func handleAccountLogin(ev lib.Event) {
+	// msg := ev.Message().(*msgProto.AccountLogin)
+
+	var ack msgProto.LoginResponse
+	ack.MsgCode = 17
+
+	ack.Id = 1314
+	ack.Name = "weTest"
+	ack.Email = "test@xx.com"
+	ack.DeviceId = "device123456"
+	ack.Status = 3
+	ack.SdkData = "sdkData"
+	ack.ExData = "exData"
+	ack.LoginCount = 999
+	ack.LoginKey = "loginKey..."
+	ack.UserServers = "A1,B2,C2"
+	ack.RechargeCom = "123"
+	ack.SdkChannelId = "sdk channel id"
+	ack.BendExpireAt = 1555444333
+	ack.BendType = 0
+
+	logs.Debug("handleAccountLogin:%+v", ack)
 	ev.Session().Send(&ack)
 }
