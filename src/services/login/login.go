@@ -37,7 +37,7 @@ func messageHandler(ev lib.Event) {
 	defer util.PrintPanicStackError()
 
 	msgId := codec.MessageToId(ev.Message())
-	if handler, ok := msgHandlers[msgId]; ok {
+	if handler, ok := msgHandlers[int32(msgId)]; ok {
 		handler(ev)
 	} else {
 		logs.Debug("msg handler not found:", msgId)
@@ -159,30 +159,21 @@ func handleServerListGet(ev lib.Event) {
 	// msg := ev.Message().(*msgProto.ServerInfoGetServerList)
 	// logs.Alert("server list get:", msg)
 
-	type colDef struct {
-		id       int32
-		name     string
-		area     string
-		host     string
-		port     string
-		serverId int32
-	}
-	outCol := &colDef{}
-	outCols := []interface{}{&outCol.id, &outCol.name, &outCol.area, &outCol.host, &outCol.port, &outCol.serverId}
-	resSet, err := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, outCols)
+	colDef := struct {
+		Id       int32
+		Name     string
+		Area     string
+		Host     string
+		Port     string
+		ServerId int32
+	}{}
+	resSet, err := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, &colDef)
 	if err != nil {
-		logs.Debug("err:", err)
+		logs.Debug("handleServerListGet error")
 		return
 	}
-	var inst colDef
-	for _, item := range resSet {
-		inst.id = *(item[0].(*int32))
-		inst.name = *(item[1].(*string))
-		inst.area = *(item[2].(*string))
-		inst.host = *(item[3].(*string))
-		inst.port = *(item[4].(*string))
-		inst.serverId = *(item[5].(*int32))
-		logs.Info("resSet:", inst)
+	for idx, item := range resSet {
+		logs.Debug("server :", idx, item)
 	}
 }
 

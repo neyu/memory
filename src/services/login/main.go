@@ -27,6 +27,7 @@ func main() {
 
 	service.StartMysql()
 	laodDao()
+	handleServerListGet(nil)
 
 	handleServerListGet(nil)
 
