@@ -4,14 +4,14 @@ package rpc;
 
 message RemoteCallReq
 {
-    uint32 MsgId = 1;
+    int32 MsgId = 1;
 	bytes Data = 2;
 	int64 CallId = 3;
 }
 
 message RemoteCallAck
 {
-	uint32 MsgId = 1;
+	int32 MsgId = 1;
 	bytes Data = 2;
 	int64 CallId = 3;
 }

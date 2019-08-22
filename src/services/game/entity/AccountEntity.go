@@ -7,9 +7,9 @@ package tb
 import (
 	"core/logs"
 	"core/mysql"
-	"errors"
 
 	"database/sql"
+	"errors"
 )
 
 var TbAccount = "uw_account"

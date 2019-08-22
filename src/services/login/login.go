@@ -156,19 +156,34 @@ func handleAccountRegist(ev lib.Event) {
 }
 
 func handleServerListGet(ev lib.Event) {
-	msg := ev.Message().(*msgProto.ServerInfoGetServerList)
-	logs.Alert("server list get:", msg)
+	// msg := ev.Message().(*msgProto.ServerInfoGetServerList)
+	// logs.Alert("server list get:", msg)
 
-	type outCol struct {
+	type colDef struct {
 		id       int32
 		name     string
 		area     string
 		host     string
-		port     int32
+		port     string
 		serverId int32
 	}
-	outCols := []interface{}{&outCol.id, &outCol.name, &outCol.area, &outCol.host, &outCol.host, &outCol.serverId}
-	svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, outCols)
+	outCol := &colDef{}
+	outCols := []interface{}{&outCol.id, &outCol.name, &outCol.area, &outCol.host, &outCol.port, &outCol.serverId}
+	resSet, err := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, outCols)
+	if err != nil {
+		logs.Debug("err:", err)
+		return
+	}
+	var inst colDef
+	for _, item := range resSet {
+		inst.id = *(item[0].(*int32))
+		inst.name = *(item[1].(*string))
+		inst.area = *(item[2].(*string))
+		inst.host = *(item[3].(*string))
+		inst.port = *(item[4].(*string))
+		inst.serverId = *(item[5].(*int32))
+		logs.Info("resSet:", inst)
+	}
 }
 
 func handleUserServersGet(ev lib.Event) {

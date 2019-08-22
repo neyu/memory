@@ -44,7 +44,7 @@ func Relay(sesDetector interface{}, dataList ...interface{}) error {
 					return err
 				}
 
-				ack.MsgId = uint32(meta.Id)
+				ack.MsgId = meta.Id
 			} else {
 				panic("Multi message relay not support")
 			}

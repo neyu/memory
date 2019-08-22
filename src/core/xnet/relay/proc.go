@@ -19,7 +19,7 @@ func ResolveInboundEvent(inputEvent lib.Event) (outputEvent lib.Event, handled b
 			ack: relayMsg,
 		}
 		if relayMsg.MsgId != 0 {
-			ev.Msg, _, err = codec.DecodeMessage(int(relayMsg.MsgId), relayMsg.Msg)
+			ev.Msg, _, err = codec.DecodeMessage(relayMsg.MsgId, relayMsg.Msg)
 			if err != nil {
 				return
 			}
@@ -55,7 +55,7 @@ func ResolveOutboundEvent(inputEvent lib.Event) (handled bool, err error) {
 		if relayMsg.MsgId != 0 {
 
 			//payload
-			_, _, err = codec.DecodeMessage(int(relayMsg.MsgId), relayMsg.Msg)
+			_, _, err = codec.DecodeMessage(relayMsg.MsgId, relayMsg.Msg)
 			if err != nil {
 				return
 			}

@@ -39,7 +39,7 @@ func (this *request) Send(ses lib.Session, msg interface{}) {
 	}
 
 	ses.Send(&RemoteCallReq{
-		MsgId:  uint32(meta.Id),
+		MsgId:  meta.Id,
 		Data:   data,
 		CallId: this.id,
 	})
