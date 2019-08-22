@@ -46,8 +46,9 @@ const (
 	// iface.proto
 	ID_AccountLogin             = 2000
 	ID_LoginResponse            = 2001
-	ID_ServerInfoGetServerList  = 2002
-	ID_ServerInfoGetUserServers = 2003
+	ID_AccountRegister          = 2002
+	ID_ServerInfoGetServerList  = 2003
+	ID_ServerInfoGetUserServers = 2004
 )
 
 func init() {

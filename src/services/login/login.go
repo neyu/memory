@@ -37,7 +37,7 @@ func messageHandler(ev lib.Event) {
 	defer util.PrintPanicStackError()
 
 	msgId := codec.MessageToId(ev.Message())
-	if handler, ok := msgHandlers[msgId]; ok {
+	if handler, ok := msgHandlers[int32(msgId)]; ok {
 		handler(ev)
 	} else {
 		logs.Debug("msg handler not found:", msgId)
@@ -156,19 +156,25 @@ func handleAccountRegist(ev lib.Event) {
 }
 
 func handleServerListGet(ev lib.Event) {
-	msg := ev.Message().(*msgProto.ServerInfoGetServerList)
-	logs.Alert("server list get:", msg)
+	// msg := ev.Message().(*msgProto.ServerInfoGetServerList)
+	// logs.Alert("server list get:", msg)
 
-	type outCol struct {
-		id       int32
-		name     string
-		area     string
-		host     string
-		port     int32
-		serverId int32
+	colDef := struct {
+		Id       int32
+		Name     string
+		Area     string
+		Host     string
+		Port     string
+		ServerId int32
+	}{}
+	resSet, err := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, &colDef)
+	if err != nil {
+		logs.Debug("handleServerListGet error")
+		return
 	}
-	outCols := []interface{}{&outCol.id, &outCol.name, &outCol.area, &outCol.host, &outCol.host, &outCol.serverId}
-	svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, outCols)
+	for idx, item := range resSet {
+		logs.Debug("server :", idx, item)
+	}
 }
 
 func handleUserServersGet(ev lib.Event) {

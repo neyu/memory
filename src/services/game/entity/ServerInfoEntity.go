@@ -4,6 +4,15 @@
 **/
 package tb
 
+import (
+	"core/logs"
+	"core/mysql"
+
+	"errors"
+	"reflect"
+	// "database/sql"
+)
+
 var TbServerInfo = "uw_server_info"
 
 type ServerInfoDao mysql.DaoSource
@@ -46,11 +55,14 @@ type ServerInfoEntity struct {
 
 }
 
-func (dao *ServerInfoDao) FindAll(inCols []string, outCols [][]interface{}) error {
-	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols[0]) {
-		err := errors.New("server info dao FindAll() param length differ")
+func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) (resSet []interface{}, err error) {
+	defVal := reflect.ValueOf(defCols)
+	defEle := defVal.Elem()
+	numField := defEle.NumField()
+	if len(inCols) <= 0 || numField <= 0 || len(inCols) != numField {
+		err = errors.New("server info dao FindAll() param length differ")
 		logs.Debug(err)
-		return err
+		return
 	}
 	query := `select `
 	for idx, item := range inCols {
@@ -65,30 +77,38 @@ func (dao *ServerInfoDao) FindAll(inCols []string, outCols [][]interface{}) erro
 	stmt, err := dao.Prepare(query)
 	if err != nil {
 		logs.Error("server info find all err0:", err)
-		return err
+		return
 	}
 	defer stmt.Close()
 
 	rows, err := stmt.Query()
 	if err != nil {
-		logs.Error("server info find all err0:", err)
-		return err
+		logs.Error("server info find all err1:", err)
+		return
 	}
 	defer rows.Close()
 
 	// _, err = rows.Columns()
-	var idx int = 0
 	for rows.Next() {
-		err := rows.Scan(outCols[idx]...)
+		outCols := []interface{}{}
+		record := reflect.New(defEle.Type()).Interface()
+		instEle := reflect.ValueOf(record).Elem()
+		for i := 0; i < instEle.NumField(); i++ {
+			field := instEle.Field(i)
+			outCols = append(outCols, field.Addr().Interface())
+		}
+
+		err := rows.Scan(outCols...)
 		if err != nil {
-			logs.Error("server info find all err1:", err)
+			logs.Error("server info find all err2:", err)
 			continue
 		}
-		++idx
+
+		resSet = append(resSet, record)
 	}
-	if err := rows.Err(); err != nil {
-		logs.Error("server info find all err2:", err)
-		return err
+	if err = rows.Err(); err != nil {
+		logs.Error("server info find all err3:", err)
+		return
 	}
-	return nil
+	return
 }
