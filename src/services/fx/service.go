@@ -1,5 +1,11 @@
 package fx
 
+import (
+	"services/fx/config"
+
+	"core/dict"
+)
+
 type Service struct {
 	env  string
 	name string
@@ -7,4 +13,10 @@ type Service struct {
 
 	ip    string
 	ports map[string]string
+}
+
+func TipCode(name string) int32 {
+	msgCode := config.GetCode()
+	code := dict.GetInt(msgCode[name], "id")
+	return int32(code)
 }

@@ -1,11 +1,9 @@
 package main
 
 import (
-	"services/fx/config"
 	"services/fx/service"
 	"services/game/entity"
 
-	"core/dict"
 	"core/mysql"
 
 	"database/sql"
@@ -20,10 +18,4 @@ func laodDao() {
 
 	accDao = &tb.AccountDao{dbInter, db}
 	svrInfoDao = &tb.ServerInfoDao{dbInter, db}
-}
-
-func msgCode(name string) int32 {
-	msgCode := config.GetCode()
-	code := dict.GetInt(msgCode[name], "id")
-	return int32(code)
 }

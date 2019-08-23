@@ -5,6 +5,8 @@
 package tb
 
 import (
+	"services/fx"
+
 	"core/logs"
 	"core/mysql"
 
@@ -231,19 +233,101 @@ func (dao *AccountDao) FindAll() []*AccountEntity {
 	return accList
 }
 
-func (dao *AccountDao) FindById(inCols []string, outCols []interface{}, id uint64) error {
+func (dao *AccountDao) Insert(inCols []string, vals []interface{}) (uint64, int32) {
+	var err error
+
+	if len(inCols) <= 0 || len(vals) <= 0 || len(inCols) != len(vals) {
+		err = errors.New("account dao Insert() param length differ")
+		logs.Debug(err)
+		return 0, -1
+	}
+	query := `insert ` + TbAccount + ` set `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item + `=?`
+	}
+	logs.Debug("query:", query, vals...)
+
+	stmt, err := dao.Prepare(query)
+	if err != nil {
+		logs.Error("account insert err0:", err)
+		return 0, -1
+	}
+	defer stmt.Close()
+
+	res, err := stmt.Exec(vals...)
+	if err != nil {
+		logs.Error("account insert err1:", err)
+		return 0, -1
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		logs.Error("account insert err2:", err)
+		return 0, -1
+	}
+	logs.Debug("new account id:", id)
+	return id, 0
+}
+
+var updateSql = `update ` + TbAccount + ` set `
+
+func (dao *AccountDao) Update(inCols []string, vals []interface{}) int32 {
+	var err error
+
+	if len(inCols) <= 0 || len(vals) <= 0 || len(inCols) != len(vals)-1 {
+		err = errors.New("account dao Insert() param length differ")
+		logs.Debug(err)
+		return -1
+	}
+	query := `update ` + TbAccount + ` set `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item + `=?`
+	}
+	query += ` where id=?`
+	logs.Debug("query:", query, vals...)
+
+	stmt, err := dao.Prepare(query)
+	if err != nil {
+		logs.Error("account Update err0:", err)
+		return -1
+	}
+	defer stmt.Close()
+
+	res, err := stmt.Exec(vals...)
+	if err != nil {
+		logs.Error("account Update err1:", err)
+		return -1
+	}
+
+	_, err := res.RowsAffected()
+	if err != nil {
+		logs.Error("account Update err2:", err)
+		return -1
+	}
+	return 0
+}
+
+func (dao *AccountDao) FindById(inCols []string, outCols []interface{}, id uint64) int32 {
 	return dao.Find(inCols, outCols, ` where id=?`, id)
 }
 
-func (dao *AccountDao) FindByAcc(inCols []string, outCols []interface{}, acc string) error {
+func (dao *AccountDao) FindByAcc(inCols []string, outCols []interface{}, acc string) int32 {
 	return dao.Find(inCols, outCols, ` where name=?`, acc)
 }
 
-func (dao *AccountDao) Find(inCols []string, outCols []interface{}, cond string, param interface{}) error {
+func (dao *AccountDao) Find(inCols []string, outCols []interface{}, cond string, param interface{}) int32 {
+	var err error
+
 	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols) {
-		err := errors.New("account dao Find() param length differ")
+		err = errors.New("account dao Find() param length differ")
 		logs.Debug(err)
-		return err
+		return -1
 	}
 	query := `select `
 	for idx, item := range inCols {
@@ -258,7 +342,7 @@ func (dao *AccountDao) Find(inCols []string, outCols []interface{}, cond string,
 	stmt, err := dao.Prepare(query)
 	if err != nil {
 		logs.Error("account find err0:", err)
-		return err
+		return -1
 	}
 	defer stmt.Close()
 
@@ -266,17 +350,16 @@ func (dao *AccountDao) Find(inCols []string, outCols []interface{}, cond string,
 	switch {
 	case err == sql.ErrNoRows:
 		logs.Debug("account find err1:", err)
-		return err
+		return fx.TipCode("loginNoUser")
 	case err != nil:
 		logs.Error("account find err2:", err)
-		return err
+		return -1
 	default:
 		//
 	}
-
-	return nil
+	return 0
 }
 
 func (dao *AccountDao) Regist(acc string, pwd string, channelId int32, deviceId string) error {
-
+	return nil
 }

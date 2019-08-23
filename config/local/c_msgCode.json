@@ -1,4 +1,5 @@
 {
+    "sysErr" : {"id":-1,"code":"systemErr","text":"系统内部错误，请联系后台管理员","region0":10,"time":2000},
     "inputRoleName" : {"id":1,"code":"inputRoleName","text":"请输入角色名","region0":10,"time":2000},
     "sensitiveInRoleName" : {"id":2,"code":"sensitiveInRoleName","text":"角色名不合法","region0":10,"time":2000},
     "roleNameUsed" : {"id":3,"code":"roleNameUsed","text":"角色名已被使用","region0":10,"time":2000},

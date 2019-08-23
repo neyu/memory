@@ -1,6 +1,7 @@
 package main
 
 import (
+	"services/fx"
 	"services/game/entity"
 	"services/msg/proto"
 
@@ -37,7 +38,7 @@ func messageHandler(ev lib.Event) {
 	defer util.PrintPanicStackError()
 
 	msgId := codec.MessageToId(ev.Message())
-	if handler, ok := msgHandlers[int32(msgId)]; ok {
+	if handler, ok := msgHandlers[msgId]; ok {
 		handler(ev)
 	} else {
 		logs.Debug("msg handler not found:", msgId)
@@ -119,14 +120,13 @@ func handleAccountLogin(ev lib.Event) {
 	ent := tb.AccountEntity{}
 	ent.Name = msg.GetName()
 
-	err := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
-		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount,
-			&ent.Pwd}, ent.Name)
-	if err != nil {
-		ack.RetCode = msgCode("loginNoUser")
+	code := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
+		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
+	if code != 0 {
+		ack.RetCode = code
 	} else {
 		if ent.Pwd != msg.GetPwd() {
-			ack.RetCode = msgCode("loginWordWrong")
+			ack.RetCode = fx.TipCode("loginWordWrong")
 		} else {
 			ack.Id = ent.Id
 			ack.Name = ent.Name
@@ -154,21 +154,57 @@ func handleAccountRegist(ev lib.Event) {
 
 	var ack msgProto.LoginResponse
 
-	ent := tb.AccountEntity{}
-	ent.Name = msg.GetName()
+	ent := &tb.AccountEntity{}
+	ent.Name = msg.Name
+	ent.Pwd = msg.Name
+	ent.ChannelId = msg.ChannelId
+	ent.DeviceId = msg.DeviceId
 
-	err := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
+	code := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
 		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
-	if err == nil {
-		ack.RetCode = msgCode("regHasUser")
+	if code == 0 {
+		ack.RetCode = fx.TipCode("regHasUser")
 
 		logs.Debug("handleAccountRegist:%+v", ack)
 		ev.Session().Send(&ack)
 
 		return
-	}
+	} else {
+		if code == fx.TipCode("loginNoUser") {
+			code = _createNewAccount(ent)
 
-	// err = accDao.Save()
+			if code != 0 {
+				ack.RetCode = code
+			} else {
+				ack.Id = ent.Id
+				ack.Name = ent.Name
+				ack.Email = ent.Email
+				ack.DeviceId = ent.DeviceId
+				ack.Status = int32(ent.Status)
+				ack.SdkData = ent.SdkData
+				ack.ExData = ent.ExData
+				ack.LoginCount = ent.LoginCount
+				ack.LoginKey = ent.LoginKey
+				ack.UserServers = ent.UserServers
+				ack.RechargeCom = ent.RechargeCom
+				ack.SdkChannelId = ent.SdkChannelId
+				ack.BendExpireAt = ent.BendExpireAt
+				ack.BendType = int32(ent.BendType)
+			}
+
+			logs.Debug("handleAccountRegist:%+v", ack)
+			ev.Session().Send(&ack)
+
+			return
+		} else {
+			ack.RetCode = code
+
+			logs.Debug("handleAccountRegist:%+v", ack)
+			ev.Session().Send(&ack)
+
+			return
+		}
+	}
 }
 
 func handleServerListGet(ev lib.Event) {
@@ -195,12 +231,13 @@ func handleServerListGet(ev lib.Event) {
 		ServerDate   int64
 	}
 	var cols colDef
-	resSet, err := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, &cols)
-	if err != nil {
-		ack.retCode = msgCode("noOpenNow")
-		ev.Session().Send(&ack)
+	resSet, code := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, &cols)
+	if code != 0 {
+		ack.RetCode = code
 
+		ev.Session().Send(&ack)
 		logs.Debug("handleServerListGet error")
+
 		return
 	}
 
@@ -235,4 +272,22 @@ func handleServerListGet(ev lib.Event) {
 func handleUserServersGet(ev lib.Event) {
 	msg := ev.Message().(*msgProto.ServerInfoGetUserServers)
 	logs.Alert("user servers get:", msg)
+
+	var ack msgProto.ServerListResponse
+
+	ent := tb.AccountEntity{}
+	ent.Id = msg.AccountId
+
+	code := accDao.FindById([]string{"userServers"}, []interface{}{&ent.UserServers}, ent.Id)
+	if code != 0 {
+		ack.RetCode = code
+
+		ev.Session().Send(&ack)
+		logs.Debug("handleUserServersGet error")
+
+		return
+	}
+	serverIds := ent.UserServers
+	logs.Debug("server ids:", serverIds)
+
 }

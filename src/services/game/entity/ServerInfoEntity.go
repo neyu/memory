@@ -8,9 +8,9 @@ import (
 	"core/logs"
 	"core/mysql"
 
+	"database/sql"
 	"errors"
 	"reflect"
-	// "database/sql"
 )
 
 var TbServerInfo = "uw_server_info"
@@ -55,14 +55,18 @@ type ServerInfoEntity struct {
 
 }
 
-func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) (resSet []interface{}, err error) {
+func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) ([]interface{}, int32) {
+	var (
+		resSet []interface{}
+		code   int32
+	)
 	defVal := reflect.ValueOf(defCols)
 	defEle := defVal.Elem()
 	numField := defEle.NumField()
 	if len(inCols) <= 0 || numField <= 0 || len(inCols) != numField {
 		err = errors.New("server info dao FindAll() param length differ")
 		logs.Debug(err)
-		return
+		return nil, -1
 	}
 	query := `select `
 	for idx, item := range inCols {
@@ -77,14 +81,20 @@ func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) (resSet 
 	stmt, err := dao.Prepare(query)
 	if err != nil {
 		logs.Error("server info find all err0:", err)
-		return
+		return nil, -1
 	}
 	defer stmt.Close()
 
 	rows, err := stmt.Query()
-	if err != nil {
-		logs.Error("server info find all err1:", err)
-		return
+	switch {
+	case err == sql.ErrNoRows:
+		logs.Debug("server info find all err1:", err)
+		return nil, fx.TipCode("noOpenNow")
+	case err != nil:
+		logs.Error("server info find all err2:", err)
+		return nil, -1
+	default:
+		//
 	}
 	defer rows.Close()
 
@@ -100,15 +110,15 @@ func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) (resSet 
 
 		err := rows.Scan(outCols...)
 		if err != nil {
-			logs.Error("server info find all err2:", err)
+			logs.Error("server info find all err3:", err)
 			continue
 		}
 
 		resSet = append(resSet, record)
 	}
 	if err = rows.Err(); err != nil {
-		logs.Error("server info find all err3:", err)
-		return
+		logs.Error("server info find all err4:", err)
+		return nil, -1
 	}
-	return
+	return resSet, 0
 }

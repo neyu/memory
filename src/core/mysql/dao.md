@@ -49,7 +49,7 @@ func (tx *Tx) Rollback() error
 
 # 
 1. select [fields] from table [where] [order by ] [limit]
-2. insert into table set a=?,b=?
+2. insert table set a=?,b=?
 3. update table set a=?,b=? where ...
 4. this.SetOrder("id desc").SetField("name,uid").Get(wh)
 
