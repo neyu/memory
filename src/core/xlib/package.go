@@ -52,7 +52,7 @@ func RecvLTVPacket(reader io.Reader, maxPacketSize int) (msg interface{}, err er
 	msgid := binary.BigEndian.Uint16(body)
 	msgData := body[msgIdSize:]
 
-	msg, _, err = codec.DecodeMessage(int(msgid), msgData)
+	msg, _, err = codec.DecodeMessage(int32(msgid), msgData)
 	if err != nil {
 		return nil, err
 	}
@@ -63,7 +63,7 @@ func SendLTVPacket(writer io.Writer, data interface{}) error { //, ctx lib.Conte
 	//fmt.Printf("send ltv packet...\n")
 	var (
 		msgData []byte
-		msgId   int
+		msgId   int32
 		meta    *codec.MessageMeta
 	)
 	switch m := data.(type) {

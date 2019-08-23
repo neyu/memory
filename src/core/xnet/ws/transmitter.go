@@ -61,7 +61,7 @@ func (WSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err
 		msgID := binary.BigEndian.Uint16(raw) //[MsgLenSize:]
 		msgData := raw[MsgIdSize:]
 
-		msg, _, err = codec.DecodeMessage(int(msgID), msgData)
+		msg, _, err = codec.DecodeMessage(int32(msgID), msgData)
 	case websocket.TextMessage:
 		//
 	}
@@ -80,7 +80,7 @@ func (WSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}) erro
 
 	var (
 		msgData []byte
-		msgId   int
+		msgId   int32
 	)
 
 	switch m := msg.(type) {

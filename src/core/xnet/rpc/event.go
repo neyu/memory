@@ -38,7 +38,7 @@ func (this *RecvMsgEvent) Reply(msg interface{}) {
 	}
 
 	this.ses.Send(&RemoteCallAck{
-		MsgId:  uint32(meta.Id),
+		MsgId:  meta.Id,
 		Data:   data,
 		CallId: this.callid,
 	})

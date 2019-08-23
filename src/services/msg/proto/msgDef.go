@@ -10,6 +10,7 @@ import (
 	"reflect"
 )
 
+// msgId --> uint16
 const (
 	ID_RemoteCallReq = 500
 	ID_RemoteCallAck = 501
@@ -98,7 +99,7 @@ func init() {
 
 }
 
-func RegMsg(msgId int, msg interface{}) {
+func RegMsg(msgId int32, msg interface{}) {
 	metaMsg := codec.MessageMeta{
 		Codec: codec.MustGetCodec("proto"),
 		Type:  reflect.TypeOf(msg),

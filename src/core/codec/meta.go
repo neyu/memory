@@ -20,7 +20,7 @@ type MessageMeta struct {
 	Codec Codec        // 消息用到的编码
 	Type  reflect.Type // 消息类型, 注册时使用指针类型
 
-	Id int // 消息Id (二进制协议中使用)
+	Id int32 // 消息Id (二进制协议中使用)
 
 	ctxListGuard sync.RWMutex
 	ctxList      []*context
@@ -125,7 +125,7 @@ func (self *MessageMeta) GetContextAsInt(name string, defaultValue int) int {
 var (
 	// 消息元信息与消息名称，消息ID和消息类型的关联关系
 	metaByFullName = map[string]*MessageMeta{}
-	metaById       = map[int]*MessageMeta{}
+	metaById       = map[int32]*MessageMeta{}
 	metaByType     = map[reflect.Type]*MessageMeta{}
 )
 
@@ -230,7 +230,7 @@ func MessageMetaByMsg(msg interface{}) *MessageMeta {
 }
 
 // 根据id查找消息元信息
-func MessageMetaById(id int) *MessageMeta {
+func MessageMetaById(id int32) *MessageMeta {
 	if v, ok := metaById[id]; ok {
 		return v
 	}
@@ -253,7 +253,7 @@ func MessageToName(msg interface{}) string {
 	return meta.TypeName()
 }
 
-func MessageToId(msg interface{}) int {
+func MessageToId(msg interface{}) int32 {
 
 	if msg == nil {
 		return 0
@@ -264,7 +264,7 @@ func MessageToId(msg interface{}) int {
 		return 0
 	}
 
-	return int(meta.Id)
+	return meta.Id
 }
 
 func MessageSize(msg interface{}) int {
@@ -307,7 +307,7 @@ func MessageToString(msg interface{}) string {
 // 直接发送数据时，将*RawPacket作为Send参数
 type RawPacket struct {
 	MsgData []byte
-	MsgId   int
+	MsgId   int32
 }
 
 func (self *RawPacket) Message() interface{} {
