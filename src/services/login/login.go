@@ -128,8 +128,6 @@ func handleAccountLogin(ev lib.Event) {
 		if ent.Pwd != msg.GetPwd() {
 			ack.RetCode = msgCode("loginWordWrong")
 		} else {
-			ack.RetCode = 0 // 返回账号信息
-
 			ack.Id = ent.Id
 			ack.Name = ent.Name
 			ack.Email = ent.Email
@@ -152,29 +150,86 @@ func handleAccountLogin(ev lib.Event) {
 
 func handleAccountRegist(ev lib.Event) {
 	msg := ev.Message().(*msgProto.AccountRegister)
-	logs.Alert("account register:", msg.GetName())
+	logs.Alert("account register:", msg)
+
+	var ack msgProto.LoginResponse
+
+	ent := tb.AccountEntity{}
+	ent.Name = msg.GetName()
+
+	err := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
+		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
+	if err == nil {
+		ack.RetCode = msgCode("regHasUser")
+
+		logs.Debug("handleAccountRegist:%+v", ack)
+		ev.Session().Send(&ack)
+
+		return
+	}
+
+	// err = accDao.Save()
 }
 
 func handleServerListGet(ev lib.Event) {
-	// msg := ev.Message().(*msgProto.ServerInfoGetServerList)
-	// logs.Alert("server list get:", msg)
+	msg := ev.Message().(*msgProto.ServerInfoGetServerList)
+	logs.Alert("server list get:", msg)
 
-	colDef := struct {
-		Id       int32
-		Name     string
-		Area     string
-		Host     string
-		Port     string
-		ServerId int32
-	}{}
-	resSet, err := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, &colDef)
+	var ack msgProto.ServerListResponse
+
+	type colDef struct {
+		Id           int32
+		Name         string
+		MergerName   string
+		Area         string
+		Host         string
+		Port         string
+		IsNew        int32
+		Status       int32
+		Sort         int32
+		AppId        string
+		ServerId     int32
+		IndexId      int32
+		IsClose      int32
+		CloseExplain string
+		ServerDate   int64
+	}
+	var cols colDef
+	resSet, err := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, &cols)
 	if err != nil {
+		ack.retCode = msgCode("noOpenNow")
+		ev.Session().Send(&ack)
+
 		logs.Debug("handleServerListGet error")
 		return
 	}
+
+	var infos []*msgProto.PbSvrInfo
 	for idx, item := range resSet {
 		logs.Debug("server :", idx, item)
+		record := item.(*colDef)
+
+		infos = append(infos, &msgProto.PbSvrInfo{
+			Id:           record.Id,
+			Name:         record.Name,
+			MergerName:   record.MergerName,
+			Area:         record.Area,
+			Host:         record.Host,
+			Port:         record.Port,
+			IsNew:        record.IsNew,
+			Status:       record.Status,
+			Sort:         record.Sort,
+			AppId:        record.AppId,
+			ServerId:     record.ServerId,
+			IndexId:      record.IndexId,
+			IsClose:      record.IsClose,
+			CloseExplain: record.CloseExplain,
+			ServerDate:   record.ServerDate,
+		})
 	}
+
+	ack.Infos = infos
+	ev.Session().Send(&ack)
 }
 
 func handleUserServersGet(ev lib.Event) {

@@ -27,7 +27,6 @@ func main() {
 
 	service.StartMysql()
 	laodDao()
-	handleServerListGet(nil)
 
 	// createAcceptor()
 	createAcceptorWs()

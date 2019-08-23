@@ -276,3 +276,7 @@ func (dao *AccountDao) Find(inCols []string, outCols []interface{}, cond string,
 
 	return nil
 }
+
+func (dao *AccountDao) Regist(acc string, pwd string, channelId int32, deviceId string) error {
+
+}

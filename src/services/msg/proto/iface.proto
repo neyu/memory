@@ -1636,7 +1636,7 @@ message AccountLoginBySdk {
 message AccountRegister {
     string name = 1; //账号
     string pwd = 2; //密码
-    string channelId = 3; //渠道号id
+    int32 channelId = 3; //渠道号id
     string deviceId = 4; //机器码
 }
 
@@ -1664,6 +1664,29 @@ message ServerInfoGetServerList {
 message ServerInfoGetServerInfo {
     int32 id = 1; //服务器id
 }
+
+message PbSvrInfo {
+	int32 Id = 2; /*id*/
+	string Name = 3; /** 服务器名称 **/
+	string MergerName = 4; /*合服后的名字*/
+	string Area = 5; /*游戏区*/
+	string Host = 6; /*服务器ip*/
+	string Port = 7; /*端口*/
+	int32 IsNew = 8; /*是否是新区*/
+	int32 Status = 9; /*状态:0:维护,1:良好，2:正常，3:爆满 ,4:未开放*/
+	int32 Sort = 10; /*越大越在后面*/
+	string AppId  = 11;/*渠道区分*/
+	int32 ServerId = 12; /*服务器id*/
+	int32 IndexId = 13; /*客户端索引id*/
+	int32 IsClose = 14; /** 是否维护 **/
+	string CloseExplain = 15; /** 维护说明 **/
+	int64 ServerDate = 16; /** 开服日期 **/
+}
+message ServerListResponse {
+	int32 retCode = 1;
+	repeated PbSvrInfo infos = 2;
+}
+
 
 // 获取服务器当前时间
 message ServerInfoGetServerDate {
