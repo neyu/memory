@@ -8,7 +8,6 @@ import (
 	"core/logs"
 	"core/mysql"
 
-	"database/sql"
 	"errors"
 	"reflect"
 )
@@ -58,7 +57,7 @@ type ServerInfoEntity struct {
 func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) ([]interface{}, int32) {
 	var (
 		resSet []interface{}
-		code   int32
+		err    error
 	)
 	defVal := reflect.ValueOf(defCols)
 	defEle := defVal.Elem()
@@ -86,15 +85,9 @@ func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) ([]inter
 	defer stmt.Close()
 
 	rows, err := stmt.Query()
-	switch {
-	case err == sql.ErrNoRows:
-		logs.Debug("server info find all err1:", err)
-		return nil, fx.TipCode("noOpenNow")
-	case err != nil:
+	if err != nil {
 		logs.Error("server info find all err2:", err)
 		return nil, -1
-	default:
-		//
 	}
 	defer rows.Close()
 
@@ -108,7 +101,7 @@ func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) ([]inter
 			outCols = append(outCols, field.Addr().Interface())
 		}
 
-		err := rows.Scan(outCols...)
+		err = rows.Scan(outCols...)
 		if err != nil {
 			logs.Error("server info find all err3:", err)
 			continue
@@ -123,7 +116,64 @@ func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) ([]inter
 	return resSet, 0
 }
 
-func (dao *ServerInfoDao) FindInSet(ids string, inCols []string) []*ServerInfoEntity {
-	query = `select `
-	return nil
+func (dao *ServerInfoDao) FindInSet(inCols []string, defCols interface{}, svrIds string) ([]interface{}, int32) {
+	var (
+		resSet []interface{}
+		err    error
+	)
+	defVal := reflect.ValueOf(defCols)
+	defEle := defVal.Elem()
+	numField := defEle.NumField()
+	if len(inCols) <= 0 || numField <= 0 || len(inCols) != numField {
+		err = errors.New("server info dao FindInSet() param length differ")
+		logs.Debug(err)
+		return nil, -1
+	}
+	query := `select `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item
+	}
+	query += ` from ` + TbServerInfo + ` where id in (` + svrIds + `)`
+	logs.Debug("query:", query)
+
+	stmt, err := dao.Prepare(query)
+	if err != nil {
+		logs.Error("server info find all err0:", err)
+		return nil, -1
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query()
+	if err != nil {
+		logs.Error("server info find all err2:", err)
+		return nil, -1
+	}
+	defer rows.Close()
+
+	// _, err = rows.Columns()
+	for rows.Next() {
+		outCols := []interface{}{}
+		record := reflect.New(defEle.Type()).Interface()
+		instEle := reflect.ValueOf(record).Elem()
+		for i := 0; i < instEle.NumField(); i++ {
+			field := instEle.Field(i)
+			outCols = append(outCols, field.Addr().Interface())
+		}
+
+		err = rows.Scan(outCols...)
+		if err != nil {
+			logs.Error("server info find all err3:", err)
+			continue
+		}
+
+		resSet = append(resSet, record)
+	}
+	if err = rows.Err(); err != nil {
+		logs.Error("server info find all err4:", err)
+		return nil, -1
+	}
+	return resSet, 0
 }

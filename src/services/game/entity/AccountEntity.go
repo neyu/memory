@@ -5,8 +5,6 @@
 package tb
 
 import (
-	"services/fx"
-
 	"core/logs"
 	"core/mysql"
 
@@ -248,7 +246,7 @@ func (dao *AccountDao) Insert(inCols []string, vals []interface{}) (uint64, int3
 		}
 		query += item + `=?`
 	}
-	logs.Debug("query:", query, vals...)
+	logs.Debug("query:", query)
 
 	stmt, err := dao.Prepare(query)
 	if err != nil {
@@ -269,7 +267,7 @@ func (dao *AccountDao) Insert(inCols []string, vals []interface{}) (uint64, int3
 		return 0, -1
 	}
 	logs.Debug("new account id:", id)
-	return id, 0
+	return uint64(id), 0
 }
 
 var updateSql = `update ` + TbAccount + ` set `
@@ -290,7 +288,7 @@ func (dao *AccountDao) Update(inCols []string, vals []interface{}) int32 {
 		query += item + `=?`
 	}
 	query += ` where id=?`
-	logs.Debug("query:", query, vals...)
+	logs.Debug("query:", query)
 
 	stmt, err := dao.Prepare(query)
 	if err != nil {
@@ -305,7 +303,7 @@ func (dao *AccountDao) Update(inCols []string, vals []interface{}) int32 {
 		return -1
 	}
 
-	_, err := res.RowsAffected()
+	_, err = res.RowsAffected()
 	if err != nil {
 		logs.Error("account Update err2:", err)
 		return -1
@@ -350,7 +348,7 @@ func (dao *AccountDao) Find(inCols []string, outCols []interface{}, cond string,
 	switch {
 	case err == sql.ErrNoRows:
 		logs.Debug("account find err1:", err)
-		return fx.TipCode("loginNoUser")
+		return 1 // loginNoUser
 	case err != nil:
 		logs.Error("account find err2:", err)
 		return -1

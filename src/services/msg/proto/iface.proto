@@ -1696,7 +1696,7 @@ message ServerInfoGetServerDate {
 // 获取拥有角色的服务器
 // @returns [ServerInfoEntity..]
 message ServerInfoGetUserServers {
-    string accountId = 1; //账号id
+    uint64 accountId = 1; //账号id
 }
 
 // 获取账户服务器信息

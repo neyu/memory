@@ -2,7 +2,8 @@ package fx
 
 import (
 	"core/logs"
-	"core/util"
+	// "core/util"
+	"core/xlib"
 
 	"os"
 	"runtime"
@@ -24,7 +25,7 @@ func Init() {
 	// logs.Info("LinkRule: '%s'", linkRule)
 	// logs.Info("SvcGroup: '%s'", GetSvcGroup())
 	// logs.Info("SvcIndex: %d", GetSvcIndex())
-	logs.Info("LANIP: '%s'", util.GetLocalIP())
+	logs.Info("LANIP: '%s'", lib.GetLocalIP())
 	// logs.Info("WANIP: '%s'", util.GetWANIP())
 
 	logs.Info("使用CPU数量:", runtime.GOMAXPROCS(-1))

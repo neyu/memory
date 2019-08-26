@@ -28,7 +28,10 @@ func main() {
 	service.StartMysql()
 	laodDao()
 
-	handleServerListGet(nil)
+	// handleAccountLogin(nil)
+	// handleAccountRegist(nil)
+	// handleServerListGet(nil)
+	// handleUserServersGet(nil)
 
 	// createAcceptor()
 	createAcceptorWs()

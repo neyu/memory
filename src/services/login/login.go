@@ -4,6 +4,7 @@ import (
 	"services/fx"
 	"services/game/entity"
 	"services/msg/proto"
+	"strings"
 
 	"core/codec"
 	"core/logs"
@@ -124,6 +125,9 @@ func handleAccountLogin(ev lib.Event) {
 		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
 	if code != 0 {
 		ack.RetCode = code
+		if code == 1 {
+			ack.RetCode = fx.TipCode("loginNoUser")
+		}
 	} else {
 		if ent.Pwd != msg.GetPwd() {
 			ack.RetCode = fx.TipCode("loginWordWrong")
@@ -170,10 +174,10 @@ func handleAccountRegist(ev lib.Event) {
 
 		return
 	} else {
-		if code == fx.TipCode("loginNoUser") {
-			code = _createNewAccount(ent)
+		if code == 1 {
+			code2 := _createNewAccount(ent)
 
-			if code != 0 {
+			if code2 != 0 {
 				ack.RetCode = code
 			} else {
 				ack.Id = ent.Id
@@ -214,21 +218,12 @@ func handleServerListGet(ev lib.Event) {
 	var ack msgProto.ServerListResponse
 
 	type colDef struct {
-		Id           int32
-		Name         string
-		MergerName   string
-		Area         string
-		Host         string
-		Port         string
-		IsNew        int32
-		Status       int32
-		Sort         int32
-		AppId        string
-		ServerId     int32
-		IndexId      int32
-		IsClose      int32
-		CloseExplain string
-		ServerDate   int64
+		Id       int32
+		Name     string
+		Area     string
+		Host     string
+		Port     string
+		ServerId int32
 	}
 	var cols colDef
 	resSet, code := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, &cols)
@@ -236,7 +231,15 @@ func handleServerListGet(ev lib.Event) {
 		ack.RetCode = code
 
 		ev.Session().Send(&ack)
-		logs.Debug("handleServerListGet error")
+		logs.Debug("handleServerListGet error0")
+
+		return
+	}
+	if len(resSet) == 0 {
+		ack.RetCode = fx.TipCode("noOpenNow")
+
+		ev.Session().Send(&ack)
+		logs.Debug("handleServerListGet error1")
 
 		return
 	}
@@ -247,21 +250,12 @@ func handleServerListGet(ev lib.Event) {
 		record := item.(*colDef)
 
 		infos = append(infos, &msgProto.PbSvrInfo{
-			Id:           record.Id,
-			Name:         record.Name,
-			MergerName:   record.MergerName,
-			Area:         record.Area,
-			Host:         record.Host,
-			Port:         record.Port,
-			IsNew:        record.IsNew,
-			Status:       record.Status,
-			Sort:         record.Sort,
-			AppId:        record.AppId,
-			ServerId:     record.ServerId,
-			IndexId:      record.IndexId,
-			IsClose:      record.IsClose,
-			CloseExplain: record.CloseExplain,
-			ServerDate:   record.ServerDate,
+			Id:       record.Id,
+			Name:     record.Name,
+			Area:     record.Area,
+			Host:     record.Host,
+			Port:     record.Port,
+			ServerId: record.ServerId,
 		})
 	}
 
@@ -272,10 +266,10 @@ func handleServerListGet(ev lib.Event) {
 func handleUserServersGet(ev lib.Event) {
 	msg := ev.Message().(*msgProto.ServerInfoGetUserServers)
 	logs.Alert("user servers get:", msg)
-	ß
+
 	var ack msgProto.ServerListResponse
 
-	ent := tb.AccountEntity{}
+	ent := &tb.AccountEntity{}
 	ent.Id = msg.AccountId
 
 	code := accDao.FindById([]string{"userServers"}, []interface{}{&ent.UserServers}, ent.Id)
@@ -283,14 +277,54 @@ func handleUserServersGet(ev lib.Event) {
 		ack.RetCode = code
 
 		ev.Session().Send(&ack)
-		logs.Debug("handleUserServersGet error")
+		logs.Debug("handleUserServersGet error0")
 
 		return
 	}
-	serverIds := ent.UserServers
-	logs.Debug("server ids:", serverIds)
+	svrIds := strings.Trim(ent.UserServers, "[]")
 
-	// ent := &tb.ServerInfoEntity{}
-	ent := svrInfoDao.FindInSet(serverIds)
+	type colDef struct {
+		Id       int32
+		Name     string
+		Area     string
+		Host     string
+		Port     string
+		ServerId int32
+	}
+	var cols colDef
+	resSet, code := svrInfoDao.FindInSet([]string{"id", "name", "area", "host", "port", "serverId"}, &cols, svrIds)
+	if code != 0 {
+		ack.RetCode = code
 
+		ev.Session().Send(&ack)
+		logs.Debug("handleUserServersGet error1")
+
+		return
+	}
+	if len(resSet) == 0 {
+		ack.RetCode = fx.TipCode("noOpenNow")
+
+		ev.Session().Send(&ack)
+		logs.Debug("handleUserServersGet error2")
+
+		return
+	}
+
+	var infos []*msgProto.PbSvrInfo
+	for idx, item := range resSet {
+		logs.Debug("server :", idx, item)
+		record := item.(*colDef)
+
+		infos = append(infos, &msgProto.PbSvrInfo{
+			Id:       record.Id,
+			Name:     record.Name,
+			Area:     record.Area,
+			Host:     record.Host,
+			Port:     record.Port,
+			ServerId: record.ServerId,
+		})
+	}
+
+	ack.Infos = infos
+	ev.Session().Send(&ack)
 }
