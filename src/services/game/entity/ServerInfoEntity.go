@@ -122,3 +122,8 @@ func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) ([]inter
 	}
 	return resSet, 0
 }
+
+func (dao *ServerInfoDao) FindInSet(ids string, inCols []string) []*ServerInfoEntity {
+	query = `select `
+	return nil
+}

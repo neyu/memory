@@ -272,7 +272,7 @@ func handleServerListGet(ev lib.Event) {
 func handleUserServersGet(ev lib.Event) {
 	msg := ev.Message().(*msgProto.ServerInfoGetUserServers)
 	logs.Alert("user servers get:", msg)
-
+	ß
 	var ack msgProto.ServerListResponse
 
 	ent := tb.AccountEntity{}
@@ -289,5 +289,8 @@ func handleUserServersGet(ev lib.Event) {
 	}
 	serverIds := ent.UserServers
 	logs.Debug("server ids:", serverIds)
+
+	// ent := &tb.ServerInfoEntity{}
+	ent := svrInfoDao.FindInSet(serverIds)
 
 }
