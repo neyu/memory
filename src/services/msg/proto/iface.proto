@@ -1568,6 +1568,10 @@ message AccountEnterGame {
     int32 serverIndexId = 3; //登录key
 }
 
+message GameEnterResponse {
+	//
+}
+
 // 创建用户
 message AccountCreateUser {
     string name = 1; //名字
@@ -1575,6 +1579,10 @@ message AccountCreateUser {
     int32 sex = 3; //性别 
     int32 serverIndexId = 4; //登录key
     string shareKey = 5; //可能的分红模块的分享key
+}
+
+message UserCreateResponse {
+	//
 }
 
 // 获取第三方用户信息

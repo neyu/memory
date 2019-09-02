@@ -23,10 +23,10 @@ func main() {
 
 	config.Init("local")
 
-	initMsgHandler()
-
 	service.StartMysql()
 	laodDao()
+
+	initMsgHandler()
 
 	// handleAccountLogin(nil)
 	// handleAccountRegist(nil)

@@ -16,6 +16,7 @@ import (
 func main() {
 	logs.Info("game server entry")
 
+	initMsgHandler()
 	createAcceptor()
 
 	waitExitSignal()
