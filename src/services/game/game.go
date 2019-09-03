@@ -1,16 +1,20 @@
 package main
 
 import (
+	"services/fx/const"
 	"services/fx/service"
+	"services/game/entity"
 	"services/gate/api"
 	"services/gate/backend"
 	"services/msg/proto"
 
 	"core/logs"
 	"core/xlib"
+
+	"strings"
 )
 
-type svrMsgHandler func(ev lib.Event, msgProto.ClientId)
+type svrMsgHandler func(ev lib.Event, cid msgProto.ClientId)
 
 var (
 	handleDefault func(ev lib.Event)
@@ -98,11 +102,24 @@ func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
 	msg := ev.Message().(*msgProto.AccountEnterGame)
 	logs.Debug("game enter:", msg.AccountId, msg.LoginKey, msg.ServerIndexId)
 
+	var ack msgProto.GameEnterResponse
 
-	// 消息单发给客户端
-	gateapi.Send(&cid, &msgProto.TestAck{
-		Dummy: "single send",
-	})
+	acc := tb.NewAccountEntity()
+
+	code := accDao.FindById([]string{"loginKey", "status"}, []interface{}{&acc.LoginKey, acc.Status}, msg.AccountId)
+	if code != 0 || strings.Index(acc.LoginKey, msg.LoginKey) <= -1 {
+		ack.RetCode = fx.TipCode("loginKeyWrong")
+
+		gateapi.Send(&cid, &ack)
+		return
+	}
+	if acc.Status == consts.Lock || acc.Status == consts.LockDevice {
+		ack.RetCode = fx.TipCode("accountLockout")
+
+		gateapi.Send(&cid, &ack)
+		return
+	}
+
 }
 
 // func handleUserCreate(incomingEv lib.Event) {
@@ -115,5 +132,3 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 		Dummy: "single send",
 	})
 }
-
-

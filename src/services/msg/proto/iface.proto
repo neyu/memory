@@ -1569,7 +1569,7 @@ message AccountEnterGame {
 }
 
 message GameEnterResponse {
-	//
+	int32 retCode = 1; // 状态码
 }
 
 // 创建用户
@@ -1582,7 +1582,7 @@ message AccountCreateUser {
 }
 
 message UserCreateResponse {
-	//
+	int32 retCode = 1; // 状态码
 }
 
 // 获取第三方用户信息
@@ -1612,7 +1612,7 @@ message AccountLogin {
     int32 channelId = 3; //渠道id
 }
 message LoginResponse {
-	int32 retCode = 1; //消息Id
+	int32 retCode = 1; //状态码
 
 	uint64 Id = 2; /*序号*/
 	string Name = 3; /*账号名*/

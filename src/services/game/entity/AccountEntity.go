@@ -58,8 +58,8 @@ type AccountEntity struct {
 
 }
 
-func (this *AccountEntity) NewAccountEntity() {
-	//
+func (this *AccountEntity) NewAccountEntity() *AccountEntity {
+	return &AccountEntity{}
 }
 
 func (this *AccountEntity) Insert() {

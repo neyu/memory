@@ -4,7 +4,17 @@
 **/
 package tb
 
+import (
+	"core/logs"
+	"core/mysql"
+
+	"database/sql"
+	"errors"
+)
+
 var TbUser = "uw_user"
+
+type UserDao mysql.DaoSource
 
 type UserEntity struct {
 	/** 序号 **/
@@ -129,4 +139,8 @@ type UserEntity struct {
 	/** 通天塔最高层数 **/
 	HighPaTa int32 /*通天塔最高层数*/
 
+}
+
+func (this *UserEntity) NewUserEntity() *UserEntity {
+	return &UserEntity{}
 }
