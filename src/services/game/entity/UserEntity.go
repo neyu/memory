@@ -144,3 +144,42 @@ type UserEntity struct {
 func (this *UserEntity) NewUserEntity() *UserEntity {
 	return &UserEntity{}
 }
+
+func (dao *UserDao) Find(inCols []string, outCols []interface{}, accId uint64, svrIdx int32) int32 {
+	var err error
+
+	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols) {
+		err = errors.New("user dao Find() param length differ")
+		logs.Debug(err)
+		return -1
+	}
+	query := `select `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item
+	}
+	query += ` from ` + TbUser + ` where accountId=? and serverIndexId=?`
+	logs.Debug("query/param:", query, accId, svrIdx)
+
+	stmt, err := dao.Prepare(query)
+	if err != nil {
+		logs.Error("user find err0:", err)
+		return -1
+	}
+	defer stmt.Close()
+
+	err = stmt.QueryRow(param).Scan(outCols...)
+	switch {
+	case err == sql.ErrNoRows:
+		logs.Debug("user find err1:", err)
+		return 1 // loginNoUser
+	case err != nil:
+		logs.Error("user find err2:", err)
+		return -1
+	default:
+		//
+	}
+	return 0
+}

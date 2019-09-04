@@ -122,11 +122,11 @@ func handleAccountLogin(ev lib.Event) {
 	ent := tb.AccountEntity{}
 	ent.Name = msg.GetName()
 
-	code := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
+	ret := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
 		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
-	if code != 0 {
-		ack.RetCode = code
-		if code == 1 {
+	if ret != 0 {
+		ack.RetCode = ret
+		if ret == 1 {
 			ack.RetCode = fx.TipCode("loginNoUser")
 		}
 	} else {
@@ -165,9 +165,9 @@ func handleAccountRegist(ev lib.Event) {
 	ent.ChannelId = msg.ChannelId
 	ent.DeviceId = msg.DeviceId
 
-	code := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
+	ret := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
 		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
-	if code == 0 {
+	if ret == 0 {
 		ack.RetCode = fx.TipCode("regHasUser")
 
 		logs.Debug("handleAccountRegist:%+v", ack)
@@ -175,11 +175,11 @@ func handleAccountRegist(ev lib.Event) {
 
 		return
 	} else {
-		if code == 1 {
-			code2 := _createNewAccount(ent)
+		if ret == 1 {
+			ret2 := _createNewAccount(ent)
 
-			if code2 != 0 {
-				ack.RetCode = code
+			if ret2 != 0 {
+				ack.RetCode = ret2
 			} else {
 				ack.Id = ent.Id
 				ack.Name = ent.Name
@@ -202,7 +202,7 @@ func handleAccountRegist(ev lib.Event) {
 
 			return
 		} else {
-			ack.RetCode = code
+			ack.RetCode = ret
 
 			logs.Debug("handleAccountRegist:%+v", ack)
 			ev.Session().Send(&ack)
@@ -227,9 +227,9 @@ func handleServerListGet(ev lib.Event) {
 		ServerId int32
 	}
 	var cols colDef
-	resSet, code := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, &cols)
-	if code != 0 {
-		ack.RetCode = code
+	resSet, ret := svrInfoDao.FindAll([]string{"id", "name", "area", "host", "port", "serverId"}, &cols)
+	if ret != 0 {
+		ack.RetCode = ret
 
 		ev.Session().Send(&ack)
 		logs.Debug("handleServerListGet error0")
@@ -273,9 +273,9 @@ func handleUserServersGet(ev lib.Event) {
 	ent := &tb.AccountEntity{}
 	ent.Id = msg.AccountId
 
-	code := accDao.FindById([]string{"userServers"}, []interface{}{&ent.UserServers}, ent.Id)
-	if code != 0 {
-		ack.RetCode = code
+	ret := accDao.FindById([]string{"userServers"}, []interface{}{&ent.UserServers}, ent.Id)
+	if ret != 0 {
+		ack.RetCode = ret
 
 		ev.Session().Send(&ack)
 		logs.Debug("handleUserServersGet error0")
@@ -293,9 +293,9 @@ func handleUserServersGet(ev lib.Event) {
 		ServerId int32
 	}
 	var cols colDef
-	resSet, code := svrInfoDao.FindInSet([]string{"id", "name", "area", "host", "port", "serverId"}, &cols, svrIds)
-	if code != 0 {
-		ack.RetCode = code
+	resSet, ret := svrInfoDao.FindInSet([]string{"id", "name", "area", "host", "port", "serverId"}, &cols, svrIds)
+	if ret != 0 {
+		ack.RetCode = ret
 
 		ev.Session().Send(&ack)
 		logs.Debug("handleUserServersGet error1")

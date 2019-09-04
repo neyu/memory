@@ -177,3 +177,42 @@ func (dao *ServerInfoDao) FindInSet(inCols []string, defCols interface{}, svrIds
 	}
 	return resSet, 0
 }
+
+func (dao *ServerInfoDao) FindById(inCols []string, outCols []interface{}, id uint64) int32 {
+	var err error
+
+	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols) {
+		err = errors.New("server inf dao Find() param length differ")
+		logs.Debug(err)
+		return -1
+	}
+	query := `select `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item
+	}
+	query += ` from ` + TbServerInfo + ` where id=?`
+	logs.Debug("query/param:", query, param)
+
+	stmt, err := dao.Prepare(query)
+	if err != nil {
+		logs.Error("server info find err0:", err)
+		return -1
+	}
+	defer stmt.Close()
+
+	err = stmt.QueryRow(param).Scan(outCols...)
+	switch {
+	case err == sql.ErrNoRows:
+		logs.Debug("server info err1:", err)
+		return 1 //
+	case err != nil:
+		logs.Error("server info err2:", err)
+		return -1
+	default:
+		//
+	}
+	return 0
+}
