@@ -1570,6 +1570,8 @@ message AccountEnterGame {
 
 message GameEnterResponse {
 	int32 retCode = 1; // 状态码
+
+	string nickName = 2; 
 }
 
 // 创建用户

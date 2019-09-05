@@ -170,7 +170,7 @@ func (dao *UserDao) Find(inCols []string, outCols []interface{}, accId uint64, s
 	}
 	defer stmt.Close()
 
-	err = stmt.QueryRow(param).Scan(outCols...)
+	err = stmt.QueryRow(accId, svrIdx).Scan(outCols...)
 	switch {
 	case err == sql.ErrNoRows:
 		logs.Debug("user find err1:", err)
@@ -182,4 +182,66 @@ func (dao *UserDao) Find(inCols []string, outCols []interface{}, accId uint64, s
 		//
 	}
 	return 0
+}
+
+func (dao *UserDao) FindAll(inCols []string, defCols interface{}, name string) ([]interface{}, int32) {
+	var (
+		resSet []interface{}
+		err    error
+	)
+	defVal := reflect.ValueOf(defCols)
+	defEle := defVal.Elem()
+	numField := defEle.NumField()
+	if len(inCols) <= 0 || numField <= 0 || len(inCols) != numField {
+		err = errors.New("user dao FindInSet() param length differ")
+		logs.Debug(err)
+		return nil, -1
+	}
+	query := `select `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item
+	}
+	query += ` from ` + TbUser + ` where name=?`
+	logs.Debug("query:", query)
+
+	stmt, err := dao.Prepare(query)
+	if err != nil {
+		logs.Error("user find all err0:", err)
+		return nil, -1
+	}
+	defer stmt.Close()
+
+	rows, err := stmt.Query(name)
+	if err != nil {
+		logs.Error("user find all err2:", err)
+		return nil, -1
+	}
+	defer rows.Close()
+
+	// _, err = rows.Columns()
+	for rows.Next() {
+		outCols := []interface{}{}
+		record := reflect.New(defEle.Type()).Interface()
+		instEle := reflect.ValueOf(record).Elem()
+		for i := 0; i < instEle.NumField(); i++ {
+			field := instEle.Field(i)
+			outCols = append(outCols, field.Addr().Interface())
+		}
+
+		err = rows.Scan(outCols...)
+		if err != nil {
+			logs.Error("user find all err3:", err)
+			continue
+		}
+
+		resSet = append(resSet, record)
+	}
+	if err = rows.Err(); err != nil {
+		logs.Error("user find all err4:", err)
+		return nil, -1
+	}
+	return resSet, 0
 }
