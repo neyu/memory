@@ -245,3 +245,44 @@ func (dao *UserDao) FindAll(inCols []string, defCols interface{}, name string) (
 	}
 	return resSet, 0
 }
+
+// insert uw_user set accountId=1,nickName='测试名',iconId=0,bag='',equipBag='',honorData='',
+// activity='',record='',exData='',countsRefreshTime='',serverId=9999,medalData='',propertyData='';
+func (dao *UserDao) Insert(inCols []string, vals []interface{}) (uint64, int32) {
+	var err error
+
+	if len(inCols) <= 0 || len(vals) <= 0 || len(inCols) != len(vals) {
+		err = errors.New("user dao Insert() param length differ")
+		logs.Debug(err)
+		return 0, -1
+	}
+	query := `insert ` + TbUser + ` set `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item + `=?`
+	}
+	logs.Debug("query:", query)
+
+	stmt, err := dao.Prepare(query)
+	if err != nil {
+		logs.Error("user insert err0:", err)
+		return 0, -1
+	}
+	defer stmt.Close()
+
+	res, err := stmt.Exec(vals...)
+	if err != nil {
+		logs.Error("user insert err1:", err)
+		return 0, -1
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		logs.Error("user insert err2:", err)
+		return 0, -1
+	}
+	logs.Debug("new user id:", id)
+	return uint64(id), 0
+}

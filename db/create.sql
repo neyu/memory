@@ -3,7 +3,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 
 
-create database if not exists `memory` character set utf8mb4 collate utf8mb4_unicode_ci;
+create database if not exists `memory` character set utf8mb4 collate utf8mb4_general_ci;
 use `memory`;
 
 -- ----------------------------
@@ -55,7 +55,7 @@ CREATE TABLE `customer_game_roles`  (
 DROP TABLE IF EXISTS `uw_account`;
 CREATE TABLE `uw_account`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
-  `name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL default '' COMMENT '账号名',
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT '账号名',
   `email` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT '邮箱',
   `pwd` varchar(64) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT '密码',
   `deviceId` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL default '' COMMENT '机器码，设备唯一号',
@@ -75,7 +75,7 @@ CREATE TABLE `uw_account`  (
   `bendType` int(11) NOT NULL DEFAULT 0 COMMENT '禁言类型，第一位为普通',
   PRIMARY KEY (`id`) USING BTREE,
   unique key `uw_account_name`(`name`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10515 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '游戏-账号' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 10515 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '游戏-账号' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of uw_account
@@ -403,12 +403,12 @@ CREATE TABLE `uw_challengecup_rank`  (
   `endTime` datetime NOT NULL ,
   `maxTime` int(11) NOT NULL DEFAULT 0 COMMENT '最长守擂时间',
   `iconId` int(4) NOT NULL ,
-  `nickName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL ,
+  `nickName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL ,
   `lvl` int(4) NOT NULL ,
   `vip` int(4) NOT NULL ,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uw_challengeCupRank_aid`(`userId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for uw_coffers
@@ -1484,7 +1484,7 @@ CREATE TABLE `uw_user`  (
   `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '序号',
   `accountId` int(11) NOT NULL DEFAULT 0 COMMENT '账号id',
   `iconId` int(4) NOT NULL ,
-  `nickName` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '昵称',
+  `nickName` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL COMMENT '昵称',
   `gold` int(11) UNSIGNED NOT NULL DEFAULT 0 COMMENT '金币',
   `diamond` int(11) NOT NULL DEFAULT 0 COMMENT '钻石',
   `giveDiamond` int(11) NOT NULL DEFAULT 0 COMMENT '绑定钻石，即送的钻石',
@@ -1494,33 +1494,33 @@ CREATE TABLE `uw_user`  (
   `combat` int(11) NOT NULL DEFAULT 0 COMMENT '战力',
   `vip` int(4) NOT NULL DEFAULT 10 COMMENT 'VIP等级',
   `vipScore` int(11) NOT NULL DEFAULT 0 COMMENT 'VIP积分',
-  `strength` int(4) NOT NULL ,
-  `strengthReTime` datetime NOT NULL ,
-  `signName` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '签名',
+  `strength` int(4) NOT NULL DEFAULT 0,
+  `strengthReTime` int(11) NOT NULL DEFAULT 0,
+  `signName` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '签名',
   `honor` int(7) NOT NULL DEFAULT 0 COMMENT '荣誉值',
   `bag` mediumtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '背包(只存放静态物品，格式：{\"物品id\":数量,\"物品id\":数量.............})',
   `equipBag` longtext CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '装备背包 {\"1\":[物品id,[随到的属性值],评价,是否穿戴],...}  \"1\":指定id,累加上去的',
   `equipBagBuyCount` int(4) NOT NULL DEFAULT 0 COMMENT '装备背包购买次数',
-  `honorData` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '成就数据\n            {\"id\":[是否完成，是否领取],\"id\":[是否完成，是否领取],..........}',
+  `honorData` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '成就数据\n {\"id\":[是否完成，是否领取],\"id\":[是否完成，是否领取],..........}',
   `blueDiamond` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '蓝钻标记，为一个对象，key为dsConsts.BlueDiamond中的定义',
-  `sign` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '签到数据,[签到次数,最近一次签到时间]',
-  `activity` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '{\"活动id\":数据}\n            数据格式：\n            首充:[领取次数]，\n            七天登陆：[次数,次数...]\n            每日限购:[[次数,时间],[次数,时间]..........]\n            每日累充:[领取时间,领取时间,..........]\n            全部累充:[次数,次数..........]\n            每日消费:[领取时间,领取时间,..........]\n            全部消费:[次数,次数..........]\n            领主升级:[次数,次数..........]\n            \"-7\":[登陆次数] 7天登陆的数据\n            时间段限购:[次数,次数..........]',
+  `sign` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '签到数据,[签到次数,最近一次签到时间]',
+  `activity` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '{\"活动id\":数据}\n 数据格式：\n 首充:[领取次数]，\n 七天登陆：[次数,次数...]\n 每日限购:[[次数,时间],[次数,时间]..........]\n 每日累充:[领取时间,领取时间,..........]\n 全部累充:[次数,次数..........]\n 每日消费:[领取时间,领取时间,..........]\n 全部消费:[次数,次数..........]\n 领主升级:[次数,次数..........]\n \"-7\":[登陆次数] 7天登陆的数据\n 时间段限购:[次数,次数..........]',
   `record` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '记录数据',
-  `exData` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '刷新数据\n            {key:value}\n            具体看c_prop的userExData',
-  `counts` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '今日次数列表，是一个数组，对应各自系统的次数。',
+  `exData` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '刷新数据\n {key:value}\n 具体看c_prop的userExData',
+  `counts` varchar(256) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '今日次数列表，是一个数组，对应各自系统的次数。',
   `countsRefreshTime` text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '今日次数列表刷新时间【】数组对应下标',
-  `lastUpdateTime` datetime NOT NULL COMMENT '更新时间',
-  `serverId` int(4) NOT NULL ,
-  `lastSkillTime` datetime NOT NULL COMMENT '最后点技能时间',
+  `lastUpdateTime` int(11) NOT NULL DEFAULT 0 COMMENT '更新时间',
+  `serverId` int(4) NOT NULL,
+  `lastSkillTime` int(11) NOT NULL DEFAULT 0 COMMENT '最后点技能时间',
   `skillCd` int(7) NOT NULL DEFAULT 0 COMMENT '技能CD',
   `isOpenPk` int(2) NOT NULL DEFAULT 0 COMMENT '是否开启pk',
   `prestige` int(7) NOT NULL DEFAULT 0 COMMENT '声望',
-  `redPointData` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '红点数据',
+  `redPointData` varchar(100) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '红点数据',
   `robotId` int(11) NOT NULL DEFAULT 0 COMMENT '机器人id',
-  `createTime` datetime NOT NULL COMMENT '添加时间',
-  `sdkChannelId` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT 'sdk渠道号',
+  `createTime` int(11) NOT NULL DEFAULT 0 COMMENT '添加时间',
+  `sdkChannelId` varchar(20) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT 'sdk渠道号',
   `serverIndexId` int(11) NOT NULL DEFAULT 0 COMMENT '服务器索引',
-  `onlineLootData` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '在线掉落数据',
+  `onlineLootData` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '在线掉落数据',
   `coffersPoints` int(11) NOT NULL DEFAULT 0 COMMENT '国库累计积分',
   `todayCoffersPoints` int(11) NOT NULL DEFAULT 0 COMMENT '国库每日积分',
   `medalTitle` int(11) NOT NULL DEFAULT 0 COMMENT '勋章称号',
@@ -1536,7 +1536,7 @@ CREATE TABLE `uw_user`  (
   `highPaTa` int(4) NOT NULL DEFAULT 0 COMMENT '通天塔最高层数',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uw_user_aid`(`accountId`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 71318 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '角色，账号进入到每个服中扮演的角色。' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 71318 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_general_ci COMMENT = '角色，账号进入到每个服中扮演的角色。' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of uw_user

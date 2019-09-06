@@ -11,11 +11,11 @@ func _createNewAccount(ent *tb.AccountEntity) int32 {
 	ent.SdkData = ""
 	ent.ExData = ""
 	ent.UserServers = ""
-	id, code := accDao.Insert([]string{"name", "pwd", "channelId", "deviceId", "sdkData", "exData", "userServers"},
+	id, ret := accDao.Insert([]string{"name", "pwd", "channelId", "deviceId", "sdkData", "exData", "userServers"},
 		[]interface{}{&ent.Name, &ent.Pwd, &ent.ChannelId, &ent.DeviceId, &ent.SdkData, &ent.ExData, &ent.UserServers})
-	if code != 0 {
-		logs.Debug("_createNewAccount err code:", code)
-		return code
+	if ret != 0 {
+		logs.Debug("_createNewAccount err ret:", ret)
+		return ret
 	}
 	ent.Id = id
 

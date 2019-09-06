@@ -23,3 +23,11 @@ func _getOtherData() int32 {
 func _handleLogin() {
 	// save session, cache user data
 }
+
+func getIconId(tempId int32, sex int8) int32 {
+	return 1
+}
+
+func _createHeroByTempId(client, userData, tempId, sex, count, cb) {
+	//
+}
