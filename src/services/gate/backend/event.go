@@ -33,7 +33,7 @@ func (this *RecvMsgEvent) Reply(msg interface{}) {
 	}
 
 	this.Ses.Send(&msgProto.TransmitAck{
-		MsgId:    uint32(meta.Id),
+		MsgId:    meta.Id,
 		MsgData:  data,
 		ClientId: this.ClientId,
 	})

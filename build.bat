@@ -22,6 +22,6 @@ go build -o bin/game.exe services/game
 echo build client...
 go build -o bin/client.exe services/client
 
-echo build success!!
+echo build over !!!
 echo.
 pause&goto:eof

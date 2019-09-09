@@ -41,7 +41,7 @@ func BroadcastAll(msg interface{}) {
 		if ctx != nil && ctx.Name == "gate" {
 			logs.Debug("ctx name is gate to broadcast")
 			ses.Send(&msgProto.TransmitAck{
-				MsgId:   uint32(meta.Id),
+				MsgId:   meta.Id,
 				MsgData: data,
 				All:     true,
 			})
@@ -66,7 +66,7 @@ func Send(cid *msgProto.ClientId, msg interface{}) {
 		}
 
 		gateSes.Send(&msgProto.TransmitAck{
-			MsgId:    uint32(meta.Id),
+			MsgId:    meta.Id,
 			MsgData:  data,
 			ClientId: cid.Id,
 		})
@@ -113,7 +113,7 @@ func (this *ClientList) Broadcast(msg interface{}) {
 		if gateSes != nil {
 
 			gateSes.Send(&msgProto.TransmitAck{
-				MsgId:        uint32(meta.Id),
+				MsgId:        meta.Id,
 				MsgData:      data,
 				ClientIdList: sesList,
 			})

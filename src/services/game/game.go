@@ -1,19 +1,23 @@
 package main
 
 import (
+	"services/fx"
 	"services/fx/const"
 	"services/fx/service"
 	"services/game/entity"
 	"services/gate/api"
 	"services/gate/backend"
 	"services/msg/proto"
-	"strconv"
-	"time"
 
+	"core/codec"
 	"core/logs"
+	"core/util"
 	"core/xlib"
 
+	"fmt"
+	"strconv"
 	"strings"
+	"time"
 )
 
 type svrMsgHandler func(ev lib.Event, cid msgProto.ClientId)
@@ -81,12 +85,12 @@ func handleChatReq(ev lib.Event, cid msgProto.ClientId) {
 	fmt.Printf("chat: %+v \n", msg.Content)
 
 	// 消息广播到网关并发给客户端
-	agentapi.BroadcastAll(&msgProto.ChatAck{
+	gateapi.BroadcastAll(&msgProto.ChatAck{
 		Content: msg.Content,
 	})
 
 	// 消息单发给客户端
-	agentapi.Send(&cid, &msgProto.TestAck{
+	gateapi.Send(&cid, &msgProto.TestAck{
 		Dummy: "single send",
 	})
 }
@@ -102,14 +106,14 @@ func handleVerifyReq(ev lib.Event, cid msgProto.ClientId) {
 // func handleGameEnter(incomingEv lib.Event) {
 func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
 	msg := ev.Message().(*msgProto.AccountEnterGame)
-	logs.Debug("game enter:", msg.AccountId, msg.LoginKey, msg.ServerIndexId)
+	logs.Debug("game enter:", msg.AccountName, msg.LoginKey, msg.ServerIndexId)
 
 	var ack msgProto.GameEnterResponse
 
 	acc := tb.NewAccountEntity()
-	acc.Id = msg.AccountId
+	acc.Name = msg.AccountName
 
-	ret := accDao.FindById([]string{"loginKey", "status"}, []interface{}{&acc.LoginKey, acc.Status}, msg.AccountId)
+	ret := accDao.FindByName([]string{"id", "loginKey", "status"}, []interface{}{&acc.Id, &acc.LoginKey, acc.Status}, msg.AccountName)
 	if ret != 0 || strings.Index(acc.LoginKey, msg.LoginKey) <= -1 {
 		ack.RetCode = fx.TipCode("loginKeyWrong")
 
@@ -125,7 +129,7 @@ func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
 
 	// 用另外一个go routine来并行处理
 	usr := tb.NewUserEntity()
-	usr.AccountId = msg.AccountId
+	usr.AccountId = acc.Id
 	usr.ServerIndexId = msg.ServerIndexId
 
 	ret = userDao.Find([]string{"id", "nickName", "gold", "diamond", "giveDiamond", "buyDiamond",
@@ -147,7 +151,7 @@ func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
 		return
 	}
 
-	svrInfo := tb.ServerInfoEntity
+	svrInfo := tb.NewSvrInfoEntity()
 	svrInfo.Id = usr.ServerId
 
 	ret = svrInfoDao.FindById([]string{"status"}, []interface{}{&svrInfo.Status}, svrInfo.Id)
@@ -158,8 +162,8 @@ func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
 		return
 	}
 
-	acc.exData += strconv.Itoa(svrInfo.Id)
-	ret = accDao.Update([]string{"exData"}, []interface{}{&acc.exData, &acc.Id})
+	acc.ExData += strconv.Itoa(int(svrInfo.Id))
+	ret = accDao.Update([]string{"exData"}, []interface{}{&acc.ExData, &acc.Id})
 	if ret != 0 {
 		ack.RetCode = fx.TipCode("sysErr")
 
@@ -192,7 +196,7 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 	}
 
 	usr := tb.NewUserEntity()
-	usr.AccountId = cid.Id
+	usr.AccountId = uint64(cid.Id)
 	usr.NickName = msg.Name
 	usr.ServerIndexId = msg.ServerIndexId
 
@@ -237,9 +241,9 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 
 	// 创建立一个新角色
 	acc := tb.NewAccountEntity()
-	acc.Id = cid.Id
+	acc.Id = uint64(cid.Id)
 
-	ret := accDao.FindById([]string{"sdkChannelId"}, []interface{}{&acc.SdkChannelId}, acc.Id)
+	ret = accDao.FindById([]string{"sdkChannelId"}, []interface{}{&acc.SdkChannelId}, acc.Id)
 	if ret != 0 {
 		ack.RetCode = ret
 
@@ -251,8 +255,8 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 
 	//usr.signName = _getRandomSignName();
 	//usr.nickName = "s" +serverIndexId +"."+ name; /*昵称*/
-	usr.IconId = getIconId(msg.HeroTempId, msg.Sex) /** 头像 **/
-	usr.Bag = ""                                    /*背包(只存放静态物品，格式：{&quot;物品id&quot;:数量,&quot;物品id&quot;:数量.............})*/
+	usr.IconId = getIconId(msg.HeroTempId, int8(msg.Sex)) /** 头像 **/
+	usr.Bag = ""                                          /*背包(只存放静态物品，格式：{&quot;物品id&quot;:数量,&quot;物品id&quot;:数量.............})*/
 	usr.EquipBag = ""
 	usr.HonorData = "" /*成就数据 {&quot;id&quot;:[是否完成，是否领取],&quot;id&quot;:[是否完成，是否领取],..........}*/
 	usr.Activity = ""
@@ -286,7 +290,7 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 		"sdkChannelId"},
 		[]interface{}{&usr.AccountId, &usr.NickName, &usr.ServerIndexId, &usr.IconId,
 			&usr.Bag, &usr.EquipBag, &usr.HonorData, &usr.Activity, &usr.Record, &usr.ExData, &usr.CountsRefreshTime,
-			&usr.ServerId, &usr.medalData, &usr.PropertyData, &usr.Lvl, &usr.LastUpdateTime, &usr.CreateTime,
+			&usr.ServerId, &usr.MedalData, &usr.PropertyData, &usr.Lvl, &usr.LastUpdateTime, &usr.CreateTime,
 			&usr.SdkChannelId})
 	if ret != 0 {
 		ack.RetCode = ret
@@ -298,5 +302,7 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 	}
 	usr.Id = id
 
-	_createHeroByTempId(msg.HeroTempId, msg.Sex)
+	_createHeroByTempId(cid, usr.Id, msg.HeroTempId, int8(msg.Sex))
+
+	_addUserServer(acc.Id, usr.ServerId)
 }

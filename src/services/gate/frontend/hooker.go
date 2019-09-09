@@ -17,9 +17,9 @@ var (
 	VerifyReqMsgId = codec.MessageMetaByFullName("msgProto.VerifyReq").Id
 )
 
-func ProcFrontendPacket(msgId int, msgData []byte, ses lib.Session) (msg interface{}, err error) {
+func ProcFrontendPacket(msgId int32, msgData []byte, ses lib.Session) (msg interface{}, err error) {
 	// agent自己的内部消息以及预处理消息
-	switch int(msgId) {
+	switch msgId {
 	case PingAckMsgId, VerifyReqMsgId:
 
 		// 将字节数组和消息Id用户解出消息

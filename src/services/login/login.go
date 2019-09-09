@@ -120,9 +120,9 @@ func handleAccountLogin(ev lib.Event) {
 	var ack msgProto.LoginResponse
 
 	ent := tb.AccountEntity{}
-	ent.Name = msg.GetName()
+	ent.Name = msg.Name
 
-	ret := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
+	ret := accDao.FindByName([]string{"id", "email", "loginCount", "pwd"},
 		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
 	if ret != 0 {
 		ack.RetCode = ret
@@ -165,7 +165,7 @@ func handleAccountRegist(ev lib.Event) {
 	ent.ChannelId = msg.ChannelId
 	ent.DeviceId = msg.DeviceId
 
-	ret := accDao.FindByAcc([]string{"id", "email", "loginCount", "pwd"},
+	ret := accDao.FindByName([]string{"id", "email", "loginCount", "pwd"},
 		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
 	if ret == 0 {
 		ack.RetCode = fx.TipCode("regHasUser")

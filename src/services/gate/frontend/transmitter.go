@@ -41,7 +41,7 @@ func (DirectTCPTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err
 			// 有读超时时，设置超时
 			opt.ApplySocketReadTimeout(conn, func() {
 
-				var msgId int
+				var msgId int32
 				var msgData []byte
 
 				// 接收来自客户端的封包
@@ -120,12 +120,12 @@ func (DirectWSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{
 		switch messageType {
 		case websocket.BinaryMessage:
 			// msgId := binary.LittleEndian.Uint16(raw)
-			msgId := binary.BigEndian.Uint16(raw)
+			msgId := int32(binary.BigEndian.Uint16(raw))
 			msgData := raw[MsgIdSize:]
 
 			// 尝试透传到后台或者解析
 			if err == nil {
-				msg, err = ProcFrontendPacket(int(msgId), msgData, ses)
+				msg, err = ProcFrontendPacket(msgId, msgData, ses)
 			}
 		}
 
@@ -150,7 +150,7 @@ func (DirectWSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}
 
 	var (
 		msgData []byte
-		msgId   int
+		msgId   int32
 	)
 
 	switch m := msg.(type) {

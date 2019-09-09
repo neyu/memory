@@ -39,7 +39,7 @@ var (
 	ErrBackendNotFound = errors.New("backend not found")
 )
 
-func (this *User) TransmitToBackend(backendSvcid string, msgId int, msgData []byte) error {
+func (this *User) TransmitToBackend(backendSvcid string, msgId int32, msgData []byte) error {
 
 	backendSes := service.GetRemoteService(backendSvcid)
 
@@ -48,7 +48,7 @@ func (this *User) TransmitToBackend(backendSvcid string, msgId int, msgData []by
 	}
 
 	backendSes.Send(&msgProto.TransmitAck{
-		MsgId:    uint32(msgId),
+		MsgId:    msgId,
 		MsgData:  msgData,
 		ClientId: this.Cid.Id,
 	})

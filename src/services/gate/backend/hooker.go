@@ -20,7 +20,7 @@ func (BackendMsgHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Ev
 	switch incomingMsg := inputEvent.Message().(type) {
 	case *msgProto.TransmitAck:
 
-		userMsg, _, err := codec.DecodeMessage(int(incomingMsg.MsgId), incomingMsg.MsgData)
+		userMsg, _, err := codec.DecodeMessage(incomingMsg.MsgId, incomingMsg.MsgData)
 		if err != nil {
 			//logs.Warnf("Backend msg decode failed, %s, msgid: %d", err.Error(), incomingMsg.MsgId)
 			logs.Warn("Backend msg decode failed, %s, msgid: %d\n", err.Error(), incomingMsg.MsgId)
@@ -65,7 +65,7 @@ func (BroadcasterHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.E
 
 		rawPkt := &codec.RawPacket{
 			MsgData: incomingMsg.MsgData,
-			MsgId:   int(incomingMsg.MsgId),
+			MsgId:   incomingMsg.MsgId,
 		}
 
 		//if log.IsDebugEnabled() {
@@ -126,7 +126,7 @@ func writeAgentLog(ses lib.Session, dir string, ack *msgProto.TransmitAck) {
 
 	peerInfo := ses.GetPeer().Prop()
 
-	userMsg, _, err := codec.DecodeMessage(int(ack.MsgId), ack.MsgData)
+	userMsg, _, err := codec.DecodeMessage(ack.MsgId, ack.MsgData)
 	if err == nil {
 		//log.Debugf("#agent.%s(%s)@%d len: %d %s <%d>| %s",
 		logs.Debug("#gate.%s(%s)@%d len: %d %s <%d>| %s",

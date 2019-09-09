@@ -18,25 +18,25 @@ const (
  */
 // DiamondGainType
 const (
-	Activity_1 = 101 //精彩活动-首冲
-	Activity_2 = 102 //精彩活动-7天登陆
-	Activity_3 = 103 //精彩活动-每日累充福利
-	Activity_4 = 104 //精彩活动-全部累充福利
-	Activity_5 = 105 //精彩活动-每日消费有礼
-	Activity_6 = 106 //精彩活动-全部消费有礼
-	Activity_7 = 107 //精彩活动-升级有奖
-	Activity_8 = 108 //精彩活动-兑换码
-	Arena_1    = 201 //竞技场-最高纪录奖励
-	Item_1     = 301 //物品-宝箱   《需要重构》
-	Task_1     = 401 //任务-主线
-	Task_2     = 402 //任务-日常
-	Recharge_1 = 501 //充值
-	Exchange_1 = 601 //兑换
-	Mail_1     = 701 //邮件-后台人工
-	Mail_2     = 702 //邮件-竞技场排行奖励
-	Mail_3     = 703 //邮件-竞技场幸运排行奖励
-	Sign_1     = 801 //签到
-	Tower_1    = 901 //守卫塔-自动战斗宝箱
+	Dgt_Activity_1 = 101 //精彩活动-首冲
+	Dgt_Activity_2 = 102 //精彩活动-7天登陆
+	Dgt_Activity_3 = 103 //精彩活动-每日累充福利
+	Dgt_Activity_4 = 104 //精彩活动-全部累充福利
+	Dgt_Activity_5 = 105 //精彩活动-每日消费有礼
+	Dgt_Activity_6 = 106 //精彩活动-全部消费有礼
+	Dgt_Activity_7 = 107 //精彩活动-升级有奖
+	Dgt_Activity_8 = 108 //精彩活动-兑换码
+	Dgt_Arena_1    = 201 //竞技场-最高纪录奖励
+	Dgt_Item_1     = 301 //物品-宝箱   《需要重构》
+	Dgt_Task_1     = 401 //任务-主线
+	Dgt_Task_2     = 402 //任务-日常
+	Dgt_Recharge_1 = 501 //充值
+	Dgt_Exchange_1 = 601 //兑换
+	Dgt_Mail_1     = 701 //邮件-后台人工
+	Dgt_Mail_2     = 702 //邮件-竞技场排行奖励
+	Dgt_Mail_3     = 703 //邮件-竞技场幸运排行奖励
+	Dgt_Sign_1     = 801 //签到
+	Dgt_Tower_1    = 901 //守卫塔-自动战斗宝箱
 )
 
 /**
@@ -45,24 +45,24 @@ const (
  */
 // diamondConsumeType
 const (
-	//Activity_1 = 101 //精彩活动-限时抢购
-	//Arena_1 = 201 //竞技场-重置CD
-	Arena_2   = 202 //竞技场-购买次数
-	Copy_1    = 301 //副本-扫荡
-	Copy_2    = 302 //副本-购买次数
-	Tower_1   = 401 //守卫塔-自动战斗
-	Shop_1    = 501 //商店-购买
-	Shop_2    = 502 //商店-刷新
-	Lottery_1 = 601 //抽奖
-	User_1    = 701 //角色-购买体力
-	User_2    = 702 //角色-购买技能点
-	User_3    = 703 //角色-购买金币
-	User_4    = 704 //角色-改名字
-	User_5    = 705 //角色-购买副本次数
-	User_6    = 706 //角色-购买入场劵
-	User_7    = 707 //角色-清除技能CD
-	Equip_1   = 801 //装备-(一键锻造)
-	Friend_1  = 901 //好友，邀请奖励
+	Dct_Activity_1 = 101 //精彩活动-限时抢购
+	Dct_Arena_1    = 201 //竞技场-重置CD
+	Dct_Arena_2    = 202 //竞技场-购买次数
+	Dct_Copy_1     = 301 //副本-扫荡
+	Dct_Copy_2     = 302 //副本-购买次数
+	Dct_Tower_1    = 401 //守卫塔-自动战斗
+	Dct_Shop_1     = 501 //商店-购买
+	Dct_Shop_2     = 502 //商店-刷新
+	Dct_Lottery_1  = 601 //抽奖
+	Dct_User_1     = 701 //角色-购买体力
+	Dct_User_2     = 702 //角色-购买技能点
+	Dct_User_3     = 703 //角色-购买金币
+	Dct_User_4     = 704 //角色-改名字
+	Dct_User_5     = 705 //角色-购买副本次数
+	Dct_User_6     = 706 //角色-购买入场劵
+	Dct_User_7     = 707 //角色-清除技能CD
+	Dct_Equip_1    = 801 //装备-(一键锻造)
+	Dct_Friend_1   = 901 //好友，邀请奖励
 )
 
 /**
@@ -78,9 +78,9 @@ const (
 //培养类型
 // trainType
 const (
-	Normal   = 0 //普通
-	Specify1 = 1
-	Specify2 = 2
+	Train_Normal   = 0 //普通
+	Train_Specify1 = 1
+	Train_Specify2 = 2
 )
 
 // pomeloOnKey
@@ -167,47 +167,48 @@ const (
 //商品购买条件
 // shopNeedType
 const (
-	HeroNum    = 1 //小弟总数量
-	PayMoney   = 2 //累计充值多少RMB都开启
-	HeroType   = 3 //小弟类型数量
-	CombatEff  = 4 //战斗力达到
-	ProduceNum = 5 //金币生产速度达到
-	UserRank   = 6 //段位达到等级
-	UserLvl    = 7 //召唤师等级
+	Sht_HeroNum    = 1 //小弟总数量
+	Sht_PayMoney   = 2 //累计充值多少RMB都开启
+	Sht_HeroType   = 3 //小弟类型数量
+	Sht_CombatEff  = 4 //战斗力达到
+	Sht_ProduceNum = 5 //金币生产速度达到
+	Sht_UserRank   = 6 //段位达到等级
+	Sht_UserLvl    = 7 //召唤师等级
 )
 
 //购买商品对应属性
 // addValueType
 const (
-	Attack       = 1 //提升攻击
-	Defence      = 2 //提升防御
-	Hp           = 3 //提升血量
-	Crit         = 4 //提升暴击
-	ProduceFix   = 5 //提升金币生产速度
-	ProducePer   = 6 //提升金币生产速度百分比
-	CopyWipeRate = 7 //提升刷野倍率
+	Avt_Attack       = 1 //提升攻击
+	Avt_Defence      = 2 //提升防御
+	Avt_Hp           = 3 //提升血量
+	Avt_Crit         = 4 //提升暴击
+	Avt_ProduceFix   = 5 //提升金币生产速度
+	Avt_ProducePer   = 6 //提升金币生产速度百分比
+	Avt_CopyWipeRate = 7 //提升刷野倍率
 )
 
 //成就完成条件
 // honorNeedType
 const (
-	HeroNum     = 1  //小弟总数量
-	ProduceNum  = 2  //金币生产速度达到
-	GoldNum     = 3  //获得的金币总量
-	UserLvl     = 4  //召唤师等级
-	HeroType    = 5  //小弟类型数量
-	UserRank    = 6  //段位达到等级
-	PkWinCount  = 7  //排位赛胜利场次
-	PkLoseCount = 8  //排位赛失败场次
-	Attack      = 9  //攻击
-	Defence     = 10 //防御
-	Hp          = 11 //血量
-	Crit        = 12 //暴击
+	Hnt_HeroNum     = 1  //小弟总数量
+	Hnt_ProduceNum  = 2  //金币生产速度达到
+	Hnt_GoldNum     = 3  //获得的金币总量
+	Hnt_UserLvl     = 4  //召唤师等级
+	Hnt_HeroType    = 5  //小弟类型数量
+	Hnt_UserRank    = 6  //段位达到等级
+	Hnt_PkWinCount  = 7  //排位赛胜利场次
+	Hnt_PkLoseCount = 8  //排位赛失败场次
+	Hnt_Attack      = 9  //攻击
+	Hnt_Defence     = 10 //防御
+	Hnt_Hp          = 11 //血量
+	Hnt_Crit        = 12 //暴击
 )
 
 const LocalChannelId = 99999
 
 //技能目标类型
+//buff目标类型
 // skillTargetType
 const (
 	Self  = 1 //自己
@@ -216,10 +217,10 @@ const (
 
 //buff目标类型
 // buffTargetType
-const (
-	Self  = 1 //自己
-	Enemy = 2 //敌人
-)
+// const (
+// 	Self  = 1 //自己
+// 	Enemy = 2 //敌人
+// )
 
 //胜利状态
 // winStatus
@@ -302,51 +303,51 @@ const (
 //英雄获得类型
 // heroGetType
 const (
-	Normal   = 1
-	Shop     = 2
-	Activity = 3
+	GetBy_Normal   = 1
+	GetBy_Shop     = 2
+	GetBy_Activity = 3
 )
 
 //物品类型
 // itemType
 const (
-	Hero       = 1 //英雄
-	Diamond    = 2 //钻石
-	WipeItem   = 3 //挑战券
-	ProducePer = 4 //金币收益
+	Item_Hero       = 1 //英雄
+	Item_Diamond    = 2 //钻石
+	Item_WipeItem   = 3 //挑战券
+	Item_ProducePer = 4 //金币收益
 )
 
 //目标对象
 // skillTargetObj
 const (
-	Random       = 1 //1随机
-	Group        = 2 //2群体
-	F_cross      = 3 //3面前十字
-	M_cross      = 4 //4中间十字
-	B_cross      = 5 //5后方十字
-	Temp6        = 6
-	LastAttack   = 7 //7目标是你的对象
-	Self         = 8 //8自己
-	All          = 9 //9所有人（除了自己）
-	Temp10       = 10
-	Min_hp       = 11 //11最残血
-	Max_hp       = 12 //12最高血
-	Min_attack   = 13 //13最低攻
-	Max_attack   = 14 //14最高攻
-	Min_mDefence = 15 //15最低魔防
-	Max_mDefence = 16 //16最高魔法
-	Min_pDefence = 17 //17最低护甲
-	Max_pDefence = 18 //18最高护甲
-	Min_speed    = 19 //19最低速度
-	Max_speed    = 20 //20最高速度
+	Target_Random       = 1 //1随机
+	Target_Group        = 2 //2群体
+	Target_F_cross      = 3 //3面前十字
+	Target_M_cross      = 4 //4中间十字
+	Target_B_cross      = 5 //5后方十字
+	Target_Temp6        = 6
+	Target_LastAttack   = 7 //7目标是你的对象
+	Target_Self         = 8 //8自己
+	Target_All          = 9 //9所有人（除了自己）
+	Target_Temp10       = 10
+	Target_Min_hp       = 11 //11最残血
+	Target_Max_hp       = 12 //12最高血
+	Target_Min_attack   = 13 //13最低攻
+	Target_Max_attack   = 14 //14最高攻
+	Target_Min_mDefence = 15 //15最低魔防
+	Target_Max_mDefence = 16 //16最高魔法
+	Target_Min_pDefence = 17 //17最低护甲
+	Target_Max_pDefence = 18 //18最高护甲
+	Target_Min_speed    = 19 //19最低速度
+	Target_Max_speed    = 20 //20最高速度
 )
 
 //目标对象位置
 // skillTargetPos
 const (
-	All   = 0 //0所有
-	Front = 1 //1前排
-	Back  = 2 //2后面
+	Dir_All   = 0 //0所有
+	Dir_Front = 1 //1前排
+	Dir_Back  = 2 //2后面
 )
 
 //技能攻击类型
@@ -375,9 +376,9 @@ const (
  */
 // bossStatus
 const (
-	Closed = 0
-	Open   = 1
-	Prize  = 2 //结算中
+	Boss_Closed = 0
+	Boss_Open   = 1
+	Boss_Prize  = 2 //结算中
 )
 
 //worker消息类型

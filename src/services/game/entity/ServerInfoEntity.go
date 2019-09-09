@@ -8,6 +8,7 @@ import (
 	"core/logs"
 	"core/mysql"
 
+	"database/sql"
 	"errors"
 	"reflect"
 )
@@ -52,6 +53,10 @@ type ServerInfoEntity struct {
 	/** 外部数据库链接 **/
 	OutLink string /*外部数据库链接*/
 
+}
+
+func NewSvrInfoEntity() *ServerInfoEntity {
+	return &ServerInfoEntity{}
 }
 
 func (dao *ServerInfoDao) FindAll(inCols []string, defCols interface{}) ([]interface{}, int32) {
@@ -178,7 +183,7 @@ func (dao *ServerInfoDao) FindInSet(inCols []string, defCols interface{}, svrIds
 	return resSet, 0
 }
 
-func (dao *ServerInfoDao) FindById(inCols []string, outCols []interface{}, id uint64) int32 {
+func (dao *ServerInfoDao) FindById(inCols []string, outCols []interface{}, id int32) int32 {
 	var err error
 
 	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols) {
@@ -194,7 +199,7 @@ func (dao *ServerInfoDao) FindById(inCols []string, outCols []interface{}, id ui
 		query += item
 	}
 	query += ` from ` + TbServerInfo + ` where id=?`
-	logs.Debug("query/param:", query, param)
+	logs.Debug("query/param:", query, id)
 
 	stmt, err := dao.Prepare(query)
 	if err != nil {
@@ -203,7 +208,7 @@ func (dao *ServerInfoDao) FindById(inCols []string, outCols []interface{}, id ui
 	}
 	defer stmt.Close()
 
-	err = stmt.QueryRow(param).Scan(outCols...)
+	err = stmt.QueryRow(id).Scan(outCols...)
 	switch {
 	case err == sql.ErrNoRows:
 		logs.Debug("server info err1:", err)

@@ -18,7 +18,7 @@ const (
 )
 
 // 接收Length-Type-Value格式的封包流程
-func RecvLTVPacketData(reader io.Reader, maxPacketSize int) (msgId int, msgData []byte, err error) {
+func RecvLTVPacketData(reader io.Reader, maxPacketSize int) (msgId int32, msgData []byte, err error) {
 
 	// Size为uint16，占2字节
 	var sizeBuffer = make([]byte, bodySize)
@@ -63,7 +63,7 @@ func RecvLTVPacketData(reader io.Reader, maxPacketSize int) (msgId int, msgData 
 	}
 
 	// msgId = int(binary.LittleEndian.Uint16(body))
-	msgId = int(binary.BigEndian.Uint16(body))
+	msgId = int32(binary.BigEndian.Uint16(body))
 
 	msgData = body[msgIdSize:]
 

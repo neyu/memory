@@ -10,6 +10,7 @@ import (
 
 	"database/sql"
 	"errors"
+	"reflect"
 )
 
 var TbUser = "uw_user"
@@ -18,7 +19,7 @@ type UserDao mysql.DaoSource
 
 type UserEntity struct {
 	/** 序号 **/
-	Id int32 /*序号*/
+	Id int64 /*序号*/
 	/** 账号id **/
 	AccountId uint64 /*账号id*/
 	/** 头像 **/
@@ -141,7 +142,7 @@ type UserEntity struct {
 
 }
 
-func (this *UserEntity) NewUserEntity() *UserEntity {
+func NewUserEntity() *UserEntity {
 	return &UserEntity{}
 }
 
@@ -248,7 +249,7 @@ func (dao *UserDao) FindAll(inCols []string, defCols interface{}, name string) (
 
 // insert uw_hero set accountId=1,nickName='测试名',iconId=0,bag='',equipBag='',honorData='',
 // activity='',record='',exData='',countsRefreshTime='',serverId=9999,medalData='',propertyData='';
-func (dao *UserDao) Insert(inCols []string, vals []interface{}) (uint64, int32) {
+func (dao *UserDao) Insert(inCols []string, vals []interface{}) (int64, int32) {
 	var err error
 
 	if len(inCols) <= 0 || len(vals) <= 0 || len(inCols) != len(vals) {
@@ -284,5 +285,5 @@ func (dao *UserDao) Insert(inCols []string, vals []interface{}) (uint64, int32) 
 		return 0, -1
 	}
 	logs.Debug("new user id:", id)
-	return uint64(id), 0
+	return id, 0
 }

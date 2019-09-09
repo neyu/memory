@@ -24,7 +24,7 @@ message ClientClosedAck
 // agent <-> backend 在网关和后端服务器之间传输协议
 message TransmitAck 
 {
-    uint32 MsgId = 1;  				// 用户消息ID
+    int32 MsgId = 1;  				// 用户消息ID
     bytes MsgData = 2; 				// 用户消息数据
 
     int64 ClientId = 3;       		// 单发

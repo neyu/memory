@@ -4,15 +4,23 @@
 **/
 package tb
 
+import (
+	"core/logs"
+	"core/mysql"
+
+	"database/sql"
+	"errors"
+)
+
 var TbHero = "uw_hero"
 
 type HeroDao mysql.DaoSource
 
 type HeroEntity struct {
 	/** 序号 **/
-	Id int32 /*序号*/
+	Id int64 /*序号*/
 	/** 用户id **/
-	UserId uint64 /*用户id*/
+	UserId int64 /*用户id*/
 	/** 模板id **/
 	TempId int32 /*模板id*/
 	/** 品阶 **/
@@ -72,7 +80,7 @@ func NewHeroEntity() *HeroEntity {
 	return &HeroEntity{}
 }
 
-func (dao *HeroDao) Find(inCols []string, outCols []interface{}, tempId int32, sex int8) int32 {
+func (dao *HeroDao) Find(inCols []string, outCols []interface{}, userId int64, tempId int32) int32 {
 	var err error
 
 	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols) {
@@ -88,7 +96,7 @@ func (dao *HeroDao) Find(inCols []string, outCols []interface{}, tempId int32, s
 		query += item
 	}
 	query += ` from ` + TbHero + ` where tempId=? and sex=?`
-	logs.Debug("query/param:", query, tempId, sex)
+	logs.Debug("query/param:", query, userId, tempId)
 
 	stmt, err := dao.Prepare(query)
 	if err != nil {
@@ -97,11 +105,11 @@ func (dao *HeroDao) Find(inCols []string, outCols []interface{}, tempId int32, s
 	}
 	defer stmt.Close()
 
-	err = stmt.QueryRow(accId, svrIdx).Scan(outCols...)
+	err = stmt.QueryRow(userId, tempId).Scan(outCols...)
 	switch {
 	case err == sql.ErrNoRows:
 		logs.Debug("hero find err1:", err)
-		return 1 // loginNoUser
+		return 1 // No result row
 	case err != nil:
 		logs.Error("hero find err2:", err)
 		return -1
@@ -111,8 +119,9 @@ func (dao *HeroDao) Find(inCols []string, outCols []interface{}, tempId int32, s
 	return 0
 }
 
-// insert uw_user set accountId=1,nickName='测试名',iconId=0,bag='',equipBag='',honorData='',
-// activity='',record='',exData='',countsRefreshTime='',serverId=9999,medalData='',propertyData='';
+// insert uw_hero set userId=110, tempId=119, intensifyArr='', starArr='', gemArr='',
+// wingArr='', equipData='', skillLvlArr='', realmArr='', propArr='', combat=0, fightSort=0,
+// sex=0, talismanData='';
 func (dao *HeroDao) Insert(inCols []string, vals []interface{}) (uint64, int32) {
 	var err error
 

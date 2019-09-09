@@ -18,9 +18,9 @@ type AccountDao mysql.DaoSource
 
 type AccountEntity struct {
 	/** 序号 **/
-	Id uint64 /*序号*/
+	Id uint64 /*序号accId*/
 	/** 账号名 **/
-	Name string /*账号名*/
+	Name string /*账号名accName*/
 	/** 邮箱 **/
 	Email string /*邮箱*/
 	/** 密码 **/
@@ -58,46 +58,46 @@ type AccountEntity struct {
 
 }
 
-func (this *AccountEntity) NewAccountEntity() *AccountEntity {
+func NewAccountEntity() *AccountEntity {
 	return &AccountEntity{}
 }
 
-func (this *AccountEntity) Insert() {
-	// var sqlStr = "insert into " + tableName + " set ? ";
+// func (dao *AccountDao) Insert() {
+// 	// var sqlStr = "insert into " + tableName + " set ? ";
 
-}
+// }
 
-func (this *AccountEntity) InsertList() {
-	// var sqlStr = "insert into "+Entity.tableName+" ("+strCols+") values "+values+" ";
-}
+// func (dao *AccountDao) InsertList() {
+// 	// var sqlStr = "insert into "+Entity.tableName+" ("+strCols+") values "+values+" ";
+// }
 
-func (this *AccountEntity) Update() {
-	// var sqlStr = "update " + tableName + " set " + cols + cnd.where;
-}
+// func (dao *AccountDao) Update() {
+// 	// var sqlStr = "update " + tableName + " set " + cols + cnd.where;
+// }
 
-func (this *AccountEntity) Select() {
-	// var strSql = "select * from " + tableName + cnd.where +" limit 1";
-}
+// func (dao *AccountDao) Select() {
+// 	// var strSql = "select * from " + tableName + cnd.where +" limit 1";
+// }
 
-func (this *AccountEntity) SelectCols() {
-	// var strSql = "select "+strCols+" from " + tableName + cnd.where +" limit 1";
-}
+// func (dao *AccountDao) SelectCols() {
+// 	// var strSql = "select "+strCols+" from " + tableName + cnd.where +" limit 1";
+// }
 
-func (this *AccountEntity) Del() {
-	// var sql = "delete from " + tableName + cnd.where;
-}
+// func (dao *AccountDao) Del() {
+// 	// var sql = "delete from " + tableName + cnd.where;
+// }
 
-func (this *AccountEntity) List() {
-	// var strSql = "select * from	" + tableName + cnd.where;
-}
+// func (dao *AccountDao) List() {
+// 	// var strSql = "select * from	" + tableName + cnd.where;
+// }
 
-func (this *AccountEntity) ListCols() {
-	// var strSql = "select "+strCols+" from " + tableName + cnd.where;
-}
+// func (dao *AccountDao) ListCols() {
+// 	// var strSql = "select "+strCols+" from " + tableName + cnd.where;
+// }
 
-func (this *AccountEntity) Count() {
-	// var strSql = "select count(1) as count from " + tableName + cnd.where +" limit 1";
-}
+// func (dao *AccountDao) Count() {
+// 	// var strSql = "select count(1) as count from " + tableName + cnd.where +" limit 1";
+// }
 
 var accountInsertStmt = `insert ` + TbAccount + ` set 
 	id=?,
@@ -311,12 +311,12 @@ func (dao *AccountDao) Update(inCols []string, vals []interface{}) int32 {
 	return 0
 }
 
-func (dao *AccountDao) FindById(inCols []string, outCols []interface{}, id uint64) int32 {
-	return dao.Find(inCols, outCols, ` where id=?`, id)
+func (dao *AccountDao) FindById(inCols []string, outCols []interface{}, accId uint64) int32 {
+	return dao.Find(inCols, outCols, ` where id=?`, &accId)
 }
 
-func (dao *AccountDao) FindByAcc(inCols []string, outCols []interface{}, acc string) int32 {
-	return dao.Find(inCols, outCols, ` where name=?`, acc)
+func (dao *AccountDao) FindByName(inCols []string, outCols []interface{}, accName string) int32 {
+	return dao.Find(inCols, outCols, ` where name=?`, &accName)
 }
 
 func (dao *AccountDao) Find(inCols []string, outCols []interface{}, cond string, param interface{}) int32 {
