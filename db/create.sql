@@ -860,8 +860,8 @@ CREATE TABLE `uw_hero`  (
   `gemSumLvl` int(7) NOT NULL DEFAULT 0,
   `realmSumLvl` int(7) NOT NULL DEFAULT 0,
   `fightSort` int(4) NOT NULL DEFAULT 0 COMMENT '出战顺序',
-  `soulArr` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL COMMENT '{\"元婴id\":[物品id,剩余血量,今日是否有穿戴过,是否在穿戴]}',
-  `wearSoulId` int(11) NOT NULL ,
+  `soulArr` varchar(200) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL DEFAULT '' COMMENT '{\"元婴id\":[物品id,剩余血量,今日是否有穿戴过,是否在穿戴]}',
+  `wearSoulId` int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `uw_hero_uid`(`userId`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 115232 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '英雄' ROW_FORMAT = Compact;

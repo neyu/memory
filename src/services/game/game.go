@@ -298,5 +298,5 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 	}
 	usr.Id = id
 
-	createHeroByTempId()
+	_createHeroByTempId(msg.HeroTempId, msg.Sex)
 }

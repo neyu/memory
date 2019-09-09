@@ -113,3 +113,8 @@ testDao.count(client, {lvl:10}, function(err, data){<br>
 testDao.count(client, " lvl = ?  name is not null ",[10,"xxx"],function(err, data){<br>
     //data返回记录总数<br>
 });<br>
+
+
+------------------------------------------------<br>
+1. 没必要每一次插入操作前都要做一次存在性的查询，陷入异常检测的恶梦。
+

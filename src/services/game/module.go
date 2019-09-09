@@ -1,6 +1,8 @@
 package main
 
 import (
+	"services/game/entity"
+
 	"core/logs"
 )
 
@@ -28,6 +30,12 @@ func getIconId(tempId int32, sex int8) int32 {
 	return 1
 }
 
-func _createHeroByTempId(client, userData, tempId, sex, count, cb) {
-	//
+func _createHeroByTempId(userData, tempId, sex, count, cb) {
+
+	hero := tb.NewHeroEntity()
+
+	ret := heroDao.Find()
+
+	id, ret := heroDao.Insert()
+
 }

@@ -246,7 +246,7 @@ func (dao *UserDao) FindAll(inCols []string, defCols interface{}, name string) (
 	return resSet, 0
 }
 
-// insert uw_user set accountId=1,nickName='测试名',iconId=0,bag='',equipBag='',honorData='',
+// insert uw_hero set accountId=1,nickName='测试名',iconId=0,bag='',equipBag='',honorData='',
 // activity='',record='',exData='',countsRefreshTime='',serverId=9999,medalData='',propertyData='';
 func (dao *UserDao) Insert(inCols []string, vals []interface{}) (uint64, int32) {
 	var err error

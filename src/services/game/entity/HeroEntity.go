@@ -6,6 +6,8 @@ package tb
 
 var TbHero = "uw_hero"
 
+type HeroDao mysql.DaoSource
+
 type HeroEntity struct {
 	/** 序号 **/
 	Id int32 /*序号*/
@@ -64,4 +66,88 @@ type HeroEntity struct {
 	/** 佩戴元婴 **/
 	WearSoulId int32 /**/
 
+}
+
+func NewHeroEntity() *HeroEntity {
+	return &HeroEntity{}
+}
+
+func (dao *HeroDao) Find(inCols []string, outCols []interface{}, tempId int32, sex int8) int32 {
+	var err error
+
+	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols) {
+		err = errors.New("hero dao Find() param length differ")
+		logs.Debug(err)
+		return -1
+	}
+	query := `select `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item
+	}
+	query += ` from ` + TbHero + ` where tempId=? and sex=?`
+	logs.Debug("query/param:", query, tempId, sex)
+
+	stmt, err := dao.Prepare(query)
+	if err != nil {
+		logs.Error("hero find err0:", err)
+		return -1
+	}
+	defer stmt.Close()
+
+	err = stmt.QueryRow(accId, svrIdx).Scan(outCols...)
+	switch {
+	case err == sql.ErrNoRows:
+		logs.Debug("hero find err1:", err)
+		return 1 // loginNoUser
+	case err != nil:
+		logs.Error("hero find err2:", err)
+		return -1
+	default:
+		//
+	}
+	return 0
+}
+
+// insert uw_user set accountId=1,nickName='测试名',iconId=0,bag='',equipBag='',honorData='',
+// activity='',record='',exData='',countsRefreshTime='',serverId=9999,medalData='',propertyData='';
+func (dao *HeroDao) Insert(inCols []string, vals []interface{}) (uint64, int32) {
+	var err error
+
+	if len(inCols) <= 0 || len(vals) <= 0 || len(inCols) != len(vals) {
+		err = errors.New("hero dao Insert() param length differ")
+		logs.Debug(err)
+		return 0, -1
+	}
+	query := `insert ` + TbHero + ` set `
+	for idx, item := range inCols {
+		if idx != 0 {
+			query += `,`
+		}
+		query += item + `=?`
+	}
+	logs.Debug("query:", query)
+
+	stmt, err := dao.Prepare(query)
+	if err != nil {
+		logs.Error("user insert err0:", err)
+		return 0, -1
+	}
+	defer stmt.Close()
+
+	res, err := stmt.Exec(vals...)
+	if err != nil {
+		logs.Error("user insert err1:", err)
+		return 0, -1
+	}
+
+	id, err := res.LastInsertId()
+	if err != nil {
+		logs.Error("user insert err2:", err)
+		return 0, -1
+	}
+	logs.Debug("new user id:", id)
+	return uint64(id), 0
 }
