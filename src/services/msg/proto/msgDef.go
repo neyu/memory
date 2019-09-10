@@ -51,8 +51,10 @@ const (
 	ID_ServerInfoGetServerList  = 2003
 	ID_ServerInfoGetUserServers = 2004
 
-	ID_AccountEnterGame  = 2010
-	ID_AccountCreateUser = 2011
+	ID_AccountEnterGame   = 2010
+	ID_AccountCreateUser  = 2011
+	ID_GameEnterResponse  = 2012
+	ID_UserCreateResponse = 2013
 )
 
 func init() {
@@ -102,6 +104,8 @@ func init() {
 
 	RegMsg(ID_AccountEnterGame, AccountEnterGame{})
 	RegMsg(ID_AccountCreateUser, AccountCreateUser{})
+	RegMsg(ID_GameEnterResponse, GameEnterResponse{})
+	RegMsg(ID_UserCreateResponse, UserCreateResponse{})
 
 }
 
