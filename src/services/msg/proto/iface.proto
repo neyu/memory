@@ -1668,12 +1668,12 @@ message ProtocolContentGetInfo {
 }
 
 // 获取所有服务器列表
-message ServerInfoGetServerList {
+message SvrListGet {
     bool isTest = 1; //是否测试
 }
 
 // 获取服务器实例数据
-message ServerInfoGetServerInfo {
+message SvrInfoGet {
     int32 id = 1; //服务器id
 }
 
@@ -1694,25 +1694,25 @@ message PbSvrInfo {
 	string CloseExplain = 15; /** 维护说明 **/
 	int64 ServerDate = 16; /** 开服日期 **/
 }
-message ServerListResponse {
+message SvrListResponse {
 	int32 retCode = 1;
 	repeated PbSvrInfo infos = 2;
 }
 
 
 // 获取服务器当前时间
-message ServerInfoGetServerDate {
+message SvrDateGet {
 	//
 }
 
 // 获取拥有角色的服务器
 // @returns [ServerInfoEntity..]
-message ServerInfoGetUserServers {
+message UserSvrsGet {
     uint64 accountId = 1; //账号id
 }
 
 // 获取账户服务器信息
-message ServerInfoGetaccountServers {
+message AccountSvrsGet {
     string openId = 1; //openId
     string appId = 2; //wanba
     bool isTest = 3; //1

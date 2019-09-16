@@ -45,11 +45,12 @@ const (
 	ID_ServiceIdentifyAck  = 1017
 
 	// iface.proto
-	ID_AccountLogin             = 2000
-	ID_LoginResponse            = 2001
-	ID_AccountRegister          = 2002
-	ID_ServerInfoGetServerList  = 2003
-	ID_ServerInfoGetUserServers = 2004
+	ID_AccountLogin    = 2000
+	ID_AccountRegister = 2001
+	ID_LoginResponse   = 2002
+	ID_SvrListGet      = 2003
+	ID_UserSvrGet      = 2004
+	ID_SvrListResponse = 2005
 
 	ID_AccountEnterGame   = 2010
 	ID_AccountCreateUser  = 2011
@@ -96,11 +97,12 @@ func init() {
 
 	// iface.proto
 	RegMsg(ID_AccountLogin, AccountLogin{})
+	RegMsg(ID_AccountRegister, AccountRegister{})
 	RegMsg(ID_LoginResponse, LoginResponse{})
 
-	RegMsg(ID_AccountRegister, AccountRegister{})
-	RegMsg(ID_ServerInfoGetServerList, ServerInfoGetServerList{})
-	RegMsg(ID_ServerInfoGetUserServers, ServerInfoGetUserServers{})
+	RegMsg(ID_SvrListGet, SvrListGet{})
+	RegMsg(ID_UserSvrGet, UserSvrsGet{})
+	RegMsg(ID_SvrListResponse, SvrListResponse{})
 
 	RegMsg(ID_AccountEnterGame, AccountEnterGame{})
 	RegMsg(ID_AccountCreateUser, AccountCreateUser{})

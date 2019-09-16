@@ -28,11 +28,12 @@ func regMsgHandler(msgId int32, handler svrMsgHandler) {
 
 func initMsgHandler() {
 	regMsgHandler(msgProto.ID_LoginReq, handleLoginReq)
+	regMsgHandler(msgProto.ID_PingAck, handlePingAck)
 
 	regMsgHandler(msgProto.ID_AccountLogin, handleAccountLogin)
 	regMsgHandler(msgProto.ID_AccountRegister, handleAccountRegist)
-	regMsgHandler(msgProto.ID_ServerInfoGetServerList, handleServerListGet)
-	regMsgHandler(msgProto.ID_ServerInfoGetUserServers, handleUserServersGet)
+	regMsgHandler(msgProto.ID_SvrListGet, handleServerListGet)
+	regMsgHandler(msgProto.ID_UserSvrGet, handleUserServersGet)
 
 }
 
@@ -111,6 +112,10 @@ func handleLoginReq(ev lib.Event) {
 	// service.Reply(ev, &ack)
 	logs.Debug("handleLoginReq:%+v", ack)
 	ev.Session().Send(&ack)
+}
+
+func handlePingAck(ev lib.Event) {
+	//
 }
 
 func handleAccountLogin(ev lib.Event) {
@@ -213,10 +218,10 @@ func handleAccountRegist(ev lib.Event) {
 }
 
 func handleServerListGet(ev lib.Event) {
-	msg := ev.Message().(*msgProto.ServerInfoGetServerList)
+	msg := ev.Message().(*msgProto.SvrListGet)
 	logs.Alert("server list get:", msg)
 
-	var ack msgProto.ServerListResponse
+	var ack msgProto.SvrListResponse
 
 	type colDef struct {
 		Id       int32
@@ -265,10 +270,10 @@ func handleServerListGet(ev lib.Event) {
 }
 
 func handleUserServersGet(ev lib.Event) {
-	msg := ev.Message().(*msgProto.ServerInfoGetUserServers)
+	msg := ev.Message().(*msgProto.UserSvrsGet)
 	logs.Alert("user servers get:", msg)
 
-	var ack msgProto.ServerListResponse
+	var ack msgProto.SvrListResponse
 
 	ent := &tb.AccountEntity{}
 	ent.Id = msg.AccountId
