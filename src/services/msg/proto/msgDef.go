@@ -49,7 +49,7 @@ const (
 	ID_AccountRegister = 2001
 	ID_LoginResponse   = 2002
 	ID_SvrListGet      = 2003
-	ID_UserSvrGet      = 2004
+	ID_UserSvrsGet     = 2004
 	ID_SvrListResponse = 2005
 
 	ID_AccountEnterGame   = 2010
@@ -101,7 +101,7 @@ func init() {
 	RegMsg(ID_LoginResponse, LoginResponse{})
 
 	RegMsg(ID_SvrListGet, SvrListGet{})
-	RegMsg(ID_UserSvrGet, UserSvrsGet{})
+	RegMsg(ID_UserSvrsGet, UserSvrsGet{})
 	RegMsg(ID_SvrListResponse, SvrListResponse{})
 
 	RegMsg(ID_AccountEnterGame, AccountEnterGame{})

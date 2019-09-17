@@ -62,7 +62,7 @@ func (self *ContextSet) GetContext(key interface{}) (interface{}, bool) {
 	self.ctxesGuard.RLock()
 	defer self.ctxesGuard.RUnlock()
 
-	logs.Info("GetContext key/all:", key, self.ctxes)
+	// logs.Info("GetContext key/all:", key, self.ctxes)
 	for _, t := range self.ctxes {
 		if t.key == key {
 			return t.value, true

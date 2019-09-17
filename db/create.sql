@@ -1239,7 +1239,7 @@ CREATE TABLE `uw_server_info`  (
 -- ----------------------------
 -- Records of uw_server_info
 -- ----------------------------
-INSERT INTO `uw_server_info` VALUES (1, '传奇世界', '测试1服', '龙门工作室', '127.0.0.1', '24200', 1, 1, 'server=127.0.0.1;database=aazyw_s1;uid=root;pwd=aazyw.com;charset=utf8;port=3306', 1, '', 1, 1, 0, '开服QQ479484001', '2016-10-24 00:00:00', '龙门');
+INSERT INTO `uw_server_info` VALUES (1, 'rpg世界', '测试1服', '龙门工作室', '127.0.0.1', '8401', 1, 1, 'server=127.0.0.1;database=aazyw_s1;uid=root;pwd=aazyw.com;charset=utf8;port=3306', 1, '', 1, 1, 0, '开服QQ479484001', '2016-10-24 00:00:00', '龙门');
 
 -- ----------------------------
 -- Table structure for uw_shop

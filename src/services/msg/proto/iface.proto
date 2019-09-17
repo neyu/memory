@@ -1563,7 +1563,7 @@ message ExpeditionBuyBlackItem {
 
 // 验证常规登录,成功返回null
 message AccountEnterGame {
-    string accountName = 1; //账号名
+    uint64 accountId = 1; //账号名
     string loginKey = 2; //登录key
     int32 serverIndexId = 3; //登录key
 }
@@ -1696,7 +1696,8 @@ message PbSvrInfo {
 }
 message SvrListResponse {
 	int32 retCode = 1;
-	repeated PbSvrInfo infos = 2;
+	int32 retType = 2; // 0:all 1:user
+	repeated PbSvrInfo infos = 3;
 }
 
 

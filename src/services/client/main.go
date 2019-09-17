@@ -57,6 +57,8 @@ func login() (gateAddr, svcId string) {
 			panic(ack.Result.String())
 		}
 	})
+
+	loginSes.Close()
 	return
 }
 

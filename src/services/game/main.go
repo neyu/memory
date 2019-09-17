@@ -1,6 +1,7 @@
 package main
 
 import (
+	"services/fx/config"
 	"services/fx/service"
 	"services/gate/backend"
 
@@ -15,6 +16,11 @@ import (
 
 func main() {
 	logs.Info("game server entry")
+
+	config.Init("local")
+
+	service.StartMysql()
+	laodDao()
 
 	initMsgHandler()
 	createAcceptor()

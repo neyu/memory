@@ -33,7 +33,7 @@ func initMsgHandler() {
 	regMsgHandler(msgProto.ID_AccountLogin, handleAccountLogin)
 	regMsgHandler(msgProto.ID_AccountRegister, handleAccountRegist)
 	regMsgHandler(msgProto.ID_SvrListGet, handleServerListGet)
-	regMsgHandler(msgProto.ID_UserSvrGet, handleUserServersGet)
+	regMsgHandler(msgProto.ID_UserSvrsGet, handleUserServersGet)
 
 }
 
@@ -222,6 +222,7 @@ func handleServerListGet(ev lib.Event) {
 	logs.Alert("server list get:", msg)
 
 	var ack msgProto.SvrListResponse
+	ack.RetType = 0
 
 	type colDef struct {
 		Id       int32
@@ -274,6 +275,7 @@ func handleUserServersGet(ev lib.Event) {
 	logs.Alert("user servers get:", msg)
 
 	var ack msgProto.SvrListResponse
+	ack.RetType = 1
 
 	ent := &tb.AccountEntity{}
 	ent.Id = msg.AccountId

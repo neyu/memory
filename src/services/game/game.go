@@ -106,14 +106,14 @@ func handleVerifyReq(ev lib.Event, cid msgProto.ClientId) {
 // func handleGameEnter(incomingEv lib.Event) {
 func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
 	msg := ev.Message().(*msgProto.AccountEnterGame)
-	logs.Debug("game enter:", msg.AccountName, msg.LoginKey, msg.ServerIndexId)
+	logs.Debug("game enter:", msg.AccountId, msg.LoginKey, msg.ServerIndexId)
 
 	var ack msgProto.GameEnterResponse
 
 	acc := tb.NewAccountEntity()
-	acc.Name = msg.AccountName
+	acc.Id = msg.AccountId
 
-	ret := accDao.FindByName([]string{"id", "loginKey", "status"}, []interface{}{&acc.Id, &acc.LoginKey, acc.Status}, msg.AccountName)
+	ret := accDao.FindById([]string{"loginKey", "status"}, []interface{}{&acc.LoginKey, &acc.Status}, msg.AccountId)
 	if ret != 0 || strings.Index(acc.LoginKey, msg.LoginKey) <= -1 {
 		ack.RetCode = fx.TipCode("loginKeyWrong")
 

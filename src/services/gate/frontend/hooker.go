@@ -31,15 +31,15 @@ func ProcFrontendPacket(msgId int32, msgData []byte, ses lib.Session) (msg inter
 
 		switch userMsg := msg.(type) {
 		case *msgProto.PingAck:
-			logs.Info("recv ping msg")
+			// logs.Info("recv ping msg")
 			u := model.SessionToUser(ses)
 			if u != nil {
 				u.LastPingTime = time.Now()
 
 				// 回消息
-				ses.Send(&msgProto.PingAck{})
+				// ses.Send(&msgProto.PingAck{})
 
-				logs.Info("ack ping msg")
+				// logs.Info("ack ping msg")
 			} else {
 				logs.Info("close session by ping msg")
 				ses.Close()
