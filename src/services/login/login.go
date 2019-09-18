@@ -38,7 +38,7 @@ func initMsgHandler() {
 }
 
 func messageHandler(ev lib.Event) {
-	defer util.PrintPanicStackError()
+	defer util.PrintPanicStackError() // 不是这样写的，后面回归正常流程里
 
 	msgId := codec.MessageToId(ev.Message())
 	if handler, ok := msgHandlers[msgId]; ok {
@@ -71,7 +71,7 @@ func handleLoginReq(ev lib.Event) {
 	var ack msgProto.LoginAck
 
 	// gateSvcId := hubstatus.SelectServiceByLowUserCount("gate", "", false)
-	// if agentSvcId == "" {
+	// if gateSvcId == "" {
 	// 	ack.Result = msgProto.ResultCode_GateNotFound
 
 	// 	service.Reply(ev, &ack)

@@ -20,7 +20,7 @@ import (
 	"time"
 )
 
-type svrMsgHandler func(ev lib.Event, cid msgProto.ClientId)
+type svrMsgHandler func(ev lib.Event, tag fx.ClientTag)
 
 var (
 	handleDefault func(ev lib.Event)
@@ -35,28 +35,28 @@ func initMsgHandler() {
 	regMsgHandler(msgProto.ID_ChatReq, handleChatReq)
 	regMsgHandler(msgProto.ID_VerifyReq, handleVerifyReq)
 
-	regMsgHandler(msgProto.ID_AccountEnterGame, handleGameEnter)
-	regMsgHandler(msgProto.ID_AccountCreateUser, handleUserCreate)
+	regMsgHandler(msgProto.ID_GameEnter, handleGameEnter)
+	regMsgHandler(msgProto.ID_UserCreate, handleUserCreate)
 
 }
 
 func messageHandler(incomingEv lib.Event) {
-	defer util.PrintPanicStackError()
+	defer util.PrintPanicStackError() // 不是这样写的，后面回归正常流程里
 
 	switch ev := incomingEv.(type) {
 	case *backend.RecvMsgEvent:
 
-		var cid msgProto.ClientId
-		cid.Id = ev.ClientId
+		var tag fx.ClientTag
+		tag.SesId = ev.ClientId
 
-		if agentCtx := service.SessionToContext(ev.Session()); agentCtx != nil {
-			cid.SvcId = agentCtx.SvcId
+		if gateCtx := service.SessionToContext(ev.Session()); gateCtx != nil {
+			tag.SvcId = gateCtx.SvcId
 		}
 
 		// userHandler(incomingEv, cid)
 		msgId := codec.MessageToId(ev.Message())
 		if handler, ok := msgHandlers[msgId]; ok {
-			handler(ev, cid)
+			handler(ev, tag)
 		} else {
 			logs.Debug("msg handler not found:", msgId)
 			if handleDefault != nil {
@@ -78,8 +78,7 @@ func messageHandler(incomingEv lib.Event) {
 }
 
 // func handleVerifyReq(incomingEv lib.Event) {
-func handleChatReq(ev lib.Event, cid msgProto.ClientId) {
-
+func handleChatReq(ev lib.Event, tag fx.ClientTag) {
 	msg := ev.Message().(*msgProto.ChatReq)
 
 	fmt.Printf("chat: %+v \n", msg.Content)
@@ -90,13 +89,13 @@ func handleChatReq(ev lib.Event, cid msgProto.ClientId) {
 	})
 
 	// 消息单发给客户端
-	gateapi.Send(&cid, &msgProto.TestAck{
+	gateapi.Send(&tag, &msgProto.TestAck{
 		Dummy: "single send",
 	})
 }
 
 // func handleVerifyReq(incomingEv lib.Event) {
-func handleVerifyReq(ev lib.Event, cid msgProto.ClientId) {
+func handleVerifyReq(ev lib.Event, tag fx.ClientTag) {
 	msg := ev.Message().(*msgProto.VerifyReq)
 	logs.Debug("verfiy:%+v", msg)
 
@@ -104,8 +103,8 @@ func handleVerifyReq(ev lib.Event, cid msgProto.ClientId) {
 }
 
 // func handleGameEnter(incomingEv lib.Event) {
-func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
-	msg := ev.Message().(*msgProto.AccountEnterGame)
+func handleGameEnter(ev lib.Event, tag fx.ClientTag) {
+	msg := ev.Message().(*msgProto.GameEnter)
 	logs.Debug("game enter:", msg.AccountId, msg.LoginKey, msg.ServerIndexId)
 
 	var ack msgProto.GameEnterResponse
@@ -117,13 +116,13 @@ func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
 	if ret != 0 || strings.Index(acc.LoginKey, msg.LoginKey) <= -1 {
 		ack.RetCode = fx.TipCode("loginKeyWrong")
 
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		return
 	}
 	if acc.Status == consts.Lock || acc.Status == consts.LockDevice {
 		ack.RetCode = fx.TipCode("accountLockout")
 
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		return
 	}
 
@@ -147,7 +146,7 @@ func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
 		} else {
 			ack.RetCode = 0 // 没有创建过角色
 		}
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		return
 	}
 
@@ -158,7 +157,7 @@ func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
 	if ret != 0 || svrInfo.Status == consts.Closed {
 		ack.RetCode = fx.TipCode("svrMaintain")
 
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		return
 	}
 
@@ -167,21 +166,21 @@ func handleGameEnter(ev lib.Event, cid msgProto.ClientId) {
 	if ret != 0 {
 		ack.RetCode = fx.TipCode("sysErr")
 
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		return
 	}
 
 	// _handleAndGetData()
 	ack.NickName = "我是测试人员"
-	gateapi.Send(&cid, &ack)
+	gateapi.Send(&tag, &ack)
 
 	_handleLogin()
 
 }
 
 // func handleUserCreate(incomingEv lib.Event) {
-func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
-	msg := ev.Message().(*msgProto.AccountCreateUser)
+func handleUserCreate(ev lib.Event, tag fx.ClientTag) {
+	msg := ev.Message().(*msgProto.UserCreate)
 	logs.Debug("user create:", msg.Name, msg.HeroTempId, msg.Sex, msg.ServerIndexId, msg.ShareKey)
 
 	var ack msgProto.UserCreateResponse
@@ -191,12 +190,12 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 	if strings.TrimSpace(msg.Name) == "" {
 		ack.RetCode = fx.TipCode("roleNameNull")
 
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		return
 	}
 
 	usr := tb.NewUserEntity()
-	usr.AccountId = uint64(cid.Id)
+	//usr.AccountId = uint64(tag.Id) /////////////
 	usr.NickName = msg.Name
 	usr.ServerIndexId = msg.ServerIndexId
 
@@ -211,7 +210,7 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 			&usr.ServerId, &usr.Prestige, &usr.OnlineLootData, &usr.MedalTitle, &usr.MedalData,
 			&usr.GenuineQi, &usr.IsKing, &usr.RebirthExp}, usr.AccountId, usr.ServerIndexId)
 	if ret == 0 {
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		return
 	}
 
@@ -225,7 +224,7 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 	if ret != 0 {
 		ack.RetCode = ret
 
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		logs.Debug("handleUserCreate error0")
 
 		return
@@ -233,7 +232,7 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 	if len(resSet) != 0 {
 		ack.RetCode = fx.TipCode("roleNameExist")
 
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		logs.Debug("handleUserCreate error1")
 
 		return
@@ -241,13 +240,13 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 
 	// 创建立一个新角色
 	acc := tb.NewAccountEntity()
-	acc.Id = uint64(cid.Id)
+	//acc.Id = uint64(tag.Id) /////////////////
 
 	ret = accDao.FindById([]string{"sdkChannelId"}, []interface{}{&acc.SdkChannelId}, acc.Id)
 	if ret != 0 {
 		ack.RetCode = ret
 
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		logs.Debug("handleUserCreate error2")
 
 		return
@@ -295,14 +294,14 @@ func handleUserCreate(ev lib.Event, cid msgProto.ClientId) {
 	if ret != 0 {
 		ack.RetCode = ret
 
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		logs.Debug("_createNewUser err ret:", ret)
 
 		return
 	}
 	usr.Id = id
 
-	_createHeroByTempId(cid, usr.Id, msg.HeroTempId, int8(msg.Sex))
+	_createHeroByTempId(tag, usr.Id, msg.HeroTempId, int8(msg.Sex))
 
 	_addUserServer(acc.Id, usr.ServerId)
 }

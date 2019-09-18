@@ -16,29 +16,23 @@ type BackendMsgHooker struct {
 
 // 后端服务器接收来自网关的消息
 func (BackendMsgHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
-
 	switch incomingMsg := inputEvent.Message().(type) {
 	case *msgProto.TransmitAck:
-
 		userMsg, _, err := codec.DecodeMessage(incomingMsg.MsgId, incomingMsg.MsgData)
 		if err != nil {
 			//logs.Warnf("Backend msg decode failed, %s, msgid: %d", err.Error(), incomingMsg.MsgId)
 			logs.Warn("Backend msg decode failed, %s, msgid: %d\n", err.Error(), incomingMsg.MsgId)
 			return nil
 		}
-
 		ev := &RecvMsgEvent{
 			Ses:      inputEvent.Session(),
 			Msg:      userMsg,
 			ClientId: incomingMsg.ClientId,
 		}
-
 		outputEvent = ev
-
 	default:
 		outputEvent = inputEvent
 	}
-
 	return
 }
 
@@ -59,10 +53,8 @@ type BroadcasterHooker struct {
 
 // 来自后台服务器的消息
 func (BroadcasterHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
-
 	switch incomingMsg := inputEvent.Message().(type) {
 	case *msgProto.TransmitAck:
-
 		rawPkt := &codec.RawPacket{
 			MsgData: incomingMsg.MsgData,
 			MsgId:   incomingMsg.MsgId,
@@ -98,17 +90,14 @@ func (BroadcasterHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.E
 				return true
 			})
 		}
-
 		// 本事件已经处理, 不再后传
 		return nil
 	}
-
 	return inputEvent
 }
 
 // 发送给后台服务器
 func (BroadcasterHooker) OnOutboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
-
 	switch outgoingMsg := inputEvent.Message().(type) {
 	case *msgProto.TransmitAck:
 		//if log.IsDebugEnabled() {
@@ -119,11 +108,9 @@ func (BroadcasterHooker) OnOutboundEvent(inputEvent lib.Event) (outputEvent lib.
 }
 
 func writeAgentLog(ses lib.Session, dir string, ack *msgProto.TransmitAck) {
-
 	// if msglog.IsBlockedMessageById(int(ack.MsgId)) {
 	// 	return
 	// }
-
 	peerInfo := ses.GetPeer().Prop()
 
 	userMsg, _, err := codec.DecodeMessage(ack.MsgId, ack.MsgData)
@@ -138,7 +125,6 @@ func writeAgentLog(ses lib.Session, dir string, ack *msgProto.TransmitAck) {
 			ack.ClientId,
 			codec.MessageToString(userMsg))
 	} else {
-
 		// 网关没有相关的消息, 只能打出消息号
 		//log.Debugf("#agent.%s(%s)@%d len: %d msgid: %d <%d>",
 		logs.Debug("#gate.%s(%s)@%d len: %d msgid: %d <%d>",

@@ -24,7 +24,6 @@ type DirectTCPTransmitter struct {
 
 // 来自客户端的消息
 func (DirectTCPTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err error) {
-
 	reader, ok := ses.Raw().(io.Reader)
 
 	// 转换错误，或者连接已经关闭时退出
@@ -35,9 +34,7 @@ func (DirectTCPTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err
 	opt := ses.GetPeer().Prop()
 
 	if conn, ok := ses.Raw().(net.Conn); ok {
-
 		for {
-
 			// 有读超时时，设置超时
 			opt.ApplySocketReadTimeout(conn, func() {
 
@@ -51,25 +48,20 @@ func (DirectTCPTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err
 				if err == nil {
 					msg, err = ProcFrontendPacket(msgId, msgData, ses)
 				}
-
 			})
 
 			// 有错退出
 			if err != nil {
 				break
 			}
-
 			// msg=nil时,透传了客户端的封包到后台, 不用传给下一个proc, 继续重新读取下一个包
 		}
-
 	}
-
 	return
 }
 
 // 网关发往客户端的消息
 func (DirectTCPTransmitter) OnSendMessage(ses lib.Session, msg interface{}) (err error) {
-
 	writer, ok := ses.Raw().(io.Writer)
 
 	// 转换错误，或者连接已经关闭时退出
@@ -81,11 +73,8 @@ func (DirectTCPTransmitter) OnSendMessage(ses lib.Session, msg interface{}) (err
 
 	// 有写超时时，设置超时
 	opt.ApplySocketWriteTimeout(writer.(net.Conn), func() {
-
 		err = lib.SendLTVPacket(writer, msg)
-
 	})
-
 	return
 }
 
@@ -112,14 +101,12 @@ func (DirectWSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{
 
 	for {
 		messageType, raw, err = conn.ReadMessage()
-
 		if err != nil {
 			break
 		}
 
 		switch messageType {
 		case websocket.BinaryMessage:
-			// msgId := binary.LittleEndian.Uint16(raw)
 			msgId := int32(binary.BigEndian.Uint16(raw))
 			msgData := raw[MsgIdSize:]
 
@@ -128,15 +115,11 @@ func (DirectWSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{
 				msg, err = ProcFrontendPacket(msgId, msgData, ses)
 			}
 		}
-
 		if err != nil {
 			break
 		}
-
 	}
-
 	return
-
 }
 
 func (DirectWSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}) error {
@@ -172,7 +155,6 @@ func (DirectWSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}
 	}
 
 	pkt := make([]byte, MsgIdSize+len(msgData))
-	// binary.LittleEndian.PutUint16(pkt, uint16(msgId))
 	binary.BigEndian.PutUint16(pkt, uint16(msgId))
 	copy(pkt[MsgIdSize:], msgData)
 

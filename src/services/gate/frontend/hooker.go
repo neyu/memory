@@ -28,7 +28,6 @@ func ProcFrontendPacket(msgId int32, msgData []byte, ses lib.Session) (msg inter
 			// TODO 接收错误时，返回消息
 			return nil, err
 		}
-
 		switch userMsg := msg.(type) {
 		case *msgProto.PingAck:
 			// logs.Info("recv ping msg")
@@ -37,9 +36,8 @@ func ProcFrontendPacket(msgId int32, msgData []byte, ses lib.Session) (msg inter
 				u.LastPingTime = time.Now()
 
 				// 回消息
-				// ses.Send(&msgProto.PingAck{})
-
 				// logs.Info("ack ping msg")
+				// ses.Send(&msgProto.PingAck{})
 			} else {
 				logs.Info("close session by ping msg")
 				ses.Close()
@@ -57,7 +55,6 @@ func ProcFrontendPacket(msgId int32, msgData []byte, ses lib.Session) (msg inter
 				fmt.Println("bindClientToBackend", err)
 			}
 		}
-
 	default:
 		// 在路由规则中查找消息ID是否是路由规则允许的消息
 		// rule := model.GetRuleByMsgId(msgId)
@@ -67,29 +64,25 @@ func ProcFrontendPacket(msgId int32, msgData []byte, ses lib.Session) (msg inter
 
 		// 找到已经绑定的用户
 		u := model.SessionToUser(ses)
-
 		if u != nil {
-
 			// 透传到后台
 			if err = u.TransmitToBackend(u.GetBackend("game"), msgId, msgData); err != nil {
 				// logs.Warnf("TransmitToBackend %s, msg: '%s' svc: %s", err, rule.MsgName, rule.SvcName)
 				// fmt.Printf("TransmitToBackend %s, msg: '%s' svc: %s\n", err, rule.MsgName, rule.SvcName)
 			}
-
 		} else {
 			// 这是一个未授权的用户发授权消息,可以踢掉
 		}
 	}
-
 	return
 }
 
 type FrontendEventHooker struct {
+	//
 }
 
 // 网关内部抛出的事件
 func (FrontendEventHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
-
 	switch inputEvent.Message().(type) {
 	case *lib.SessionAccepted:
 	case *lib.SessionClosed:
@@ -100,18 +93,16 @@ func (FrontendEventHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib
 			u.BroadcastToBackends(&msgProto.ClientClosedAck{
 				Id: &msgProto.ClientId{
 					Id:    inputEvent.Session().Id(),
-					SvcId: model.AgentSvcId,
+					SvcId: model.GateSvcId,
 				},
 			})
 		}
 	}
-
 	return inputEvent
 }
 
 // 发送到客户端的消息
 func (FrontendEventHooker) OnOutboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
-
 	return inputEvent
 }
 

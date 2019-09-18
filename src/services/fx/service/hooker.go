@@ -12,10 +12,8 @@ type SvcEventHooker struct {
 }
 
 func (SvcEventHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
-
 	switch msg := inputEvent.Message().(type) {
 	case *msgProto.ServiceIdentifyAck:
-
 		if pre := GetRemoteService(msg.SvcId); pre == nil {
 
 			// 添加连接上来的对方服务
@@ -38,18 +36,13 @@ func (SvcEventHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Even
 		// AddRemoteService(inputEvent.Session(), sd.Id, sd.Name)
 		AddRemoteService(inputEvent.Session(), "game_1", GetProcName())
 		// }
-
 	case *lib.SessionClosed:
-
 		RemoveRemoteService(inputEvent.Session())
 	}
-
 	return inputEvent
-
 }
 
 func (SvcEventHooker) OnOutboundEvent(inputEvent lib.Event) (outputEvent lib.Event) {
-
 	return inputEvent
 }
 

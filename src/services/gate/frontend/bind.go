@@ -15,9 +15,7 @@ var (
 
 // 将客户端连接绑定到后台服务
 func bindClientToBackend(backendSvcId string, clientSesId int64) (*model.User, error) {
-
 	backendSes := service.GetRemoteService(backendSvcId)
-
 	if backendSes == nil {
 		return nil, ErrBackendServerNotFound
 	}

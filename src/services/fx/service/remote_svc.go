@@ -20,19 +20,18 @@ var (
 	removeNotify       NotifyFunc
 )
 
-func AddRemoteService(ses lib.Session, svcid, name string) {
-
+func AddRemoteService(ses lib.Session, svcId, name string) {
 	connBySvcNameGuard.Lock()
-	ses.SetContext("ctx", &RemoteServiceContext{Name: name, SvcId: svcid})
-	connBySvcId[svcid] = ses
-	connBySvcNameGuard.Unlock()
+	defer connBySvcNameGuard.Unlock()
+
+	ses.SetContext("ctx", &RemoteServiceContext{Name: name, SvcId: svcId})
+	connBySvcId[svcId] = ses
 
 	//log.SetColor("green").Infof("remote service added: '%s' sid: %d", svcid, ses.Id())
-	logs.Info("remote service added: '%s' sid: %d, connBySvcId:%+v", svcid, ses.Id(), connBySvcId)
+	logs.Info("remote service added: '%s' sid: %d, connBySvcId:%+v", svcId, ses.Id(), connBySvcId)
 }
 
 func RemoveRemoteService(ses lib.Session) {
-
 	ctx := SessionToContext(ses)
 	if ctx != nil {
 
@@ -51,7 +50,6 @@ func RemoveRemoteService(ses lib.Session) {
 
 // 设置服务的通知
 func SetRemoteServiceNotify(mode string, callback NotifyFunc) {
-
 	switch mode {
 	case "remove":
 		removeNotify = callback
@@ -65,32 +63,28 @@ func SessionToContext(ses lib.Session) *RemoteServiceContext {
 	if ses == nil {
 		return nil
 	}
-
 	if raw, ok := ses.GetContext("ctx"); ok {
 		return raw.(*RemoteServiceContext)
 	}
-
 	return nil
 }
 
 // 根据svcid获取远程服务的会话
-func GetRemoteService(svcid string) lib.Session {
+func GetRemoteService(svcId string) lib.Session {
 	connBySvcNameGuard.RLock()
 	defer connBySvcNameGuard.RUnlock()
 
-	logs.Info("remote service query: '%s' connBySvcId: %+v", svcid, connBySvcId)
-
-	if ses, ok := connBySvcId[svcid]; ok {
-
+	logs.Info("remote service query: '%s' connBySvcId: %+v", svcId, connBySvcId)
+	if ses, ok := connBySvcId[svcId]; ok {
 		return ses
 	}
-
 	return nil
 }
 
 // 遍历远程服务(已经连接到本进程)
 func VisitRemoteService(callback func(ses lib.Session, ctx *RemoteServiceContext) bool) {
 	connBySvcNameGuard.RLock()
+	defer connBySvcNameGuard.RUnlock()
 
 	for _, ses := range connBySvcId {
 
@@ -98,6 +92,4 @@ func VisitRemoteService(callback func(ses lib.Session, ctx *RemoteServiceContext
 			break
 		}
 	}
-
-	connBySvcNameGuard.RUnlock()
 }

@@ -45,20 +45,14 @@ func (WSMessageTransmitter) OnRecvMessage(ses lib.Session) (msg interface{}, err
 	if err != nil {
 		return
 	}
-	// fmt.Println("msg recv raw:", messageType, raw)
 
 	if len(raw) < MsgIdSize {
 		return nil, lib.ErrMinPacket
 	}
-	// msgLen := binary.BigEndian.Uint16(raw)
-	// if len(raw) < int(msgLen) {
-	// 	return nil, lib.ErrShortPacket
-	// }
 
 	switch messageType {
 	case websocket.BinaryMessage:
-		// msgID := binary.LittleEndian.Uint16(raw)
-		msgID := binary.BigEndian.Uint16(raw) //[MsgLenSize:]
+		msgID := binary.BigEndian.Uint16(raw)
 		msgData := raw[MsgIdSize:]
 
 		msg, _, err = codec.DecodeMessage(int32(msgID), msgData)
@@ -102,15 +96,13 @@ func (WSMessageTransmitter) OnSendMessage(ses lib.Session, msg interface{}) erro
 	}
 	msgLen := MsgIdSize + len(msgData)
 	pkt := make([]byte, msgLen)
-	// binary.LittleEndian.PutUint16(pkt, uint16(msgId))
-	// binary.BigEndian.PutUint16(pkt, uint16(msgLen))
 	binary.BigEndian.PutUint16(pkt, uint16(msgId))
 	copy(pkt[MsgIdSize:], msgData)
 
-	// fmt.Println("msg send raw:", msgId, pkt)
 	TotalSend += msgLen
 	logs.Notice("total send bytes:", TotalSend)
 
+	// fmt.Println("msg send raw:", msgId, pkt)
 	conn.WriteMessage(websocket.BinaryMessage, pkt)
 
 	return nil

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"services/fx"
 	"services/game/entity"
 	"services/gate/api"
 	"services/msg/proto"
@@ -33,7 +34,7 @@ func getIconId(tempId int32, sex int8) int32 {
 	return 1
 }
 
-func _createHeroByTempId(cid msgProto.ClientId, userId int64, tempId int32, sex int8) {
+func _createHeroByTempId(tag fx.ClientTag, userId int64, tempId int32, sex int8) {
 	var ack msgProto.UserCreateResponse
 
 	hero := tb.NewHeroEntity()
@@ -50,7 +51,7 @@ func _createHeroByTempId(cid msgProto.ClientId, userId int64, tempId int32, sex 
 		if ret != 1 {
 			ack.RetCode = ret
 
-			gateapi.Send(&cid, &ack)
+			gateapi.Send(&tag, &ack)
 			logs.Debug("_createHeroByTempId err ret 0:", ret)
 
 			return
@@ -79,14 +80,14 @@ func _createHeroByTempId(cid msgProto.ClientId, userId int64, tempId int32, sex 
 	if ret != 0 {
 		ack.RetCode = ret
 
-		gateapi.Send(&cid, &ack)
+		gateapi.Send(&tag, &ack)
 		logs.Debug("_createHeroByTempId err ret 1:", ret)
 
 		return
 	}
 
 	ack.Id = id
-	gateapi.Send(&cid, &ack)
+	gateapi.Send(&tag, &ack)
 }
 
 func _addUserServer(accId uint64, svrId int32) {

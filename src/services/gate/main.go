@@ -20,6 +20,8 @@ import (
 func main() {
 	logs.Info("gate server entry")
 
+	model.GateSvcId = "gate_1"
+
 	connectToGame()
 
 	// createAcceptor()

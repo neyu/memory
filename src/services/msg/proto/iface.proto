@@ -1562,7 +1562,7 @@ message ExpeditionBuyBlackItem {
 }
 
 // 验证常规登录,成功返回null
-message AccountEnterGame {
+message GameEnter {
     uint64 accountId = 1; //账号名
     string loginKey = 2; //登录key
     int32 serverIndexId = 3; //登录key
@@ -1575,7 +1575,7 @@ message GameEnterResponse {
 }
 
 // 创建用户
-message AccountCreateUser {
+message UserCreate {
     string name = 1; //名字
     int32 heroTempId = 2; //模板id 
     int32 sex = 3; //性别 

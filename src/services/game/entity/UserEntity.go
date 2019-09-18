@@ -205,8 +205,8 @@ func (dao *UserDao) FindAll(inCols []string, defCols interface{}, name string) (
 		}
 		query += item
 	}
-	query += ` from ` + TbUser + ` where name=?`
-	logs.Debug("query:", query)
+	query += ` from ` + TbUser + ` where nickName=?`
+	logs.Debug("query/param:", query, name)
 
 	stmt, err := dao.Prepare(query)
 	if err != nil {
@@ -215,7 +215,7 @@ func (dao *UserDao) FindAll(inCols []string, defCols interface{}, name string) (
 	}
 	defer stmt.Close()
 
-	rows, err := stmt.Query(name)
+	rows, err := stmt.Query(&name)
 	if err != nil {
 		logs.Error("user find all err2:", err)
 		return nil, -1
