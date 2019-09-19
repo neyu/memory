@@ -50,8 +50,8 @@ func BroadcastAll(msg interface{}) {
 
 // 给客户端发消息
 func Send(tag *fx.ClientTag, msg interface{}) {
-	gateSes := service.GetRemoteService(tag.SvcId)
-	if gateSes != nil {
+	g2gSes := service.GetRemoteService(tag.SvcId)
+	if g2gSes != nil {
 		data, meta, err := codec.EncodeMessage(msg)
 		if err != nil {
 			//log.Errorf("Send.EncodeMessage %s", err)
@@ -59,7 +59,7 @@ func Send(tag *fx.ClientTag, msg interface{}) {
 			return
 		}
 
-		gateSes.Send(&msgProto.TransmitAck{
+		g2gSes.Send(&msgProto.TransmitAck{
 			MsgId:    meta.Id,
 			MsgData:  data,
 			ClientId: tag.SesId,
@@ -81,9 +81,9 @@ func (this *ClientList) AddClient(tag *fx.ClientTag) {
 // 关闭列表中客户端的连接
 func (this *ClientList) CloseClient() {
 	for gateSvcId, sesList := range this.sesByGateSvcId {
-		gateSes := service.GetRemoteService(gateSvcId)
-		if gateSes != nil {
-			gateSes.Send(&msgProto.CloseClientAck{
+		g2gSes := service.GetRemoteService(gateSvcId)
+		if g2gSes != nil {
+			g2gSes.Send(&msgProto.CloseClientAck{
 				Id: sesList,
 			})
 		}
@@ -100,9 +100,9 @@ func (this *ClientList) Broadcast(msg interface{}) {
 	}
 
 	for gateSvcId, sesList := range this.sesByGateSvcId {
-		gateSes := service.GetRemoteService(gateSvcId)
-		if gateSes != nil {
-			gateSes.Send(&msgProto.TransmitAck{
+		g2gSes := service.GetRemoteService(gateSvcId)
+		if g2gSes != nil {
+			g2gSes.Send(&msgProto.TransmitAck{
 				MsgId:        meta.Id,
 				MsgData:      data,
 				ClientIdList: sesList,

@@ -18,7 +18,7 @@ type AccountDao mysql.DaoSource
 
 type AccountEntity struct {
 	/** 序号 **/
-	Id uint64 /*序号accId*/
+	Id int64 /*序号accId*/
 	/** 账号名 **/
 	Name string /*账号名accName*/
 	/** 邮箱 **/
@@ -170,7 +170,7 @@ func (dao *AccountDao) Save(acc *AccountEntity) error {
 		return err
 	}
 	// logs.Debug("new account id:", id)
-	acc.Id = uint64(id)
+	acc.Id = id
 
 	return nil
 }
@@ -231,7 +231,7 @@ func (dao *AccountDao) FindAll() []*AccountEntity {
 	return accList
 }
 
-func (dao *AccountDao) Insert(inCols []string, vals []interface{}) (uint64, int32) {
+func (dao *AccountDao) Insert(inCols []string, vals []interface{}) (int64, int32) {
 	var err error
 
 	if len(inCols) <= 0 || len(vals) <= 0 || len(inCols) != len(vals) {
@@ -267,7 +267,7 @@ func (dao *AccountDao) Insert(inCols []string, vals []interface{}) (uint64, int3
 		return 0, -1
 	}
 	logs.Debug("new account id:", id)
-	return uint64(id), 0
+	return id, 0
 }
 
 var updateSql = `update ` + TbAccount + ` set `
@@ -311,7 +311,7 @@ func (dao *AccountDao) Update(inCols []string, vals []interface{}) int32 {
 	return 0
 }
 
-func (dao *AccountDao) FindById(inCols []string, outCols []interface{}, accId uint64) int32 {
+func (dao *AccountDao) FindById(inCols []string, outCols []interface{}, accId int64) int32 {
 	return dao.Find(inCols, outCols, ` where id=?`, &accId)
 }
 

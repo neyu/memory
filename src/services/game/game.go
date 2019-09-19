@@ -48,6 +48,8 @@ func messageHandler(incomingEv lib.Event) {
 
 		var tag fx.ClientTag
 		tag.SesId = ev.ClientId
+		tag.AccId = ev.AccId
+		tag.UserId = ev.UserId
 
 		if gateCtx := service.SessionToContext(ev.Session()); gateCtx != nil {
 			tag.SvcId = gateCtx.SvcId
@@ -105,14 +107,14 @@ func handleVerifyReq(ev lib.Event, tag fx.ClientTag) {
 // func handleGameEnter(incomingEv lib.Event) {
 func handleGameEnter(ev lib.Event, tag fx.ClientTag) {
 	msg := ev.Message().(*msgProto.GameEnter)
-	logs.Debug("game enter:", msg.AccountId, msg.LoginKey, msg.ServerIndexId)
+	logs.Debug("game enter:", msg.AccId, msg.LoginKey, msg.ServerIndexId)
 
 	var ack msgProto.GameEnterResponse
 
 	acc := tb.NewAccountEntity()
-	acc.Id = msg.AccountId
+	acc.Id = msg.AccId
 
-	ret := accDao.FindById([]string{"loginKey", "status"}, []interface{}{&acc.LoginKey, &acc.Status}, msg.AccountId)
+	ret := accDao.FindById([]string{"loginKey", "status"}, []interface{}{&acc.LoginKey, &acc.Status}, msg.AccId)
 	if ret != 0 || strings.Index(acc.LoginKey, msg.LoginKey) <= -1 {
 		ack.RetCode = fx.TipCode("loginKeyWrong")
 
@@ -128,7 +130,7 @@ func handleGameEnter(ev lib.Event, tag fx.ClientTag) {
 
 	// 用另外一个go routine来并行处理
 	usr := tb.NewUserEntity()
-	usr.AccountId = acc.Id
+	usr.AccId = acc.Id
 	usr.ServerIndexId = msg.ServerIndexId
 
 	ret = userDao.Find([]string{"id", "nickName", "gold", "diamond", "giveDiamond", "buyDiamond",
@@ -139,7 +141,7 @@ func handleGameEnter(ev lib.Event, tag fx.ClientTag) {
 			&usr.BuyDiamond, &usr.Lvl, &usr.Vip, &usr.Honor, &usr.Bag, &usr.EquipBag, &usr.HonorData,
 			&usr.Record, &usr.ExData, &usr.Counts, &usr.CountsRefreshTime, &usr.LastUpdateTime,
 			&usr.ServerId, &usr.Prestige, &usr.OnlineLootData, &usr.MedalTitle, &usr.MedalData,
-			&usr.GenuineQi, &usr.IsKing, &usr.RebirthExp}, usr.AccountId, usr.ServerIndexId)
+			&usr.GenuineQi, &usr.IsKing, &usr.RebirthExp}, usr.AccId, usr.ServerIndexId)
 	if ret != 0 {
 		if ret != 1 {
 			ack.RetCode = fx.TipCode("getRoleDataFalse")
@@ -195,7 +197,7 @@ func handleUserCreate(ev lib.Event, tag fx.ClientTag) {
 	}
 
 	usr := tb.NewUserEntity()
-	//usr.AccountId = uint64(tag.Id) /////////////
+	usr.AccId = tag.AccId
 	usr.NickName = msg.Name
 	usr.ServerIndexId = msg.ServerIndexId
 
@@ -208,7 +210,7 @@ func handleUserCreate(ev lib.Event, tag fx.ClientTag) {
 			&usr.BuyDiamond, &usr.Lvl, &usr.Vip, &usr.Honor, &usr.Bag, &usr.EquipBag, &usr.HonorData,
 			&usr.Record, &usr.ExData, &usr.Counts, &usr.CountsRefreshTime, &usr.LastUpdateTime,
 			&usr.ServerId, &usr.Prestige, &usr.OnlineLootData, &usr.MedalTitle, &usr.MedalData,
-			&usr.GenuineQi, &usr.IsKing, &usr.RebirthExp}, usr.AccountId, usr.ServerIndexId)
+			&usr.GenuineQi, &usr.IsKing, &usr.RebirthExp}, usr.AccId, usr.ServerIndexId)
 	if ret == 0 {
 		gateapi.Send(&tag, &ack)
 		return
@@ -216,8 +218,8 @@ func handleUserCreate(ev lib.Event, tag fx.ClientTag) {
 
 	// 检测是否重名
 	type colDef struct {
-		Id        int32
-		AccountId uint64
+		Id    int32
+		AccId uint64
 	}
 	var cols colDef
 	resSet, ret := userDao.FindAll([]string{"id", "accountId"}, &cols, usr.NickName)
@@ -240,7 +242,7 @@ func handleUserCreate(ev lib.Event, tag fx.ClientTag) {
 
 	// 创建立一个新角色
 	acc := tb.NewAccountEntity()
-	//acc.Id = uint64(tag.Id) /////////////////
+	acc.Id = tag.AccId
 
 	ret = accDao.FindById([]string{"sdkChannelId"}, []interface{}{&acc.SdkChannelId}, acc.Id)
 	if ret != 0 {
@@ -287,7 +289,7 @@ func handleUserCreate(ev lib.Event, tag fx.ClientTag) {
 		"bag", "equipBag", "honorData", "activity", "record", "exData", "countsRefreshTime",
 		"serverId", "medalData", "propertyData", "lvl", "lastUpdateTime", "createTime",
 		"sdkChannelId"},
-		[]interface{}{&usr.AccountId, &usr.NickName, &usr.ServerIndexId, &usr.IconId,
+		[]interface{}{&usr.AccId, &usr.NickName, &usr.ServerIndexId, &usr.IconId,
 			&usr.Bag, &usr.EquipBag, &usr.HonorData, &usr.Activity, &usr.Record, &usr.ExData, &usr.CountsRefreshTime,
 			&usr.ServerId, &usr.MedalData, &usr.PropertyData, &usr.Lvl, &usr.LastUpdateTime, &usr.CreateTime,
 			&usr.SdkChannelId})

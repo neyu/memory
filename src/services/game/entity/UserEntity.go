@@ -21,7 +21,7 @@ type UserEntity struct {
 	/** 序号 **/
 	Id int64 /*序号*/
 	/** 账号id **/
-	AccountId uint64 /*账号id*/
+	AccId int64 /*账号id*/
 	/** 头像 **/
 	IconId int32 /**/
 	/** 昵称 **/
@@ -146,7 +146,7 @@ func NewUserEntity() *UserEntity {
 	return &UserEntity{}
 }
 
-func (dao *UserDao) Find(inCols []string, outCols []interface{}, accId uint64, svrIdx int32) int32 {
+func (dao *UserDao) Find(inCols []string, outCols []interface{}, accId int64, svrIdx int32) int32 {
 	var err error
 
 	if len(inCols) <= 0 || len(outCols) <= 0 || len(inCols) != len(outCols) {

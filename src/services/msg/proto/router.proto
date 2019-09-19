@@ -8,20 +8,20 @@ message ClientId
 	string SvcId = 2;		// 客户端在哪个网关
 }
 
-// backend ->agent 切断用户连接
+// backend ->gate 切断用户连接
 message CloseClientAck 
 {
     repeated int64 Id = 1;
 	bool All = 2; 
 }
 
-// agent -> backend 客户端断开
+// gate -> backend 客户端断开
 message ClientClosedAck 
 {
     ClientId Id = 1;	
 }
 
-// agent <-> backend 在网关和后端服务器之间传输协议
+// gate <-> backend 在网关和后端服务器之间传输协议
 message TransmitAck 
 {
     int32 MsgId = 1;  				// 用户消息ID
@@ -30,4 +30,7 @@ message TransmitAck
     int64 ClientId = 3;       		// 单发
     repeated int64 ClientIdList = 4;	// 列表发
     bool All = 5;             		// 全发
+
+	int64 AccId = 6; // 换取效率
+	int64 UserId = 7; // 换取效率
 }

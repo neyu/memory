@@ -13,6 +13,8 @@ type RecvMsgEvent struct {
 	Ses      lib.Session
 	Msg      interface{}
 	ClientId int64
+	AccId    int64
+	UserId   int64
 }
 
 func (this *RecvMsgEvent) Session() lib.Session {

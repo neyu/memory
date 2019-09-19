@@ -86,11 +86,11 @@ func _createHeroByTempId(tag fx.ClientTag, userId int64, tempId int32, sex int8)
 		return
 	}
 
-	ack.Id = id
+	ack.UserId = id
 	gateapi.Send(&tag, &ack)
 }
 
-func _addUserServer(accId uint64, svrId int32) {
+func _addUserServer(accId int64, svrId int32) {
 	// accDao.SelectCols("userServers")
 	// accDao.Update("userServers")
 }

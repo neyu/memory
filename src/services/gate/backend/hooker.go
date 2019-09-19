@@ -28,6 +28,8 @@ func (BackendMsgHooker) OnInboundEvent(inputEvent lib.Event) (outputEvent lib.Ev
 			Ses:      inputEvent.Session(),
 			Msg:      userMsg,
 			ClientId: incomingMsg.ClientId,
+			AccId:    incomingMsg.AccId,
+			UserId:   incomingMsg.UserId,
 		}
 		outputEvent = ev
 	default:

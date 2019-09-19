@@ -1,6 +1,9 @@
 package util
 
 import (
+	"crypto/rand"
+	"encoding/hex"
+	"errors"
 	"net"
 	"reflect"
 	"strconv"
@@ -91,4 +94,13 @@ func Run() {
 		case <-temp:
 		}
 	}
+}
+
+func GenKey8() (string, error) {
+	b := make([]byte, 8) //int64
+	n, err := rand.Read(b)
+	if n != len(b) || err != nil {
+		return "", errors.New("gen key 8 error!!")
+	}
+	return hex.EncodeToString(b), nil
 }

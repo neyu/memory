@@ -125,7 +125,7 @@ func handleAccountLogin(ev lib.Event) {
 	var ack msgProto.LoginResponse
 
 	ent := tb.AccountEntity{}
-	ent.Name = msg.Name
+	ent.Name = msg.Account
 
 	ret := accDao.FindByName([]string{"id", "email", "loginCount", "pwd"},
 		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
@@ -138,8 +138,8 @@ func handleAccountLogin(ev lib.Event) {
 		if ent.Pwd != msg.GetPwd() {
 			ack.RetCode = fx.TipCode("loginWordWrong")
 		} else {
-			ack.Id = ent.Id
-			ack.Name = ent.Name
+			ack.AccId = ent.Id
+			ack.Account = ent.Name
 			ack.Email = ent.Email
 			ack.DeviceId = ent.DeviceId
 			ack.Status = int32(ent.Status)
@@ -165,8 +165,8 @@ func handleAccountRegist(ev lib.Event) {
 	var ack msgProto.LoginResponse
 
 	ent := &tb.AccountEntity{}
-	ent.Name = msg.Name
-	ent.Pwd = msg.Name
+	ent.Name = msg.Account
+	ent.Pwd = msg.Pwd
 	ent.ChannelId = msg.ChannelId
 	ent.DeviceId = msg.DeviceId
 
@@ -186,8 +186,8 @@ func handleAccountRegist(ev lib.Event) {
 			if ret2 != 0 {
 				ack.RetCode = ret2
 			} else {
-				ack.Id = ent.Id
-				ack.Name = ent.Name
+				ack.AccId = ent.Id
+				ack.Account = ent.Name
 				ack.Email = ent.Email
 				ack.DeviceId = ent.DeviceId
 				ack.Status = int32(ent.Status)
@@ -278,7 +278,7 @@ func handleUserServersGet(ev lib.Event) {
 	ack.RetType = 1
 
 	ent := &tb.AccountEntity{}
-	ent.Id = msg.AccountId
+	ent.Id = msg.AccId
 
 	ret := accDao.FindById([]string{"userServers"}, []interface{}{&ent.UserServers}, ent.Id)
 	if ret != 0 {
@@ -290,6 +290,14 @@ func handleUserServersGet(ev lib.Event) {
 		return
 	}
 	svrIds := strings.Trim(ent.UserServers, "[]")
+	if svrIds == "" {
+		ack.RetCode = fx.TipCode("userSvrNull")
+
+		ev.Session().Send(&ack)
+		logs.Debug("handleUserServersGet null")
+
+		return
+	}
 
 	type colDef struct {
 		Id       int32
@@ -310,7 +318,7 @@ func handleUserServersGet(ev lib.Event) {
 		return
 	}
 	if len(resSet) == 0 {
-		ack.RetCode = fx.TipCode("noOpenNow")
+		ack.RetCode = fx.TipCode("svrMiss")
 
 		ev.Session().Send(&ack)
 		logs.Debug("handleUserServersGet error2")

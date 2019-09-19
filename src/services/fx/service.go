@@ -16,8 +16,10 @@ type Service struct {
 }
 
 type ClientTag struct {
-	SesId int64
-	SvcId string
+	SesId  int64
+	SvcId  string
+	AccId  int64
+	UserId int64
 }
 
 func TipCode(name string) int32 {

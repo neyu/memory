@@ -50,6 +50,8 @@ func (this *User) TransmitToBackend(backendSvcId string, msgId int32, msgData []
 		MsgId:    msgId,
 		MsgData:  msgData,
 		ClientId: this.Tag.SesId,
+		AccId:    this.Tag.AccId,
+		UserId:   this.Tag.UserId,
 	})
 	return nil
 }

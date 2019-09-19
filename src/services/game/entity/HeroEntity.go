@@ -122,7 +122,7 @@ func (dao *HeroDao) Find(inCols []string, outCols []interface{}, userId int64, t
 // insert uw_hero set userId=110, tempId=119, intensifyArr='', starArr='', gemArr='',
 // wingArr='', equipData='', skillLvlArr='', realmArr='', propArr='', combat=0, fightSort=0,
 // sex=0, talismanData='';
-func (dao *HeroDao) Insert(inCols []string, vals []interface{}) (uint64, int32) {
+func (dao *HeroDao) Insert(inCols []string, vals []interface{}) (int64, int32) {
 	var err error
 
 	if len(inCols) <= 0 || len(vals) <= 0 || len(inCols) != len(vals) {
@@ -158,5 +158,5 @@ func (dao *HeroDao) Insert(inCols []string, vals []interface{}) (uint64, int32) 
 		return 0, -1
 	}
 	logs.Debug("new user id:", id)
-	return uint64(id), 0
+	return id, 0
 }

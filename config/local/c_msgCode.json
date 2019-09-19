@@ -329,5 +329,7 @@
     "openSystem" : {"id":415,"code":"openSystem","text":"您已达到%s级，开启新系统：%s","region0":994,"time":0,"onTop":"第一个%s：等级第二个%s：系统名称"},
     "svrMaintain" : {"id":416,"code":"svrMaintain","text":"服务器维护中...","region0":10,"time":2000},
     "roleNameNull" : {"id":417,"code":"roleNameNull","text":"角色名不能为空！","region0":10,"time":2000},
-    "roleNameExist" : {"id":418,"code":"roleNameNull","text":"角色名已经被占用！","region0":10,"time":2000}
+    "roleNameExist" : {"id":418,"code":"roleNameNull","text":"角色名已经被占用！","region0":10,"time":2000},
+    "userSvrNull" : {"id":419,"code":"userSvrNull","text":"请选择一个服务器！","region0":10,"time":2000},
+    "svrMiss" : {"id":420,"code":"svrMiss","text":"找不到服务器！","region0":10,"time":2000}
 }

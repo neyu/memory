@@ -4,6 +4,7 @@ import (
 	"services/game/entity"
 
 	"core/logs"
+	"core/util"
 	// "core/xlib"
 )
 
@@ -23,7 +24,12 @@ func _createNewAccount(ent *tb.AccountEntity) int32 {
 }
 
 func _newLoginKey(ent *tb.AccountEntity) int32 {
-	ent.LoginKey = "xxx"
+	key, err := util.GenKey8()
+	if err != nil {
+		logs.Debug("_newLoginKey:", err)
+		return -1
+	}
+	ent.LoginKey = key
 	ent.LoginCount = 1
 	ent.SdkData = "sdk_data"
 

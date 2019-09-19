@@ -47,6 +47,7 @@ func ProcFrontendPacket(msgId int32, msgData []byte, ses lib.Session) (msg inter
 		case *msgProto.VerifyReq:
 			u, err := bindClientToBackend(userMsg.GameSvcId, ses.Id())
 			if err == nil {
+				u.Tag.AccId = userMsg.AccountId
 				u.TransmitToBackend(userMsg.GameSvcId, msgId, msgData)
 
 			} else {
