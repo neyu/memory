@@ -5,6 +5,7 @@ import (
 	"services/game/entity"
 	"services/gate/api"
 	"services/msg/proto"
+	"strconv"
 
 	"core/logs"
 )
@@ -91,6 +92,13 @@ func _createHeroByTempId(tag fx.ClientTag, userId int64, tempId int32, sex int8)
 }
 
 func _addUserServer(accId int64, svrId int32) {
-	// accDao.SelectCols("userServers")
-	// accDao.Update("userServers")
+	acc := tb.NewAccountEntity()
+	acc.Id = accId
+	acc.UserServers = `["` + strconv.Itoa(int(svrId)) + `"]`
+
+	ret := accDao.Update([]string{"userServers"}, []interface{}{&acc.UserServers, &acc.Id})
+	if ret != 0 {
+		logs.Debug("_addUserServer err")
+		return
+	}
 }

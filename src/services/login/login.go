@@ -127,8 +127,8 @@ func handleAccountLogin(ev lib.Event) {
 	ent := tb.AccountEntity{}
 	ent.Name = msg.Account
 
-	ret := accDao.FindByName([]string{"id", "email", "loginCount", "pwd"},
-		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd}, ent.Name)
+	ret := accDao.FindByName([]string{"id", "email", "loginCount", "pwd", "loginKey"},
+		[]interface{}{&ent.Id, &ent.Email, &ent.LoginCount, &ent.Pwd, &ent.LoginKey}, ent.Name)
 	if ret != 0 {
 		ack.RetCode = ret
 		if ret == 1 {

@@ -173,7 +173,7 @@ func handleGameEnter(ev lib.Event, tag fx.ClientTag) {
 	}
 
 	// _handleAndGetData()
-	ack.NickName = "我是测试人员"
+	ack.NickName = usr.NickName
 	gateapi.Send(&tag, &ack)
 
 	_handleLogin()
