@@ -3,11 +3,13 @@ package main
 import (
 	"services/fx"
 	"services/game/entity"
-	"services/gate/api"
-	"services/msg/proto"
-	"strconv"
+
+	// "services/gate/api"
+	// "services/msg/proto"
 
 	"core/logs"
+
+	"strconv"
 )
 
 func _handleAndGetData() int32 {
@@ -36,8 +38,6 @@ func getIconId(tempId int32, sex int8) int32 {
 }
 
 func _createHeroByTempId(tag fx.ClientTag, userId int64, tempId int32, sex int8) {
-	var ack msgProto.UserCreateResponse
-
 	hero := tb.NewHeroEntity()
 	hero.UserId = userId
 	hero.TempId = tempId
@@ -50,11 +50,7 @@ func _createHeroByTempId(tag fx.ClientTag, userId int64, tempId int32, sex int8)
 			&hero.FightSort, &hero.Sex}, hero.UserId, hero.TempId)
 	if ret != 0 {
 		if ret != 1 {
-			ack.RetCode = ret
-
-			gateapi.Send(&tag, &ack)
 			logs.Debug("_createHeroByTempId err ret 0:", ret)
-
 			return
 		}
 	}
@@ -79,16 +75,10 @@ func _createHeroByTempId(tag fx.ClientTag, userId int64, tempId int32, sex int8)
 			&hero.Sex, &hero.TalismanData})
 
 	if ret != 0 {
-		ack.RetCode = ret
-
-		gateapi.Send(&tag, &ack)
 		logs.Debug("_createHeroByTempId err ret 1:", ret)
-
 		return
 	}
-
-	ack.UserId = id
-	gateapi.Send(&tag, &ack)
+	logs.Debug("_createHeroByTempId:", id)
 }
 
 func _addUserServer(accId int64, svrId int32) {

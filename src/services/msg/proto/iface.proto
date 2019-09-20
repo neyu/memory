@@ -1563,33 +1563,29 @@ message ExpeditionBuyBlackItem {
 
 // 创建用户
 message UserCreate {
-    string name = 1; //名字
-    int32 heroTempId = 2; //模板id 
-    int32 sex = 3; //性别 
-    int32 serverIndexId = 4; //登录key
-    string shareKey = 5; //可能的分红模块的分享key
+    string name = 1; 			// 名字
+    int32 heroTempId = 2; 		// 模板id 
+    int32 sex = 3; 				// 性别 
+    int32 serverIndexId = 4; 	// 服务器索引
+    string shareKey = 5; 		// 可能的分红模块的分享key
 }
 
 message UserCreateResponse {
-	int32 retCode = 1; // 状态码
-
-	int64 userId = 2; // 玩家Id 
-	int64 heroId = 3; // 英雄Id
+	int32 retCode = 1; 			// 状态码
 }
 
 // 验证常规登录,成功返回null
 message GameEnter {
-    int64 accId = 1; //账号名
-    string loginKey = 2; //登录key
-    int32 serverIndexId = 3; //登录key
+    int64 accId = 1; 			// 账号名
+    string loginKey = 2; 		// 登录key
+    int32 serverIndexId = 3; 	// 服务器索引
 }
 
 message GameEnterResponse {
-	int32 retCode = 1; // 状态码
+	int32 retCode = 1; 			// 状态码
 
 	string nickName = 2; 
 	int64 userId = 3;
-	int64 heroId = 5;
 }
 
 // 获取第三方用户信息

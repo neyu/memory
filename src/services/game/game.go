@@ -174,6 +174,7 @@ func handleGameEnter(ev lib.Event, tag fx.ClientTag) {
 
 	// _handleAndGetData()
 	ack.NickName = usr.NickName
+	ack.UserId = usr.Id
 	gateapi.Send(&tag, &ack)
 
 	_handleLogin()
@@ -302,6 +303,11 @@ func handleUserCreate(ev lib.Event, tag fx.ClientTag) {
 		return
 	}
 	usr.Id = id
+
+	var ackEnter msgProto.GameEnterResponse
+	ackEnter.NickName = usr.NickName
+	ackEnter.UserId = usr.Id
+	gateapi.Send(&tag, &ackEnter)
 
 	_createHeroByTempId(tag, usr.Id, msg.HeroTempId, int8(msg.Sex))
 
